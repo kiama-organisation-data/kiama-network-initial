@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser'
 import * as dotenv from 'dotenv'
 import * as path from 'path'
 import cors from 'cors'
+import helmet from "helmet";
 
 
 import UsersRouter from './route/UsersAuth.Router'
@@ -47,6 +48,7 @@ class Server {
 			origin: "*",
 			optionsSuccessStatus: 200
 		}))
+		this.app.use(helmet());
 		this.app.use(express.static(path.join(__dirname, 'public')))
 		this.app.use(express.static(path.join(__dirname, 'uploads')))
 	}
