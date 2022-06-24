@@ -46,7 +46,7 @@ class UserController {
                     success: true,
                     users: sort_Page.paginateArray(sortedData, perPage, page),
                     total: filteredData.length,
-                    message: 'Liste des utilisateurs',
+                    message: 'List of all users',
                 })
 
             })

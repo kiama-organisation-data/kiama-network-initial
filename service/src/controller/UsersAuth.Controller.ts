@@ -69,12 +69,12 @@ class UserController {
         })
 
         // create a Token
-        const token: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const token: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'defaultToken', {
             expiresIn: 60 * 60 * 24
         })
 
         // create a refreshToken
-        const refreshToken: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const refreshToken: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'defaultRefreshToken', {
             expiresIn: 60 * 60 * 24 * 7
         })
 
@@ -119,7 +119,7 @@ class UserController {
         let payload: any;
         try {
             const tokena = token.split(' ')[1];
-            payload = jwt.verify(tokena, process.env.SECRET_TOKEN || 'tokena');
+            payload = jwt.verify(tokena, process.env.SECRET_TOKEN || 'defaultRefreshToken');
         } catch (e) {
             return res.status(401).json({ message: 'token is not valid' });
         }
@@ -127,7 +127,7 @@ class UserController {
         const userData = await Users.findById(payload._id);
         if (!userData) return res.status(404).json({ message: 'No userData found' });
 
-        const tokenRefresh = jwt.sign({ _id: userData._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const tokenRefresh = jwt.sign({ _id: userData._id }, process.env.SECRET_TOKEN || 'defaultRefreshToken', {
             expiresIn: 60 * 60 * 24 * 7
         });
 

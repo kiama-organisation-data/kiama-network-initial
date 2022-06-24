@@ -21,7 +21,7 @@ class ValidationToken {
                 bearerToken = bearer[1]
             }
             if (!bearerToken) return res.status(401).json('Access Denied');
-            const payload = jwt.verify(bearerToken, process.env['SECRET_TOKEN'] || 'tokena') as IPayload;
+            const payload = jwt.verify(bearerToken, process.env['SECRET_TOKEN'] || 'defaultToken') as IPayload;
             req.body = payload._id;
             console.log(req.body)
             next();
