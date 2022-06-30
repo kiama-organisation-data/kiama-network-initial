@@ -5,6 +5,7 @@ import * as dotenv from 'dotenv'
 import * as path from 'path'
 import cors from 'cors'
 import helmet from "helmet";
+import compression from "compression"
 
 
 import UsersRouter from './route/UsersAuth.Router'
@@ -48,7 +49,13 @@ class Server {
 			origin: "*",
 			optionsSuccessStatus: 200
 		}))
+		// call helmet for protection
 		this.app.use(helmet());
+
+		// call compression to compress all responses of middleware
+		this.app.use(compression())
+
+
 		this.app.use(express.static(path.join(__dirname, 'public')))
 		this.app.use(express.static(path.join(__dirname, 'uploads')))
 	}
