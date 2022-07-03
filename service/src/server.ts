@@ -55,6 +55,8 @@ class Server {
 		// call compression to compress all responses of middleware
 		this.app.use(compression())
 
+		// TODO: Add morgan
+
 
 		this.app.use(express.static(path.join(__dirname, 'public')))
 		this.app.use(express.static(path.join(__dirname, 'uploads')))
