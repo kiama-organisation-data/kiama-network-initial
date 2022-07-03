@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import Users, { IUser } from '../model/UsersAuth.Model'
 import mongoose from 'mongoose'
 
-import sort_Page from '../libs/utils'
+import sortData from '../middleware/utils'
 
 
 class UserController {
@@ -21,10 +21,11 @@ class UserController {
                     q = '',
                     perPage = 10,
                     page = 1,
-                    sortBy = '_id',
+                    sortBy = 'createdAt',
                     sortDesc = false,
                     role = '',
                     status = '',
+                    select = 'all',
                 } = req.query
 
                 const queryLowered = q.toLowerCase()
@@ -36,15 +37,17 @@ class UserController {
                     ) && item.role.toString() === (role.toString() || item.role.toString()) && item.status.toString() === (status.toString() || item.status.toString())
                 })
 
-                const sortedData = filteredData.sort(sort_Page.sortCompare(sortBy))
+                const sortedData = filteredData.sort(sortData.sortCompare(sortBy))
                 if (sortDesc === 'true') {
                     sortedData.reverse()
                 }
 
+                // 
+                const dataFinal = sortData.selectFields(sortedData, select)
 
                 res.status(200).json({
                     success: true,
-                    users: sort_Page.paginateArray(sortedData, perPage, page),
+                    users: sortData.paginateArray(dataFinal, perPage, page),
                     total: filteredData.length,
                     message: 'List of all users',
                 })
