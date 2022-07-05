@@ -4,7 +4,10 @@ import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
+
+// security
 import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 
 import compression from "compression";
 
@@ -83,8 +86,9 @@ class Server {
       })
     );
 
-    // call helmet for protection
+    // call security for protection
     this.app.use(helmet());
+    this.app.use(mongoSanitize());
 
     // call compression to compress all responses of middleware
     //@ts-ignore
