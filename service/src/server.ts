@@ -95,12 +95,13 @@ class Server {
   }
 
   public routes() {
-    // DESCRIPTION: route part one
-    this.app.use("/kiama-network/api/v1/user", UsersRouter);
-    this.app.use("/kiama-network/api/v1/role", RoleRouter);
+    // Import all routes
+    this.app.use("/kiama-network/api/v1/users", UsersRouter)
+    this.app.use("/kiama-network/api/v1/roles", RoleRouter)
 
-    // DESCRIPTION: route for upload file
-    this.app.use("/uploads", express.static("uploads"));
+
+    // Route for upload file
+    this.app.use("/uploads", express.static('uploads'))
   }
 }
 
