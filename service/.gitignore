@@ -2,4 +2,6 @@ node_modules/
 dist/
 .idea/
 uploads/
-assets/
+assets/videos/
+assets/images/
+assets/audio/

@@ -3,8 +3,7 @@ import { Request } from "express";
 import uuid from "./randomGen";
 import path from "path";
 
-// var prefix = Math.floor(Math.random() * 90).toFixed(4);
-
+//types declaration for multer
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FileNameCallback = (error: Error | null, filename: string) => void;
 
