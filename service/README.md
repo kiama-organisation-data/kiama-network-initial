@@ -20,3 +20,9 @@
 * yarn run dev : start server
 * yarn run build : compile all files
 
+## test benchmarking by ab https://httpd.apache.org/docs/2.4/en/programs/ab.html
+* ab -c 50 -n 50 localhost:8181//kiama-network/api/users/list
+* -c : concurrency, number of multiple requests to perform at a time 
+* -n : requests, number of requests to perform for the benchmarking session
+
+
