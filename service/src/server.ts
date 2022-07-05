@@ -5,10 +5,11 @@ import * as dotenv from 'dotenv'
 import * as path from 'path'
 import cors from 'cors'
 import helmet from "helmet";
+import compression from "compression"
 
-
+// Import all routes
 import UsersRouter from './route/UsersAuth.Router'
-
+import RoleRouter from './route/Role.Router'
 
 
 class Server {
@@ -48,17 +49,26 @@ class Server {
 			origin: "*",
 			optionsSuccessStatus: 200
 		}))
+		// call helmet for protection
 		this.app.use(helmet());
+
+		// call compression to compress all responses of middleware
+		this.app.use(compression())
+
+		// TODO: Add morgan
+
+
 		this.app.use(express.static(path.join(__dirname, 'public')))
 		this.app.use(express.static(path.join(__dirname, 'uploads')))
 	}
 
 	public routes() {
-		// DESCRIPTION: route part one
-		this.app.use("/kiama-network/api/user", UsersRouter)
+		// Import all routes
+		this.app.use("/kiama-network/api/v1/users", UsersRouter)
+		this.app.use("/kiama-network/api/v1/roles", RoleRouter)
 
 
-		// DESCRIPTION: route for upload file
+		// Route for upload file
 		this.app.use("/uploads", express.static('uploads'))
 	}
 

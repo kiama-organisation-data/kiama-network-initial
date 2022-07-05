@@ -12,23 +12,11 @@ export interface IUser extends mongoose.Document {
     email: string;
     password: string;
     role: string;
-    ability: string;
+    personalAbility: Array<any>;
     status: string;
     encryptPassword(password: string): Promise<string>;
     validatePassword(password: string): Promise<boolean>;
 }
-const abilityShema = new shema({
-    action: {
-        type: Object,
-        required: false,
-        enum: ['create', 'read', 'update', 'delete', 'manage'],
-    },
-    subject: {
-        type: Object,
-        required: false,
-        enum: ['ACL', 'all'],
-    }
-})
 
 const usersShema = new shema({
     name: {
@@ -58,60 +46,19 @@ const usersShema = new shema({
         min: [6, 'Password must be at least 6 characters'],
     },
     role: {
-        type: String,
-        required: true,
-        enum: ['superadmin', 'admin']
+        //ObjectId is a reference to a document in the roles collection
+        type: shema.Types.ObjectId,
+        ref: "Role",
     },
-    ability: [abilityShema],
+    personalAbility: {
+        type: Array,
+    },
     status: {
         type: String,
         default: "active",
         enum: ['active', 'inactive']
     }
 }, { _id: true, timestamps: true })
-
-// if ability is not defined, it will be set to default value
-usersShema.pre('save', function (this: any, next: any) {
-    // if role is admin, it will be set to default value
-    if (this.role === 'admin') {
-        this.ability = [
-            {
-                action: 'read',
-                subject: 'ACL'
-            },
-            {
-                action: 'read',
-                subject: 'all'
-            },
-            {
-                action: 'edit',
-                subject: 'all'
-            },
-            {
-                action: 'add',
-                subject: 'all'
-            },
-            {
-                action: 'delete',
-                subject: 'all'
-            },
-            {
-                action: 'update',
-                subject: 'all'
-            }
-        ]
-    } else {
-        if (this.role === 'superadmin') {
-            this.ability = [{
-                action: 'manage',
-                subject: 'all'
-            }]
-        }
-    }
-    next()
-})
-
-
 
 usersShema.methods.encryptPassword = async (password: string): Promise<string> => {
     const salt = await bcrypt.genSalt(10)

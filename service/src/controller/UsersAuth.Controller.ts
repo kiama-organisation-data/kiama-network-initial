@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Users, { IUser } from '../model/UsersAuth.Model'
+import Roles, { IRole } from '../model/Role.Model'
 import mongoose from 'mongoose'
 
 import joiValidation from '../libs/joiValidation'
@@ -33,13 +34,17 @@ class UserController {
                 avatar: req.file?.path,
                 password: req.body.password,
                 role: req.body.role,
-                ability: req.body.ability,
+                status: req.body.status,
+                personalAbility: req.body.personalAbility,
             })
+
             user.password = await user.encryptPassword(user.password)
-            const savedUser = await user.save()
-            res.json({ success: true, body: savedUser })
+
+            const newUser = await user.save()
+            res.status(201).json({ success: true, data: newUser, message: 'User created successfully' })
+
         } catch (e) {
-            res.json({ success: false, message: e })
+            res.status(400).json({ success: false, message: e })
         }
 
     }
@@ -47,6 +52,8 @@ class UserController {
     // =========================================================================
     // Login user
     // =========================================================================
+
+
     Login = async (req: Request, res: Response) => {
 
         // Login validation
@@ -69,22 +76,25 @@ class UserController {
         })
 
         // create a Token
-        const token: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const token: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'defaultToken', {
             expiresIn: 60 * 60 * 24
         })
 
         // create a refreshToken
-        const refreshToken: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const refreshToken: string = jwt.sign({ _id: user._id }, process.env.SECRET_TOKEN || 'defaultRefreshToken', {
             expiresIn: 60 * 60 * 24 * 7
         })
+
+        // populate user roleId
+        const userRole = await Roles.findById(user.role)
 
         // get user data
         const userData = {
             _id: user._id,
             name: user.name,
             username: user.username,
-            role: user.role,
-            ability: user.ability,
+            role: userRole?.name,
+            ability: userRole?.ability.concat(user.personalAbility),
             avatar: user.avatar,
         }
 
@@ -119,7 +129,7 @@ class UserController {
         let payload: any;
         try {
             const tokena = token.split(' ')[1];
-            payload = jwt.verify(tokena, process.env.SECRET_TOKEN || 'tokena');
+            payload = jwt.verify(tokena, process.env.SECRET_TOKEN || 'defaultRefreshToken');
         } catch (e) {
             return res.status(401).json({ message: 'token is not valid' });
         }
@@ -127,9 +137,13 @@ class UserController {
         const userData = await Users.findById(payload._id);
         if (!userData) return res.status(404).json({ message: 'No userData found' });
 
-        const tokenRefresh = jwt.sign({ _id: userData._id }, process.env.SECRET_TOKEN || 'tokena', {
+        const tokenRefresh = jwt.sign({ _id: userData._id }, process.env.SECRET_TOKEN || 'defaultRefreshToken', {
             expiresIn: 60 * 60 * 24 * 7
         });
+
+        // populate user roleId
+        const userRole = await Roles.findById(userData.role)
+
 
         res.json({
             token: tokenRefresh,
@@ -138,8 +152,9 @@ class UserController {
                 _id: userData._id,
                 name: userData.name,
                 username: userData.username,
-                role: userData.role,
-                ability: userData.ability,
+                role: userRole?.name,
+                ability: userRole?.ability.concat(userData.personalAbility),
+
             }
         });
     }
