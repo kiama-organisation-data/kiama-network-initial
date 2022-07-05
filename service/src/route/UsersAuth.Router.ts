@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import userAuthController from '../controller/UsersAuth.Controller';
 import userController from '../controller/User.Controller';
+
 import validationToken from '../libs/verifyToken'
 
 import multerMiddleware from '../middleware/fileUpload'
@@ -15,17 +16,19 @@ class usersRouter {
     }
 
     routes() {
-        // DESCRIPTION: Route auth user
-        this.router.post('/add', multerMiddleware, userAuthController.AddUser) //Create
+        // Route auth user
+        this.router.post('/', multerMiddleware, userAuthController.AddUser) //Create
         this.router.post('/login', userAuthController.Login) //Route login
-        this.router.get('/profile', validationToken.TokenValidation, userAuthController.profile) //Route profile
+        this.router.get('/me', validationToken.TokenValidation, userAuthController.profile) //Route profile
         this.router.post('/refresh-token', userAuthController.refreshToken)
         this.router.post('/update-password/:id', userAuthController.UpdatePassword)
-        // DESCRIPTION: Route for user
-        this.router.get('/list/:id', userController.GetUser)
-        this.router.get('/list', userController.GetAllUsers)
-        this.router.post('/update/:id', userController.UpdateUser)
-        this.router.get('/delete/:id', userController.InactiveUser)
+
+        // Route for user
+        this.router.get('/:id', userController.GetUser)
+        this.router.get('/', validationToken.TokenValidation, userController.GetAllUsers)
+        this.router.put('/:id', userController.UpdateUser)
+        this.router.put('/:id/inactive', userController.InactiveUser)
+        this.router.delete('/:id', userController.DeleteUser)
 
     }
 }

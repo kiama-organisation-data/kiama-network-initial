@@ -5,13 +5,19 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
 import helmet from "helmet";
+
 import compression from "compression";
+
+// Import all routes
+import UsersRouter from './route/UsersAuth.Router'
+import RoleRouter from './route/Role.Router'
 
 import UsersRouter from "./route/UsersAuth.Router";
 import multer from "multer";
 import multerOptions from "./libs/multerConfig";
 
 class Server {
+
   public app: Application;
 
   constructor() {
@@ -92,7 +98,7 @@ class Server {
 
   public routes() {
     // DESCRIPTION: route part one
-    this.app.use("/kiama-network/api/user", UsersRouter);
+    this.app.use("/kiama-network/api/v1/user", UsersRouter);
 
     // DESCRIPTION: route for upload file
     this.app.use("/uploads", express.static("uploads"));

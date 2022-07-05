@@ -1,4 +1,4 @@
-class sortPageUtils {
+class sortDataUtils {
     constructor() { }
 
     paginateArray(array: any, perPage: any, page: any) {
@@ -19,8 +19,22 @@ class sortPageUtils {
             return comparison
         }
     }
+
+    selectFields(array: any, select: any) {
+        return array.map((item: any) => {
+            if (select === 'all') {
+                return item
+            } else {
+                return select.split(',').reduce((obj: any, key: any) => {
+                    obj[key] = item[key]
+                    return obj
+                }, {})
+            }
+        }
+        )
+    }
 }
 
-const sort_Page = new sortPageUtils()
+const sortData = new sortDataUtils()
 
-export default sort_Page
+export default sortData

@@ -23,7 +23,7 @@ class JoiValidate {
             role: Joi
                 .string()
                 .required(),
-            ability: Joi
+            personalAbility: Joi
                 .array(),
             status: Joi
                 .string(),
@@ -64,7 +64,7 @@ class JoiValidate {
             role: Joi
                 .string()
                 .required(),
-            ability: Joi
+            personalAbility: Joi
                 .array(),
             status: Joi
                 .string(),

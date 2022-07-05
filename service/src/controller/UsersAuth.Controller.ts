@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Users, { IUser } from '../model/UsersAuth.Model'
+import Roles, { IRole } from '../model/Role.Model'
 import mongoose from 'mongoose'
 
 import joiValidation from '../libs/joiValidation'
@@ -33,13 +34,17 @@ class UserController {
                 avatar: req.file?.path,
                 password: req.body.password,
                 role: req.body.role,
-                ability: req.body.ability,
+                status: req.body.status,
+                personalAbility: req.body.personalAbility,
             })
+
             user.password = await user.encryptPassword(user.password)
-            const savedUser = await user.save()
-            res.json({ success: true, body: savedUser })
+
+            const newUser = await user.save()
+            res.status(201).json({ success: true, data: newUser, message: 'User created successfully' })
+
         } catch (e) {
-            res.json({ success: false, message: e })
+            res.status(400).json({ success: false, message: e })
         }
 
     }
@@ -47,6 +52,8 @@ class UserController {
     // =========================================================================
     // Login user
     // =========================================================================
+
+
     Login = async (req: Request, res: Response) => {
 
         // Login validation
@@ -78,13 +85,16 @@ class UserController {
             expiresIn: 60 * 60 * 24 * 7
         })
 
+        // populate user roleId
+        const userRole = await Roles.findById(user.role)
+
         // get user data
         const userData = {
             _id: user._id,
             name: user.name,
             username: user.username,
-            role: user.role,
-            ability: user.ability,
+            role: userRole?.name,
+            ability: userRole?.ability.concat(user.personalAbility),
             avatar: user.avatar,
         }
 
@@ -131,6 +141,10 @@ class UserController {
             expiresIn: 60 * 60 * 24 * 7
         });
 
+        // populate user roleId
+        const userRole = await Roles.findById(userData.role)
+
+
         res.json({
             token: tokenRefresh,
             refreshToken: tokenRefresh,
@@ -138,8 +152,9 @@ class UserController {
                 _id: userData._id,
                 name: userData.name,
                 username: userData.username,
-                role: userData.role,
-                ability: userData.ability,
+                role: userRole?.name,
+                ability: userRole?.ability.concat(userData.personalAbility),
+
             }
         });
     }
