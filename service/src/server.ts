@@ -5,6 +5,7 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
 import helmet from "helmet";
+import compression from "compression";
 
 import UsersRouter from "./route/UsersAuth.Router";
 import multer from "multer";
@@ -43,7 +44,7 @@ class Server {
     this.app.use(express.json({ limit: "25mb" }));
     this.app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
-	//currently, multer is set to only accept one file each for audio, images and videos per request
+    //currently, multer is set to only accept one file each for audio, images and videos per request
     this.app.use(
       multer({
         storage: multerOptions.fileStorage,
@@ -77,7 +78,14 @@ class Server {
         optionsSuccessStatus: 200,
       })
     );
+
+    // call helmet for protection
     this.app.use(helmet());
+
+    // call compression to compress all responses of middleware
+    //@ts-ignore
+    this.app.use(compression());
+
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(express.static(path.join(__dirname, "uploads")));
   }
