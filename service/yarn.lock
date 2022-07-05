@@ -1763,10 +1763,10 @@
     "jest-message-util" "^28.1.1"
     "jest-util" "^28.1.1"
 
-"express-mongo-sanitize@^2.0.0":
-  "integrity" "sha512-tqGqnKsibDfKqypC6QDYjp4VRLqtTlwuHDfK7KECZvq9fDOq8yi0MdzCJe2DWhv54/IoQV+7uXR7h9eD+Fc5LA=="
-  "resolved" "https://registry.npmjs.org/express-mongo-sanitize/-/express-mongo-sanitize-2.0.0.tgz"
-  "version" "2.0.0"
+"express-mongo-sanitize@^2.2.0":
+  "integrity" "sha512-PZBs5nwhD6ek9ZuP+W2xmpvcrHwXZxD5GdieX2dsjPbAbH4azOkrHbycBud2QRU+YQF1CT+pki/lZGedHgo/dQ=="
+  "resolved" "https://registry.npmmirror.com/express-mongo-sanitize/-/express-mongo-sanitize-2.2.0.tgz"
+  "version" "2.2.0"
 
 "express@^4.17.1":
   "integrity" "sha512-mHJ9O79RqluphRrcw2X/GTh3k9tVv8YcoyY4Kkh4WDMUYKRZUq0h1o0w2rrrxBqM7VoeUVqgb27xlEMXTnYt4g=="
