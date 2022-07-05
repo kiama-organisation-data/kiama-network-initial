@@ -15,7 +15,9 @@ class UserController {
     // =========================================================================
     GetAllUsers = (req: Request, res: Response) => {
         let query;
-        Users.find(query || {}).select('-password -createdAt -updatedAt')
+        Users.find(query || {})
+            .select('-password -createdAt -updatedAt')
+            .populate('role')
             .then(user => {
                 const {
                     q = '',
@@ -42,7 +44,7 @@ class UserController {
                     sortedData.reverse()
                 }
 
-                // 
+                // result to show
                 const dataFinal = sortData.selectFields(sortedData, select)
 
                 res.status(200).json({
@@ -76,7 +78,7 @@ class UserController {
     }
 
     // =========================================================================
-    // delete user by id
+    // Change statut user inactive
     // =========================================================================
     InactiveUser(req: any, res: Response): void {
         Users.findOneAndUpdate({ _id: req.params.id }, { status: 'inactive' })
@@ -95,6 +97,19 @@ class UserController {
         Users.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true })
             .then(user => {
                 res.json({ success: true, messsage: `User ${req.params.id} updated !`, body: user })
+            })
+            .catch(err => {
+                res.json({ success: false, message: err })
+            });
+    }
+
+    // =========================================================================
+    // delete user by id
+    // =========================================================================
+    DeleteUser(req: any, res: Response): void {
+        Users.deleteOne({ _id: req.params.id })
+            .then(user => {
+                res.json({ success: true, message: `User ${req.params.id} deleted !` })
             })
             .catch(err => {
                 res.json({ success: false, message: err })
