@@ -11,6 +11,7 @@ import compression from "compression";
 // Import all routes
 import UsersRouter from "./route/UsersAuth.Router";
 import RoleRouter from "./route/Role.Router";
+import PostsRouter from "./route/Posts.Router";
 
 import multer from "multer";
 import multerOptions from "./libs/multerConfig";
@@ -98,6 +99,7 @@ class Server {
     // DESCRIPTION: route part one
     this.app.use("/kiama-network/api/v1/user", UsersRouter);
     this.app.use("/kiama-network/api/v1/role", RoleRouter);
+    this.app.use("/kiama-network/api/v1/posts", PostsRouter);
 
     // DESCRIPTION: route for upload file
     this.app.use("/uploads", express.static("uploads"));
