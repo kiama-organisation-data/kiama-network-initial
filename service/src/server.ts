@@ -89,6 +89,7 @@ class Server {
     // call security for protection
     this.app.use(helmet());
     this.app.use(mongoSanitize());
+    // Todo: add express-rate-limit
 
     // call compression to compress all responses of middleware
     //@ts-ignore
