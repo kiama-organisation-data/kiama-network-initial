@@ -14,6 +14,7 @@ import compression from "compression";
 // Import all routes
 import UsersRouter from "./route/UsersAuth.Router";
 import RoleRouter from "./route/Role.Router";
+import PostsRouter from "./route/Posts.Router";
 
 import multer from "multer";
 import multerOptions from "./libs/multerConfig";
@@ -57,26 +58,7 @@ class Server {
         storage: multerOptions.fileStorage,
 
         fileFilter: multerOptions.fileFilter,
-      }).fields([
-        { name: "video", maxCount: 1 },
-        { name: "image", maxCount: 1 },
-        { name: "audio", maxCount: 1 },
-      ])
-    );
-
-    this.app.use(
-      "/assets/videos",
-      express.static(path.resolve(process.cwd(), "assets", "videos"))
-    );
-
-    this.app.use(
-      "/assets/images",
-      express.static(path.resolve(process.cwd(), "assets", "images"))
-    );
-
-    this.app.use(
-      "/assets/audio",
-      express.static(path.resolve(process.cwd(), "assets", "audio"))
+      }).array("upload", 5)
     );
 
     this.app.use(
@@ -99,13 +81,26 @@ class Server {
   }
 
   public routes() {
-    // Import all routes
-    this.app.use("/kiama-network/api/v1/users", UsersRouter)
-    this.app.use("/kiama-network/api/v1/roles", RoleRouter)
+    // DESCRIPTION: route part one
+    this.app.use("/kiama-network/api/v1/user", UsersRouter);
+    this.app.use("/kiama-network/api/v1/role", RoleRouter);
+    this.app.use("/kiama-network/api/v1/posts", PostsRouter);
 
+    // Routes for upload file
+    this.app.use(
+      "/assets/videos",
+      express.static(path.resolve(process.cwd(), "assets", "videos"))
+    );
 
-    // Route for upload file
-    this.app.use("/uploads", express.static('uploads'))
+    this.app.use(
+      "/assets/images",
+      express.static(path.resolve(process.cwd(), "assets", "images"))
+    );
+
+    this.app.use(
+      "/assets/audio",
+      express.static(path.resolve(process.cwd(), "assets", "audio"))
+    );
   }
 }
 
