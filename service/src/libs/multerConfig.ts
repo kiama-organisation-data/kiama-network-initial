@@ -17,19 +17,34 @@ class MulterOptions {
       callback: DestinationCallback
     ): void => {
       let dir: string;
-      if (file.fieldname === "audio") {
+      const audio = ["audio/mpeg", "audio/mp3", "audio/m4a"];
+      const image = [
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/pdf",
+        "image/gif",
+      ];
+      const video = [
+        "video/mp4",
+        "video/wma",
+        "video/wmv",
+        "video/mpg",
+        "video/mpeg",
+      ];
+      if (audio.includes(file.mimetype)) {
         dir = path.resolve(process.cwd(), "assets", "audio");
         callback(null, dir);
-      }
-      if (file.fieldname === "video") {
+      } else if (video.includes(file.mimetype)) {
         dir = path.resolve(process.cwd(), "assets", "videos");
 
         callback(null, dir);
-      }
-      if (file.fieldname === "image") {
+      } else if (image.includes(file.mimetype)) {
         dir = path.resolve(process.cwd(), "assets", "images");
 
         callback(null, dir);
+      } else {
+        throw new Error("File not permitted");
       }
       // setting destination
     },

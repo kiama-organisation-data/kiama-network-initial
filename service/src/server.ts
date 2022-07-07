@@ -4,7 +4,10 @@ import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
+
+// security
 import helmet from "helmet";
+import mongoSanitize from "express-mongo-sanitize";
 
 import compression from "compression";
 
@@ -55,26 +58,7 @@ class Server {
         storage: multerOptions.fileStorage,
 
         fileFilter: multerOptions.fileFilter,
-      }).fields([
-        { name: "video", maxCount: 1 },
-        { name: "image", maxCount: 1 },
-        { name: "audio", maxCount: 1 },
-      ])
-    );
-
-    this.app.use(
-      "/assets/videos",
-      express.static(path.resolve(process.cwd(), "assets", "videos"))
-    );
-
-    this.app.use(
-      "/assets/images",
-      express.static(path.resolve(process.cwd(), "assets", "images"))
-    );
-
-    this.app.use(
-      "/assets/audio",
-      express.static(path.resolve(process.cwd(), "assets", "audio"))
+      }).array("upload", 5)
     );
 
     this.app.use(
@@ -84,8 +68,9 @@ class Server {
       })
     );
 
-    // call helmet for protection
+    // call security for protection
     this.app.use(helmet());
+    this.app.use(mongoSanitize());
 
     // call compression to compress all responses of middleware
     //@ts-ignore
@@ -101,8 +86,21 @@ class Server {
     this.app.use("/kiama-network/api/v1/role", RoleRouter);
     this.app.use("/kiama-network/api/v1/posts", PostsRouter);
 
-    // DESCRIPTION: route for upload file
-    this.app.use("/uploads", express.static("uploads"));
+    // Routes for upload file
+    this.app.use(
+      "/assets/videos",
+      express.static(path.resolve(process.cwd(), "assets", "videos"))
+    );
+
+    this.app.use(
+      "/assets/images",
+      express.static(path.resolve(process.cwd(), "assets", "images"))
+    );
+
+    this.app.use(
+      "/assets/audio",
+      express.static(path.resolve(process.cwd(), "assets", "audio"))
+    );
   }
 }
 

@@ -53,7 +53,7 @@ class JoiValidate {
     const postSchema = Joi.object({
       title: Joi.string().required().trim(),
       fileUrl: Joi.string(),
-      fileType: Joi.string(),
+      fileType: Joi.string().required().trim(),
       files: Joi.array(),
     });
     return postSchema.validate(data);

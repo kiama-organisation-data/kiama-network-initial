@@ -2,35 +2,36 @@ import mongoose from "mongoose";
 
 const schema: any = mongoose.Schema;
 
+/**
+ * @interface will be updated in the future
+ */
 export interface IPost extends mongoose.Document {
   title: string;
-  fileUrl: string;
-  fileType: string;
-  files: Array<any>;
-  file: string;
+  fileUrl: Array<string>;
+  fileType: Array<string>;
+  publicId: string;
+  userId: mongoose.Schema.Types.ObjectId;
 }
 
 const postSchema = new schema(
   {
     title: {
       type: String,
-      required: true,
     },
-    fileUrl: {
-      type: String,
+    publicId: {
+      type: String || null,
     },
     fileType: {
-      type: String,
+      type: Array,
       required: true,
     },
-    files: {
-      type: Array,
-    },
-    file: {
-      type: String,
+    fileUrl: Array,
+    userId: {
+      type: schema.Types.ObjectId,
+      ref: "User",
     },
   },
-  { _id: true, timeStamps: true }
+  { _id: true, timestamps: true, toJSON: { virtuals: true } }
 );
 
 const postModel = mongoose.model<IPost>("Posts", postSchema);
