@@ -18,6 +18,7 @@ import PostsRouter from "./route/Posts.Router";
 
 import multer from "multer";
 import multerOptions from "./libs/multerConfig";
+import MessagesRouter from "./route/Messages.Router";
 
 class Server {
   public app: Application;
@@ -85,6 +86,7 @@ class Server {
     this.app.use("/kiama-network/api/v1/user", UsersRouter);
     this.app.use("/kiama-network/api/v1/role", RoleRouter);
     this.app.use("/kiama-network/api/v1/posts", PostsRouter);
+    this.app.use("/kiama-network/api/v1/msgs", MessagesRouter);
 
     // Routes for upload file
     this.app.use(

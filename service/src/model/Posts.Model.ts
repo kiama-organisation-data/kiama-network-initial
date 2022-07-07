@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const schema: any = mongoose.Schema;
 
 /**
- * @interface will be updated in the future
+ * @param interface will be updated in the future
  */
 export interface IPost extends mongoose.Document {
   title: string;
