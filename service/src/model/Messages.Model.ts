@@ -2,16 +2,35 @@ import mongoose, { Schema, model } from "mongoose";
 
 export interface IPrmsg extends mongoose.Document {
   message: object;
-  reply: string;
+  reply: object;
   users: Array<any>;
   sender: Schema.Types.ObjectId;
+  messageFormat: string;
+  reaction: string;
+  seen: Boolean;
+  forwarded: Boolean;
 }
 
 export interface IGrmsg extends mongoose.Document {
   message: object;
-  reply: string;
+  reply: object;
   users: object;
   sender: Schema.Types.ObjectId;
+  messageFormat: string;
+  reaction: string;
+  seen: Boolean;
+  forwarded: Boolean;
+}
+
+export interface IGroup extends mongoose.Document {
+  name: string;
+  description: string;
+  members: Array<any>;
+  admin: object;
+  image: object;
+  isImage: Boolean;
+  size: number;
+  removeMember(params: string): Promise<any>;
 }
 
 /**
@@ -24,27 +43,57 @@ const privateMsgSchema = new Schema(
     message: {
       text: {
         type: String,
-        required: true,
         min: 1,
       },
-      reply: {
+      audio: {
+        publicId: {
+          type: String,
+        },
+        url: {
+          type: String,
+        },
+      },
+      image: {
+        publicId: {
+          type: String || null,
+        },
+        url: {
+          type: String || null,
+        },
+      },
+    },
+    reply: {
+      text: {
         type: String,
         min: 1,
       },
+      // from: Schema.Types.ObjectId,
+      from: String,
     },
     users: {
-      from: {
-        type: Schema.Types.ObjectId,
-        required: true,
-      },
-      to: {
-        type: Array,
-        required: true,
-      },
+      type: Array,
+      required: true,
     },
     sender: {
-      type: Schema.Types.ObjectId,
+      // type: Schema.Types.ObjectId,
+      type: String,
       ref: "User",
+    },
+    messageFormat: {
+      type: String,
+      required: true,
+    },
+    reaction: {
+      type: String,
+      default: "none", //it has three possible outcomes ["laughing", "angry", "love"]
+    },
+    seen: {
+      type: Boolean,
+      default: false,
+    },
+    forwarded: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
@@ -55,27 +104,132 @@ const groupMsgSchema = new Schema(
     message: {
       text: {
         type: String,
-        required: true,
         min: 1,
       },
-      reply: {
+      audio: {
+        publicId: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+      image: {
+        publicId: {
+          type: String,
+          required: true,
+        },
+        url: {
+          type: String,
+          required: true,
+        },
+      },
+    },
+    reply: {
+      text: {
         type: String,
         min: 1,
       },
+      from: Schema.Types.ObjectId,
     },
-    users: Array,
+    users: {
+      to: {
+        type: Array,
+        required: true,
+      },
+      from: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
+    },
     sender: {
       type: Schema.Types.ObjectId,
       ref: "User",
+    },
+    messageFormat: {
+      type: String,
+      required: true,
+    },
+    reaction: {
+      type: String,
+      default: "none", //it has three possible outcomes ["laughing", "angry", "love"]
+    },
+    seen: {
+      type: Boolean,
+      default: false,
+    },
+    forwared: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }
 );
 
-const privateMsgModel = model<IPrmsg>("privateMsg", privateMsgSchema);
-const groupMsgModel = model<IGrmsg>("groupMsg", groupMsgSchema);
+const groupSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      min: [2, "please provide a name for the group"],
+    },
+    description: {
+      type: String,
+      required: true,
+      min: [5, "description of groups can't be less than 5 words"],
+    },
+    image: {
+      publicId: {
+        type: String,
+      },
+      url: {
+        type: String,
+      },
+    },
+    members: {
+      type: Array,
+      min: 1,
+      ref: "User",
+    },
+    admin: {
+      id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
+      username: {
+        type: String,
+        required: true,
+      },
+    },
+    isImage: {
+      type: Boolean,
+      default: false,
+    },
+    size: {
+      type: Number,
+      default: 0,
+    },
+  },
+  { timestamps: true }
+);
 
-module.exports = {
-  privateMsgModel,
-  groupMsgModel,
+groupSchema.methods.removeMember = async function (
+  params: string
+): Promise<any> {
+  this.mebers.filter((i: any) => {
+    console.log(i);
+    i === params ? (i = "") : (i = i);
+  });
+  const result = await this.save();
+  console.log(result);
+  if (!result) {
+    return false;
+  }
+  return true;
 };
+
+export const privateMsgModel = model<IPrmsg>("privateMsg", privateMsgSchema);
+export const groupMsgModel = model<IGrmsg>("groupMsg", groupMsgSchema);
+export const groupModel = model<IGroup>("group", groupSchema);

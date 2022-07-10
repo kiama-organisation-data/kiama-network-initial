@@ -53,15 +53,6 @@ class Server {
     this.app.use(express.json({ limit: "25mb" }));
     this.app.use(express.urlencoded({ limit: "25mb", extended: true }));
 
-    //currently, multer is set to only accept one file each for audio, images and videos per request
-    this.app.use(
-      multer({
-        storage: multerOptions.fileStorage,
-
-        fileFilter: multerOptions.fileFilter,
-      }).array("upload", 5)
-    );
-
     this.app.use(
       cors({
         origin: "*",

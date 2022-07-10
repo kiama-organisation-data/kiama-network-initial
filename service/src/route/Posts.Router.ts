@@ -1,5 +1,6 @@
 import { Router } from "express";
 import uploadController from "../controller/Posts.Controller";
+import { postsUploads } from "../libs/multerConfig";
 import validationToken from "../libs/verifyToken";
 
 class PostsRouter {
@@ -17,7 +18,11 @@ class PostsRouter {
   routes() {
     this.router
       .route("/")
-      .post(validationToken.TokenValidation, uploadController.uploadPost);
+      .post(
+        validationToken.TokenValidation,
+        postsUploads,
+        uploadController.uploadPost
+      );
     this.router
       .route("/:id")
       .delete(validationToken.TokenValidation, uploadController.deletePost)
