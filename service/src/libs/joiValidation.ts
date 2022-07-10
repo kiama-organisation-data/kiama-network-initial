@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import { IPrmsg } from "../model/Messages.Model";
 import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
 
@@ -55,6 +56,15 @@ class JoiValidate {
       fileUrl: Joi.string(),
       fileType: Joi.string().required().trim(),
       files: Joi.array(),
+    });
+    return postSchema.validate(data);
+  };
+
+  sendPriMsgValidation = (data: IPrmsg) => {
+    const postSchema = Joi.object({
+      message: Joi.string(),
+      from: Joi.array(),
+      to: Joi.string(),
     });
     return postSchema.validate(data);
   };

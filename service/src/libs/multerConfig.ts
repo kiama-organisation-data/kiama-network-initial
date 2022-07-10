@@ -89,4 +89,16 @@ class MulterOptions {
 
 const multerOptions = new MulterOptions();
 
+export const messageUploads = multer({
+  storage: multerOptions.fileStorage,
+
+  fileFilter: multerOptions.fileFilter,
+}).single("upload");
+
+export const postsUploads = multer({
+  storage: multerOptions.fileStorage,
+
+  fileFilter: multerOptions.fileFilter,
+}).array("upload", 5);
+
 export default multerOptions;
