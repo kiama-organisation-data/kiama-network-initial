@@ -14,12 +14,12 @@ export interface IPrmsg extends mongoose.Document {
 export interface IGrmsg extends mongoose.Document {
   message: object;
   reply: object;
-  users: object;
   sender: Schema.Types.ObjectId;
   messageFormat: string;
   reaction: string;
   seen: Boolean;
   forwarded: Boolean;
+  groupId: Schema.Types.ObjectId;
 }
 
 export interface IGroup extends mongoose.Document {
@@ -36,6 +36,7 @@ export interface IGroup extends mongoose.Document {
 /**
  * @param privateMsgSchema is on a test and might differ in the future
  * @param groupMsgSchema is on a test and might differ in the future
+ * @method reaction will be an object in the future storing both type of reaction and user id
  */
 
 const privateMsgSchema = new Schema(
@@ -109,21 +110,17 @@ const groupMsgSchema = new Schema(
       audio: {
         publicId: {
           type: String,
-          required: true,
         },
         url: {
           type: String,
-          required: true,
         },
       },
       image: {
         publicId: {
           type: String,
-          required: true,
         },
         url: {
           type: String,
-          required: true,
         },
       },
     },
@@ -132,17 +129,24 @@ const groupMsgSchema = new Schema(
         type: String,
         min: 1,
       },
-      from: Schema.Types.ObjectId,
-    },
-    users: {
-      to: {
-        type: Array,
-        required: true,
+      audio: {
+        publicId: {
+          type: String || null,
+        },
+        url: {
+          type: String || null,
+        },
       },
-      from: {
-        type: Schema.Types.ObjectId,
-        required: true,
+      image: {
+        publicId: {
+          type: String || null,
+        },
+        url: {
+          type: String || null,
+        },
       },
+      // from: Schema.Types.ObjectId,
+      from: String,
     },
     sender: {
       type: Schema.Types.ObjectId,
@@ -163,6 +167,10 @@ const groupMsgSchema = new Schema(
     forwared: {
       type: Boolean,
       default: false,
+    },
+    groupId: {
+      type: Schema.Types.ObjectId,
+      ref: "group",
     },
   },
   { timestamps: true }
@@ -218,14 +226,12 @@ const groupSchema = new Schema(
 groupSchema.methods.removeMember = async function (
   params: string
 ): Promise<any> {
-  this.mebers.filter((i: any) => {
-    console.log(i);
-    i === params ? (i = "") : (i = i);
-  });
-  const result = await this.save();
-  console.log(result);
-  if (!result) {
-    return false;
+  for (let i = 0; i < this.members.length; i++) {
+    if (this.members[i] === params) {
+      this.members[i] = null;
+      this.size = this.size - 1;
+      await this.save();
+    }
   }
   return true;
 };

@@ -37,6 +37,20 @@ class MessagesRouter {
     this.router
       .route("/group/remove/:id")
       .delete(GroupMsgController.removeMember);
+    this.router
+      .route("/group/delete/:id")
+      .delete(GroupMsgController.deleteGroup);
+    this.router.route("/group/exit/:id").delete(GroupMsgController.editGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
+    this.router
+      .route("/group/msg/:groupId")
+      .post(messageUploads, GroupMsgController.sendMessage)
+      .get(GroupMsgController.getMessages);
+    this.router
+      .route("/group/msg/:id")
+      .delete(GroupMsgController.deleteMessage);
+    this.router
+      .route("/group/msg/mark-seen/:id")
+      .patch(GroupMsgController.markSeen);
   }
 }
 
