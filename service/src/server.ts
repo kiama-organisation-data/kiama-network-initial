@@ -17,6 +17,7 @@ import RoleRouter from "./route/Role.Router";
 import PostsRouter from "./route/Posts.Router";
 import MessagesRouter from "./route/Messages.Router";
 import PagesRouter from "./route/Pages.Router";
+import PostsPagesRouter from "./route/Posts.Pages.Router";
 
 class Server {
   public app: Application;
@@ -78,6 +79,7 @@ class Server {
     this.app.use("/kiama-network/api/v1/posts", PostsRouter);
     this.app.use("/kiama-network/api/v1/msgs", MessagesRouter);
     this.app.use("/kiama-network/api/v1/pages", PagesRouter);
+    this.app.use("/kiama-network/api/v1/pages/posts", PostsPagesRouter);
 
     // Routes for upload file
     this.app.use(
@@ -93,6 +95,11 @@ class Server {
     this.app.use(
       "/assets/audio",
       express.static(path.resolve(process.cwd(), "assets", "audio"))
+    );
+
+    this.app.use(
+      "/uploads",
+      express.static(path.resolve(process.cwd(), "uploads"))
     );
   }
 }
