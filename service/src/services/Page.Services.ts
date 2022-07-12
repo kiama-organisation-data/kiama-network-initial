@@ -100,7 +100,7 @@ class PageServices {
           url,
         },
       },
-      pageId: req.params.pageId,
+      pageId: req.body.pageId,
       tags: req.body.tags,
     });
     return post;
