@@ -15,10 +15,8 @@ import compression from "compression";
 import UsersRouter from "./route/UsersAuth.Router";
 import RoleRouter from "./route/Role.Router";
 import PostsRouter from "./route/Posts.Router";
-
-import multer from "multer";
-import multerOptions from "./libs/multerConfig";
 import MessagesRouter from "./route/Messages.Router";
+import PagesRouter from "./route/Pages.Router";
 
 class Server {
   public app: Application;
@@ -79,6 +77,7 @@ class Server {
     this.app.use("/kiama-network/api/v1/role", RoleRouter);
     this.app.use("/kiama-network/api/v1/posts", PostsRouter);
     this.app.use("/kiama-network/api/v1/msgs", MessagesRouter);
+    this.app.use("/kiama-network/api/v1/pages", PagesRouter);
 
     // Routes for upload file
     this.app.use(

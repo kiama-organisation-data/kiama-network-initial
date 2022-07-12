@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import {
   groupModel,
   groupMsgModel,
@@ -97,13 +97,6 @@ class GroupController {
     if (!req.file)
       return res.status(400).json({ success: "fail", msg: "provide an image" });
 
-    const { id } = req.params; //admin's id
-
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "false", msg: "please provide an id" });
-
     let group = await groupModel.findById(req.body.id);
 
     if (!group) {
@@ -133,13 +126,6 @@ class GroupController {
   };
 
   deleteGroupPhoto = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-
     let group = await groupModel.findOne({ _id: req.body.id });
 
     if (!group) {
@@ -162,19 +148,13 @@ class GroupController {
   };
 
   addMember = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "pls provide an id" });
-
     let group = await groupModel.findById(req.body.id);
 
     if (!group) {
       res.status(404).json({ success: "fail", msg: "group not found" });
     } else {
       //@ts-expect-error
-      if (group.admin.id.toString() !== id)
+      if (group.admin.id.toString() !== req.params.id)
         return res.status(400).json({ success: "fail", msg: "not permitted" });
 
       let user = await Users.findById(req.body.member);
@@ -192,12 +172,6 @@ class GroupController {
   };
 
   removeMember = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-
     let group = await groupModel.findById(req.body.id);
     if (!group)
       return res.status(404).json({ success: "fail", msg: "group not found" });
@@ -224,13 +198,7 @@ class GroupController {
   };
 
   deleteGroup = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-
-    await groupModel.findByIdAndDelete(id);
+    await groupModel.findByIdAndDelete(req.params.id);
     try {
       res.status(200).json({ success: "true" });
     } catch (e) {
@@ -239,22 +207,14 @@ class GroupController {
   };
 
   exitGroup = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!id) {
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide the user id" });
-    }
-
-    let user = await Users.findById(id).select("groups");
+    let user = await Users.findById(req.params.id).select("groups");
 
     let group = await groupModel.findById(req.body.id).select("removeMember");
 
     if (!user || !group) {
       res.status(404).json({ success: "fail", msg: "user can't be found" });
     } else {
-      const result = group.removeMember(id);
+      const result = group.removeMember(req.params.id);
       if (!result) return res.status(400).json({ success: "fail" });
       res.status(200).json({ success: "true", data: group });
     }
@@ -331,25 +291,12 @@ class GroupController {
   };
 
   deleteMessage = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-
-    await groupMsgModel.findByIdAndDelete(id);
+    await groupMsgModel.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: "true" });
   };
 
   markSeen = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!id)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-
-    let message = await groupMsgModel.findById(id).select("seen");
+    let message = await groupMsgModel.findById(req.params.id).select("seen");
 
     if (!message) {
       res.status(404).json({ success: "fail", msg: "cannot find message" });
@@ -359,6 +306,82 @@ class GroupController {
       message = await message.save();
       res.status(200).json({ success: "true", data: message });
     }
+  };
+
+  addReaction = async (req: Request, res: Response) => {
+    let message = await groupMsgModel.findById(req.params.id);
+
+    if (!message) {
+      res.status(404).json({ success: "fail", msg: "cannot find message" });
+    } else {
+      message.reaction = req.body.reaction;
+      message = await message.save();
+      res.status(200).json({ success: "true", data: message });
+    }
+  };
+
+  setAsForwarded = async (req: Request, res: Response) => {
+    let message = await groupMsgModel.findById(req.params.id);
+
+    if (!message) {
+      res.status(404).json({ success: "fail", msg: "cannot find message" });
+    } else {
+      message.forwarded = true;
+      message = await message.save();
+      res.status(200).json({ success: "true", data: message });
+    }
+  };
+
+  replyMessage = async (req: Request, res: Response) => {
+    let audio: object = {};
+    let image: object = {};
+    let text: string = "";
+    let msgFormat: string = "";
+
+    const audioMimeType = ["audio/mp3", "audio/wmp", "audio/mpeg"];
+    const imageMimeType = ["image/jpeg", "image/pdf", "image/gif"];
+
+    if (req.file) {
+      if (audioMimeType.includes(req.file.mimetype)) {
+        audio = {
+          publicId: "nothing yet", //Note: would be implemented later with cloudinary
+          url: req.file.path,
+        };
+        msgFormat = "audio";
+      } else if (imageMimeType.includes(req.file.mimetype)) {
+        image = {
+          publicId: "nothing yet", //Note: would be implemented later with cloudinary
+          url: req.file.path,
+        };
+        msgFormat = "image";
+      } else {
+        res.status(400).json({ msg: "not a valid file type", success: "fail" });
+      }
+    } else {
+      if (req.body) {
+        text = req.body.text;
+        msgFormat = "text";
+      }
+    }
+    let message = await groupMsgModel.findById(req.params.id);
+    //@ts-expect-error
+    message?.reply.audio = audio;
+    //@ts-expect-error
+    message?.reply.image = image;
+    //@ts-expect-error
+    message?.reply.text = text;
+    //@ts-expect-error
+    message?.reply.from = req.body.from;
+    //@ts-expect-error
+    message?.reply.messageFormat = msgFormat;
+    //@ts-expect-error
+    message = await message?.save();
+    if (!message)
+      return res
+        .status(401)
+        .json({ success: "fail", msg: "couldn't send message" });
+
+    res.status(201).json({ success: "true", data: message });
   };
 }
 

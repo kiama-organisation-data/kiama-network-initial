@@ -93,6 +93,8 @@ class PrivateMsgController {
         user1: msg.users[0],
         user2: msg.users[1],
         messageFormat: msg.messageFormat,
+        seen: msg.seen,
+        reaction: msg.reaction,
         id: msg._id,
       };
     });
@@ -104,14 +106,7 @@ class PrivateMsgController {
   };
 
   deleteMessage = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!id)
-      return res
-        .status(400)
-        .json({ msg: "please provide message id", success: "fail" });
-
-    await privateMsgModel.findByIdAndDelete({ id });
+    await privateMsgModel.findByIdAndDelete(req.params.id);
     res.status(200).json({ success: "true" });
   };
 
@@ -138,14 +133,7 @@ class PrivateMsgController {
   };
 
   markSeen = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    if (!id) {
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
-    }
-
-    let msg = await privateMsgModel.findById(id);
+    let msg = await privateMsgModel.findById(req.params.id);
     if (!msg)
       return res
         .status(404)
@@ -179,14 +167,7 @@ class PrivateMsgController {
 
   //right now this function will be only called on the front-office when a sendMsg has
   setMsgAsFowarded = async (req: Request, res: Response) => {
-    const { id } = req.params;
-
-    if (!id)
-      return res
-        .status(400)
-        .json({ msg: "please provide an id", success: "fail" });
-
-    let msg = await privateMsgModel.findById(id);
+    let msg = await privateMsgModel.findById(req.params.id);
     if (!msg)
       return res
         .status(404)
