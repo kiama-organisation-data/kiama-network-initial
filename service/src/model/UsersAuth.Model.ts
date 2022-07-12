@@ -13,7 +13,8 @@ export interface IUser extends mongoose.Document {
   role: string;
   personalAbility: Array<any>;
   status: string;
-  groups: Array<any | number>;
+  groups: Array<any>;
+  pages: Array<any>;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
 }
@@ -60,6 +61,9 @@ const usersShema = new shema(
       enum: ["active", "inactive"],
     },
     groups: {
+      type: Array,
+    },
+    pages: {
       type: Array,
     },
   },

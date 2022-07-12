@@ -145,8 +145,9 @@ const groupMsgSchema = new Schema(
           type: String || null,
         },
       },
-      // from: Schema.Types.ObjectId,
-      from: String,
+      messageFormat: String,
+      from: Schema.Types.ObjectId,
+      // from: String,
     },
     sender: {
       type: Schema.Types.ObjectId,
