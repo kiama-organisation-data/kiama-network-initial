@@ -9,7 +9,7 @@ export interface IPayload {
 }
 
 class ValidationToken {
-  constructor() {}
+  constructor() { }
   TokenValidation = (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.header("Authorization");
@@ -25,7 +25,10 @@ class ValidationToken {
         bearerToken,
         process.env["SECRET_TOKEN"] || "defaultToken"
       ) as IPayload;
-      req.body = payload._id;
+      // req.body = payload._id;
+
+      // @ts-ignore
+      req.user = payload;
 
       next();
     } catch (e) {
@@ -36,7 +39,8 @@ class ValidationToken {
   // Grant access to specific roles and allow them to access the route if they have the role or have the ability
   GrantAccess = (req: Request, res: Response, next: NextFunction) => {
     // get the role from payload._id
-    const userId = req.body;
+    // @ts-ignore
+    const userId = req.user;
     console.log("azaz", userId);
 
     // get user role and ability by userId
