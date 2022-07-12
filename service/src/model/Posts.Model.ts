@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const schema: any = mongoose.Schema;
 
@@ -10,7 +10,13 @@ export interface IPost extends mongoose.Document {
   fileUrl: Array<string>;
   fileType: Array<string>;
   publicId: string;
-  userId: mongoose.Schema.Types.ObjectId;
+  userId: Schema.Types.ObjectId;
+}
+
+export interface IPagepost extends mongoose.Document {
+  content: object;
+  pageId: Schema.Types.ObjectId;
+  tags: Array<Schema.Types.ObjectId>;
 }
 
 const postSchema = new schema(
@@ -34,5 +40,33 @@ const postSchema = new schema(
   { _id: true, timestamps: true, toJSON: { virtuals: true } }
 );
 
+const pagePostSchema = new Schema({
+  pageId: {
+    type: Schema.Types.ObjectId,
+    required: true,
+    ref: "Page",
+  },
+  content: {
+    image: {
+      publicId: String,
+      url: String,
+      coverText: String,
+    },
+    video: {
+      publicId: String,
+      url: String,
+      coverText: String,
+    },
+    text: {
+      type: String,
+    },
+  },
+  tags: Array,
+});
+
+export const pagePostModel = mongoose.model<IPagepost>(
+  "PagePost",
+  pagePostSchema
+);
 const postModel = mongoose.model<IPost>("Posts", postSchema);
 export default postModel;
