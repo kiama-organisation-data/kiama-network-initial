@@ -6,6 +6,7 @@ import {
   IGroup,
 } from "../model/Messages.Model";
 import Users from "../model/UsersAuth.Model";
+import AppResponse from "../services/index";
 
 /**
  * @function createGroup will create a new group setting the creator as admin an member
@@ -36,17 +37,15 @@ class GroupController {
     const imageMimeType = ["image/jpeg", "image/png", "image/jpg"];
 
     if (req.file) {
-      if (!imageMimeType.includes(req.file?.mimetype))
-        return res
-          .status(400)
-          .json({ success: "fail", msg: "the filetype is not accepted" });
+      if (!imageMimeType.includes(req.file?.mimetype)) {
+        return AppResponse.fail(res, "the file type is not accepted");
+      }
     }
 
     const { id } = req.params;
     let user = await Users.findById(id).select(["username", "_id", "groups"]);
 
-    if (!user)
-      return res.status(404).json({ success: "fail", msg: "user not found" });
+    if (!user) return AppResponse.notFound(res, "user not found");
 
     const group: IGroup = await groupModel.create({
       ...req.body,
@@ -65,10 +64,11 @@ class GroupController {
 
     user.groups.push(group._id);
     user = await user.save();
+
     if (!group) {
-      res.status(400).json({ success: "fail" });
+      AppResponse.fail(res, "");
     } else {
-      res.status(201).json({ success: "true", data: group, user });
+      AppResponse.success(res, group);
     }
   };
 
@@ -78,42 +78,42 @@ class GroupController {
     const groupId = req.body.id;
 
     const isAdmin = await groupModel.findOne({ _id: groupId });
-    if (!isAdmin)
-      return res
-        .status(404)
-        .json({ success: "fail", msg: "there's no group found" });
+
+    if (!isAdmin) return AppResponse.notFound(res, "groups not found");
 
     //@ts-expect-error
     if (isAdmin.admin.id.toString() !== id) {
-      res.status(403).json({ success: "fail", msg: "you are not admin" });
+      AppResponse.notPermitted(res, "");
     } else {
       const body = req.body;
       const group = await groupModel.findByIdAndUpdate(groupId, body);
-      res.status(200).json({ success: "true", data: group });
+
+      try {
+        AppResponse.success(res, group);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
   editGroupPhoto = async (req: Request, res: Response) => {
-    if (!req.file)
-      return res.status(400).json({ success: "fail", msg: "provide an image" });
+    if (!req.file) {
+      return AppResponse.fail(res, "provide an image");
+    }
 
     let group = await groupModel.findById(req.body.id);
 
     if (!group) {
-      res.status(404).json({ success: "false", msg: "group not found" });
+      AppResponse.notFound(res, "group not found");
     } else {
       //@ts-expect-error
       if (group.admin.id.toString() !== id)
-        return res
-          .status(403)
-          .json({ success: "fail", msg: "you are not permitted" });
+        return AppResponse.notPermitted(res, "");
 
       const imageMimeType = ["image/jpeg", "image/png", "image/jpg"];
 
       if (!imageMimeType.includes(req.file.mimetype))
-        return res
-          .status(400)
-          .json({ success: "fail", msg: "not a valid file type" });
+        return AppResponse.fail(res, "not a valid file type");
 
       // In the future cloudinary would be used here
       //@ts-expect-error
@@ -121,7 +121,12 @@ class GroupController {
       //@ts-expect-error
       group.image.publicId = "dummy"; //will be proccessed with cloudinary in the future
       group = await group.save();
-      res.status(200).json({ success: "true", data: group });
+
+      try {
+        AppResponse.success(res, group);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
@@ -129,13 +134,10 @@ class GroupController {
     let group = await groupModel.findOne({ _id: req.body.id });
 
     if (!group) {
-      res.status(404).json({ success: "fail", msg: "group not found" });
+      AppResponse.notFound(res, "group not found");
     } else {
       //@ts-expect-error
-      if (group.admin.id.toString() !== id)
-        return res
-          .status(403)
-          .json({ success: "fail", msg: "You are not permitted" });
+      if (group.admin.id.toString() !== id) AppResponse.notPermitted(res, "");
 
       //@ts-expect-error
       group.image.url = null;
@@ -143,7 +145,12 @@ class GroupController {
       group.image.publicId = null;
       group.isImage = false;
       group = await group.save();
-      res.status(200).json({ success: "true", data: group });
+
+      try {
+        AppResponse.success(res, group);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
@@ -151,37 +158,42 @@ class GroupController {
     let group = await groupModel.findById(req.body.id);
 
     if (!group) {
-      res.status(404).json({ success: "fail", msg: "group not found" });
+      AppResponse.notFound(res, "group not found");
     } else {
       //@ts-expect-error
       if (group.admin.id.toString() !== req.params.id)
-        return res.status(400).json({ success: "fail", msg: "not permitted" });
+        return AppResponse.notPermitted(res, "");
 
       let user = await Users.findById(req.body.member);
 
-      if (!user)
-        return res.status(404).json({ success: "fail", msg: "user not found" });
-
+      if (!user) return AppResponse.notFound(res, "user not found");
       user.groups.push(group._id);
       group.members.push(req.body.member); //req.body.member is user id;
       group.size = group.size + 1;
       group = await group.save();
       user = await user.save();
-      res.status(200).json({ success: "true", data: group });
+
+      try {
+        AppResponse.success(res, group);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
   removeMember = async (req: Request, res: Response) => {
     let group = await groupModel.findById(req.body.id);
-    if (!group)
-      return res.status(404).json({ success: "fail", msg: "group not found" });
+    if (!group) {
+      AppResponse.notFound(res, "group not found");
+    }
 
     //@ts-expect-error
     if (group.admin.id.toString() !== id) {
-      res.status(403).json({ success: "fail", msg: "not permitted" });
+      AppResponse.notPermitted(res, "");
     } else {
       //remeber to change members to use a linked list for effeciency in query
       let memberToBeDeleted: String = "";
+      //@ts-expect-error
       group.members.map((member) => {
         if (member.toString() === req.body.member) {
           memberToBeDeleted = member;
@@ -190,9 +202,13 @@ class GroupController {
       //@ts-expect-error
       const deleted = await group.removeMember(memberToBeDeleted);
       if (deleted) {
-        res.status(200).json({ success: "true", data: group });
+        try {
+          AppResponse.success(res, group);
+        } catch (e) {
+          AppResponse.fail(res, e);
+        }
       } else {
-        res.status(400).send({ success: "fail" });
+        AppResponse.fail(res, "fail");
       }
     }
   };
@@ -200,9 +216,9 @@ class GroupController {
   deleteGroup = async (req: Request, res: Response) => {
     await groupModel.findByIdAndDelete(req.params.id);
     try {
-      res.status(200).json({ success: "true" });
+      AppResponse.success(res, "success");
     } catch (e) {
-      res.status(400).send(e);
+      AppResponse.fail(res, e);
     }
   };
 
@@ -212,11 +228,14 @@ class GroupController {
     let group = await groupModel.findById(req.body.id).select("removeMember");
 
     if (!user || !group) {
-      res.status(404).json({ success: "fail", msg: "user can't be found" });
+      AppResponse.notFound(res, "group not found");
     } else {
       const result = group.removeMember(req.params.id);
-      if (!result) return res.status(400).json({ success: "fail" });
-      res.status(200).json({ success: "true", data: group });
+      try {
+        AppResponse.success(res, result);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
@@ -247,7 +266,7 @@ class GroupController {
         };
         msgFormat = "image";
       } else {
-        res.status(400).json({ msg: "not a valid file type", success: "fail" });
+        AppResponse.fail(res, "fail");
       }
     } else {
       if (req.body) {
@@ -265,46 +284,45 @@ class GroupController {
       messageFormat: msgFormat,
       groupId: req.params.groupId,
     });
-    if (!newMsg)
-      return res
-        .status(401)
-        .json({ success: "fail", msg: "couldn't send message" });
+    if (!newMsg) return AppResponse.fail(res, "error");
 
-    res.status(201).json({ success: "true", data: newMsg });
+    AppResponse.created(res, newMsg);
   };
 
   getMessages = async (req: Request, res: Response) => {
     const { groupId } = req.params;
 
-    if (!groupId)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id" });
+    if (!groupId) return AppResponse.notFound(res, "id not found");
 
     const messages = await groupMsgModel.find({ groupId });
 
     if (!messages) {
-      res.status(404).json({ success: "fail", msg: "no messages yet" });
+      AppResponse.notFound(res, "not found");
     } else {
-      res.status(200).json({ success: "fail", data: messages });
+      AppResponse.success(res, messages);
     }
   };
 
   deleteMessage = async (req: Request, res: Response) => {
     await groupMsgModel.findByIdAndDelete(req.params.id);
-    res.status(200).json({ success: "true" });
+    AppResponse.success(res, "success");
   };
 
   markSeen = async (req: Request, res: Response) => {
     let message = await groupMsgModel.findById(req.params.id).select("seen");
 
     if (!message) {
-      res.status(404).json({ success: "fail", msg: "cannot find message" });
+      AppResponse.notFound(res, "cannot find any message");
     } else {
       //@ts-ignore
       message?.seen = true;
       message = await message.save();
-      res.status(200).json({ success: "true", data: message });
+
+      try {
+        AppResponse.success(res, message);
+      } catch (e) {
+        AppResponse.fail(res, e);
+      }
     }
   };
 
@@ -312,11 +330,11 @@ class GroupController {
     let message = await groupMsgModel.findById(req.params.id);
 
     if (!message) {
-      res.status(404).json({ success: "fail", msg: "cannot find message" });
+      AppResponse.notFound(res, "cannot find message");
     } else {
       message.reaction = req.body.reaction;
       message = await message.save();
-      res.status(200).json({ success: "true", data: message });
+      AppResponse.success(res, message);
     }
   };
 
@@ -324,11 +342,11 @@ class GroupController {
     let message = await groupMsgModel.findById(req.params.id);
 
     if (!message) {
-      res.status(404).json({ success: "fail", msg: "cannot find message" });
+      AppResponse.notFound(res, "cannot find message");
     } else {
       message.forwarded = true;
       message = await message.save();
-      res.status(200).json({ success: "true", data: message });
+      AppResponse.success(res, message);
     }
   };
 
@@ -355,7 +373,7 @@ class GroupController {
         };
         msgFormat = "image";
       } else {
-        res.status(400).json({ msg: "not a valid file type", success: "fail" });
+        AppResponse.fail(res, "fail");
       }
     } else {
       if (req.body) {
@@ -376,12 +394,9 @@ class GroupController {
     message?.reply.messageFormat = msgFormat;
     //@ts-expect-error
     message = await message?.save();
-    if (!message)
-      return res
-        .status(401)
-        .json({ success: "fail", msg: "couldn't send message" });
+    if (!message) return AppResponse.notFound(res, "message not found");
 
-    res.status(201).json({ success: "true", data: message });
+    AppResponse.created(res, message);
   };
 }
 

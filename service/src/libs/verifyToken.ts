@@ -25,7 +25,8 @@ class ValidationToken {
         bearerToken,
         process.env["SECRET_TOKEN"] || "defaultToken"
       ) as IPayload;
-      req.body = payload._id;
+      //@ts-expect-error
+      req.user = payload._id;
 
       next();
     } catch (e) {
@@ -36,7 +37,8 @@ class ValidationToken {
   // Grant access to specific roles and allow them to access the route if they have the role or have the ability
   GrantAccess = (req: Request, res: Response, next: NextFunction) => {
     // get the role from payload._id
-    const userId = req.body;
+    //@ts-expect-error
+    const userId = req.user;
     console.log("azaz", userId);
 
     // get user role and ability by userId

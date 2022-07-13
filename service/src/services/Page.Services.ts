@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import pageModel from "../model/Pages.Model";
 import { pagePostModel } from "../model/Posts.Model";
-import Users from "../model/UsersAuth.Model";
 import AppResponse from "./index";
 
 class PageServices {
@@ -75,7 +74,7 @@ class PageServices {
           url,
         },
       },
-      pageId: req.params.pageId,
+      pageId: req.body.pageId,
       tags: req.body.tags,
     });
     return post;
@@ -88,7 +87,6 @@ class PageServices {
     req.files.map((i: any) => {
       url.push(i.path);
     });
-    console.log(url);
     if (req.body.coverText) {
       coverText = req.body.coverText;
     }
@@ -97,7 +95,7 @@ class PageServices {
       content: {
         video: {
           coverText,
-          url,
+          url: url[0],
         },
       },
       pageId: req.body.pageId,
@@ -111,7 +109,7 @@ class PageServices {
       content: {
         text: req.body.text,
       },
-      pageId: req.params.pageId,
+      pageId: req.body.pageId,
       tags: req.body.tags,
     });
     return post;
