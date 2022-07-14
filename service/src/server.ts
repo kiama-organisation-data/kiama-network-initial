@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import express, { Application, Request, Response } from "express";
-import * as bodyParser from "body-parser";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
@@ -18,6 +17,8 @@ import PostsRouter from "./route/Posts.Router";
 import MessagesRouter from "./route/Messages.Router";
 import PagesRouter from "./route/Pages.Router";
 import PostsPagesRouter from "./route/Posts.Pages.Router";
+import validationToken from "./libs/verifyToken";
+import ChannelsRouter from "./route/Channels.Router";
 
 class Server {
   public app: Application;
@@ -70,16 +71,42 @@ class Server {
 
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(express.static(path.join(__dirname, "uploads")));
+    this.app.use(express.static(path.join(__dirname, "assets")));
   }
 
   public routes() {
     // DESCRIPTION: route part one
     this.app.use("/kiama-network/api/v1/user", UsersRouter);
     this.app.use("/kiama-network/api/v1/role", RoleRouter);
-    this.app.use("/kiama-network/api/v1/posts", PostsRouter);
-    this.app.use("/kiama-network/api/v1/msgs", MessagesRouter);
-    this.app.use("/kiama-network/api/v1/pages", PagesRouter);
-    this.app.use("/kiama-network/api/v1/pages/posts", PostsPagesRouter);
+    this.app.use(
+      "/kiama-network/api/v1/post",
+      validationToken.TokenValidation,
+      PostsRouter
+    );
+
+    this.app.use(
+      "/kiama-network/api/v1/msg",
+      validationToken.TokenValidation,
+      MessagesRouter
+    );
+
+    this.app.use(
+      "/kiama-network/api/v1/pages/post",
+      validationToken.TokenValidation,
+      PostsPagesRouter
+    );
+
+    this.app.use(
+      "/kiama-network/api/v1/page",
+      validationToken.TokenValidation,
+      PagesRouter
+    );
+
+    this.app.use(
+      "/kiama-network/api/v1/channel",
+      validationToken.TokenValidation,
+      ChannelsRouter
+    );
 
     // Routes for upload file
     this.app.use(

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import postModel, { IPost } from "../model/Posts.Model";
 import Users from "../model/UsersAuth.Model";
+import AppResponse from "../services/index";
 
 class PostsController {
   constructor() {}
@@ -37,10 +38,10 @@ class PostsController {
         publicId: null,
       })
       .then((result) => {
-        res.status(201).json({ success: "true", data: result });
+        AppResponse.created(res, result);
       })
       .catch((err) => {
-        res.status(401).send(err);
+        AppResponse.fail(res, err);
       });
   };
 
@@ -57,11 +58,10 @@ class PostsController {
     postModel
       .findByIdAndDelete(id)
       .then((result) => {
-        if (result)
-          res.status(201).json({ success: "true", msg: "post deleted" });
+        if (result) AppResponse.success(res, "post deleted");
       })
       .catch((err) => {
-        res.status(401).send(err);
+        AppResponse.fail(res, err);
       });
   };
 
@@ -78,15 +78,11 @@ class PostsController {
     postModel
       .findById(id)
       .then((result) => {
-        if (!result)
-          return res
-            .status(400)
-            .json({ success: "fail", msg: "post no longer exists" });
-
-        res.status(200).json({ success: "true", data: result });
+        if (!result) return AppResponse.notFound(res, "post no longer exist");
+        AppResponse.success(res, result);
       })
       .catch((err) => {
-        res.status(400).send(err);
+        AppResponse.fail(res, err);
       });
   };
 
@@ -94,37 +90,26 @@ class PostsController {
   // get all the posts that belongs to a single user
   // =========================================================================
   async getUsersPosts(req: Request, res: Response): Promise<any> {
-    const { id } = req.params;
-    if (!id) return res.status(400).send("cannot fetch posts without id");
-
-    const getAllPosts = async () => getPosts(id, res);
+    const getAllPosts = async () => getPosts(req.params.id, res);
     const returnValue = await getAllPosts();
 
     if (!returnValue)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "cannot find user's posts" });
+      return AppResponse.notFound(res, "cannot find user's post");
 
-    res.status(200).json({ success: "true", data: returnValue });
+    AppResponse.success(res, returnValue);
   }
 
   // =========================================================================
   // edit a single post
   // =========================================================================
   async editSinglePost(req: Request, res: Response): Promise<any> {
-    const { id } = req.params;
-    if (!id) return res.status(400).send("cannot fetch posts without id");
-
-    const usersPost = await postModel.findByIdAndUpdate(id, {
+    const usersPost = await postModel.findByIdAndUpdate(req.params.id, {
       title: req.body.title,
     });
 
-    if (!usersPost)
-      return res
-        .status(400)
-        .json({ success: "false", msg: "couldn\t update title" });
+    if (!usersPost) return AppResponse.fail(res, "couldn't update users post");
 
-    res.status(200).json({ success: "true", msg: "edited successfully" });
+    AppResponse.success(res, "updated successfully");
   }
 }
 

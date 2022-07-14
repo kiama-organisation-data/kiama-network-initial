@@ -128,11 +128,13 @@ class PagesController {
   };
 
   addVisitor = async (req: Request, res: Response) => {
-    let page = await pageModel.findById(req.params.id); // req.user
+    let page = await pageModel.findById(req.params.id);
     const user = await Users.findById(req.body.id);
     try {
       if (user && page) {
-        page?.visitors.push(user.username);
+        const userId = user._id;
+        const username = user.username;
+        page?.visitors.push({ userId, username });
         page = await page.save();
         AppResponse.success(res, "updated");
       }
@@ -160,6 +162,22 @@ class PagesController {
       }
     } catch (e) {
       AppResponse.notFound(res, "not found");
+    }
+  };
+
+  getAllVisitors = async (req: Request, res: Response) => {
+    const visitors = await pageModel
+      .findOne({ pageId: req.params.pageId })
+      .select(["visitors"]);
+    try {
+      //@ts-expect-error
+      if (visitors?.visitors?.length > 1) {
+        AppResponse.success(res, visitors);
+      } else {
+        AppResponse.notFound(res, "you have no vsitors yet");
+      }
+    } catch (e) {
+      AppResponse.fail(res, "an error occured");
     }
   };
 }

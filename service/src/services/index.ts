@@ -20,7 +20,7 @@ class AppResponse {
   };
 
   notPermitted = (res: Response, msg: any) => {
-    res.status(403).json({ message: "not permitted", msg });
+    res.status(403).json({ message: "not permitted" });
   };
 }
 

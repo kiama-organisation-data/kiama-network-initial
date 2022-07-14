@@ -4,6 +4,7 @@ const schema: any = mongoose.Schema;
 
 /**
  * @param interface will be updated in the future
+ * the model in the future will be updated to accept replys
  */
 export interface IPost extends mongoose.Document {
   title: string;
@@ -40,29 +41,32 @@ const postSchema = new schema(
   { _id: true, timestamps: true, toJSON: { virtuals: true } }
 );
 
-const pagePostSchema = new Schema({
-  pageId: {
-    type: Schema.Types.ObjectId,
-    required: true,
-    ref: "Page",
+const pagePostSchema = new Schema(
+  {
+    pageId: {
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Page",
+    },
+    content: {
+      image: {
+        publicId: Array,
+        url: Array,
+        coverText: String,
+      },
+      video: {
+        publicId: String,
+        url: String,
+        coverText: String,
+      },
+      text: {
+        type: String,
+      },
+    },
+    tags: Array,
   },
-  content: {
-    image: {
-      publicId: String,
-      url: String,
-      coverText: String,
-    },
-    video: {
-      publicId: String,
-      url: String,
-      coverText: String,
-    },
-    text: {
-      type: String,
-    },
-  },
-  tags: Array,
-});
+  { timestamps: true }
+);
 
 export const pagePostModel = mongoose.model<IPagepost>(
   "PagePost",

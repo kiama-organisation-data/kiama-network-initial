@@ -17,6 +17,7 @@ export interface IUser extends mongoose.Document {
   gender: string;
   groups: Array<any>;
   pages: Array<any>;
+  channels: Array<any>;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
 }
@@ -73,6 +74,9 @@ const usersShema = new shema(
       type: Array,
     },
     pages: {
+      type: Array,
+    },
+    channels: {
       type: Array,
     },
   },

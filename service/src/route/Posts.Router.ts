@@ -1,7 +1,7 @@
 import { Router } from "express";
 import uploadController from "../controller/Posts.Controller";
 import { postsUploads } from "../libs/multerConfig";
-import validationToken from "../libs/verifyToken";
+import messageHelpers from "../middleware/messageHelpers";
 
 class PostsRouter {
   router: Router;
@@ -11,26 +11,22 @@ class PostsRouter {
     this.routes();
   }
   /**
-   * @route "/" uploads a post with a maximum of 5 post
-   * @route "/:id" gets an id as a param used for fetching, deleting and editing a post
-   * @route "/all/:id" fetches all the users posts.
+   * @function routes "/" uploads a post with a maximum of 5 post
+   * @function routes "/:id" gets an id as a param used for fetching, deleting and editing a post
+   * @function routes "/all/:id" fetches all the users posts.
    */
   routes() {
-    this.router
-      .route("/")
-      .post(
-        validationToken.TokenValidation,
-        postsUploads,
-        uploadController.uploadPost
-      );
+    this.router.route("/").post(postsUploads, uploadController.uploadPost);
+
     this.router
       .route("/:id")
-      .delete(validationToken.TokenValidation, uploadController.deletePost)
-      .get(validationToken.TokenValidation, uploadController.getPost)
-      .patch(uploadController.editSinglePost);
+      .delete(uploadController.deletePost)
+      .get(uploadController.getPost)
+      .patch(messageHelpers.isId, uploadController.editSinglePost);
+
     this.router
       .route("/all/:id")
-      .get(validationToken.TokenValidation, uploadController.getUsersPosts);
+      .get(messageHelpers.isId, uploadController.getUsersPosts);
   }
 }
 
