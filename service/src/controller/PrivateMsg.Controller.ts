@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import joiValidation from "../libs/joiValidation";
 import { IPrmsg, privateMsgModel } from "../model/Messages.Model";
+import AppResponse from "../services/index";
 
 //remeber to add try catch to all functions
 class PrivateMsgController {
@@ -52,7 +53,7 @@ class PrivateMsgController {
         msgFormat = "text";
       }
     }
-    const newMsg = await privateMsgModel.create({
+    const newMsg: IPrmsg = await privateMsgModel.create({
       message: {
         text,
         audio,
@@ -63,12 +64,9 @@ class PrivateMsgController {
       messageFormat: msgFormat,
     });
 
-    if (!newMsg)
-      return res
-        .status(401)
-        .json({ success: "fail", msg: "couldn't send message" });
+    if (!newMsg) return AppResponse.fail(res, "an error occured while saving");
 
-    res.status(201).json({ success: "true", data: newMsg });
+    AppResponse.created(res, newMsg);
   };
 
   getMessages = async (req: Request, res: Response) => {
@@ -99,83 +97,82 @@ class PrivateMsgController {
       };
     });
     if (!msgs)
-      return res
-        .status(404)
-        .json({ success: "false", msg: "users don\t have any conversation" });
-    return res.status(200).json({ success: "true", data: msgs });
+      return AppResponse.fail(res, "there is no conversation between you two");
+
+    AppResponse.success(res, msgs);
   };
 
   deleteMessage = async (req: Request, res: Response) => {
     await privateMsgModel.findByIdAndDelete(req.params.id);
-    res.status(200).json({ success: "true" });
+    AppResponse.success(res, "deleted");
   };
 
   addReply = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     if (!id || !req.body.text)
-      return res
-        .status(400)
-        .json({ msg: "please provide data", success: "fail" });
+      return AppResponse.fail(res, "please provide data");
 
     let msg = await privateMsgModel.findById(id);
-    if (!msg)
-      return res
-        .status(404)
-        .json({ success: "true", msg: "message not found" });
+    if (!msg) return AppResponse.notFound(res, "not found any messages");
     //@ts-expect-error
     msg.reply.text = req.body.text;
     //@ts-expect-error
     msg.reply.from = req.body.from;
     msg = await msg.save();
 
-    res.status(201).json({ success: "true", data: msg });
+    try {
+      AppResponse.success(res, msg);
+    } catch (error) {
+      AppResponse.fail(res, error);
+    }
   };
 
   markSeen = async (req: Request, res: Response) => {
     let msg = await privateMsgModel.findById(req.params.id);
-    if (!msg)
-      return res
-        .status(404)
-        .json({ success: "fail", msg: "message not found" });
+    if (!msg) {
+      return AppResponse.notFound(res, "message not found");
+    }
     msg.seen = true;
     msg = await msg.save();
-    res.status(200).json({ success: "true" });
+    AppResponse.success(res, "");
   };
 
   addReactions = async (req: Request, res: Response) => {
     const { id } = req.params;
     if (!id || !req.body.reaction)
-      return res
-        .status(400)
-        .json({ success: "fail", msg: "please provide an id or a reaction" });
+      return AppResponse.fail(res, "provide a reaction");
 
     const reactions = ["laughing", "angry", "love"];
 
-    if (!reactions.includes(req.body.reaction))
-      return res.status(400).json({
-        success: "fail",
-        msg: "the reaction you are trying to make does not exist in this version",
-      });
+    if (!reactions.includes(req.body.reaction)) {
+      return AppResponse.fail(res, "reaction is not valid");
+    }
 
     let msg = await privateMsgModel.findById(id);
-    if (!msg) return res.status(400).json({ success: "fail" });
+
+    if (!msg) return AppResponse.notFound(res, "message not found");
+
     msg.reaction = req.body.reaction;
     msg = await msg.save();
-    res.status(200).json({ success: "true" });
+
+    try {
+      AppResponse.success(res, msg);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
   };
 
   //right now this function will be only called on the front-office when a sendMsg has
   setMsgAsFowarded = async (req: Request, res: Response) => {
     let msg = await privateMsgModel.findById(req.params.id);
-    if (!msg)
-      return res
-        .status(404)
-        .json({ success: "false", msg: "message not found" });
+    if (!msg) {
+      return AppResponse.notFound(res, "message not found");
+    }
 
     msg.forwarded = true;
     msg = await msg.save();
-    res.status(200).json({ success: "true", data: msg });
+    AppResponse.success(res, msg);
   };
 }
 

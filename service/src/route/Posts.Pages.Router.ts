@@ -1,6 +1,6 @@
 import { Router } from "express";
 import PostsPagesController from "../controller/Posts.Pages.Controller";
-import { messageUploads } from "../libs/multerConfig";
+import { postsUploads } from "../libs/multerConfig";
 
 class PostPageRouter {
   router: Router;
@@ -11,11 +11,15 @@ class PostPageRouter {
   }
 
   routes() {
-    this.router.route("/").get(PostsPagesController.getAll);
+    this.router.route("/:pageId").get(PostsPagesController.getAll);
+
+    this.router.route("/").post(postsUploads, PostsPagesController.create);
 
     this.router
-      .route("/:pageId")
-      .post(messageUploads, PostsPagesController.create);
+      .route("/single/:id")
+      .get(PostsPagesController.getOne)
+      .patch(PostsPagesController.edit)
+      .delete(PostsPagesController.deletePost);
   }
 }
 

@@ -6,7 +6,7 @@ export interface IPage extends Document {
   name: string;
   description: string;
   moderators: Array<any>;
-  visitors: Array<string>;
+  visitors: Array<object>;
   likes: object;
   email: string;
   mobile: string;

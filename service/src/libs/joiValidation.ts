@@ -1,4 +1,5 @@
 import Joi from "@hapi/joi";
+import { IChannel } from "../model/Channels.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
@@ -65,6 +66,25 @@ class JoiValidate {
       message: Joi.string(),
       from: Joi.array(),
       to: Joi.string(),
+    });
+    return postSchema.validate(data);
+  };
+
+  channelsValidation = (data: IChannel) => {
+    const postSchema = Joi.object({
+      name: Joi.string().required(),
+      description: Joi.string().required(),
+      email: Joi.string().required(),
+      category: Joi.string().required(),
+    });
+    return postSchema.validate(data);
+  };
+
+  channelsEditValidation = (data: IChannel) => {
+    const postSchema = Joi.object({
+      name: Joi.string(),
+      description: Joi.string(),
+      category: Joi.string(),
     });
     return postSchema.validate(data);
   };
