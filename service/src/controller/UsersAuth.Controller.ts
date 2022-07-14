@@ -30,6 +30,8 @@ class UserController {
             const user: IUser = new Users({
                 name: req.body.name,
                 username: req.body.username,
+                gender: req.body.gender,
+                birthday: req.body.birthday,
                 email: req.body.email,
                 avatar: req.file?.path,
                 password: req.body.password,

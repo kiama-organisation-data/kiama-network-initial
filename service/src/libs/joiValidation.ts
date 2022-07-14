@@ -4,7 +4,7 @@ import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
 
 class JoiValidate {
-  constructor() {}
+  constructor() { }
 
   // signup verification
   signupValidation = (data: IUser) => {
@@ -17,6 +17,8 @@ class JoiValidate {
       role: Joi.string().required(),
       personalAbility: Joi.array(),
       status: Joi.string(),
+      birthday: Joi.date(),
+      gender: Joi.string(),
     });
     return usersShema.validate(data);
   };
