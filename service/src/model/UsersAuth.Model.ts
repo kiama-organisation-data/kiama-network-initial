@@ -13,6 +13,8 @@ export interface IUser extends mongoose.Document {
   role: string;
   personalAbility: Array<any>;
   status: string;
+  birthday: Date;
+  gender: string;
   groups: Array<any>;
   pages: Array<any>;
   channels: Array<any>;
@@ -60,6 +62,13 @@ const usersShema = new shema(
       type: String,
       default: "active",
       enum: ["active", "inactive"],
+    },
+    birthday: {
+      type: Date,
+    },
+    gender: {
+      type: String,
+      enum: ['female', 'male', 'custom', 'prefer not to say'] // To check
     },
     groups: {
       type: Array,
