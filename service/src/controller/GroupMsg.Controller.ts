@@ -188,7 +188,7 @@ class GroupController {
     }
 
     //@ts-expect-error
-    if (group.admin.id.toString() !== id) {
+    if (group.admin.id.toString() !== req.params.id) {
       AppResponse.notPermitted(res, "");
     } else {
       //remeber to change members to use a linked list for effeciency in query

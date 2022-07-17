@@ -1,6 +1,6 @@
-import { string } from "@hapi/joi";
 import { Schema, model, Document } from "mongoose";
 import { apiCrypto } from "../utils/CrytoUtils";
+import * as cron from "node-cron";
 
 //interface and model will be updated in the future to support payment
 export interface IChannel extends Document {
@@ -12,10 +12,14 @@ export interface IChannel extends Document {
   followers: Array<object>;
   size: number;
   email: string;
+  requests: Array<object>;
   category: string;
+  locked: string;
   publicKey: string;
   privateKey: string;
   secretKey: string;
+  activateLock(): Promise<Boolean>;
+  deActivateLock(): Promise<Boolean>;
 }
 
 const channelSchema = new Schema(
@@ -39,14 +43,34 @@ const channelSchema = new Schema(
     followers: {
       type: Array,
     },
+    requests: {
+      type: Array,
+    },
     category: {
       type: String,
       default: "tech",
       enum: ["tech", "entertainment", "news", "nature", "politics"],
     },
     stars: Number,
-    size: Number,
-    email: String,
+    size: {
+      type: Number,
+      default: 0,
+    },
+    email: {
+      type: String,
+      unique: true,
+      lowercase: true,
+    },
+    locked: {
+      type: String,
+      enum: ["activated", "de-activated"],
+      default: "de-activated",
+    },
+    periodOfDeactivation: {
+      type: String,
+      enum: ["one-week", "three-weeks", "one-month", "not-set", "none"],
+      default: "none",
+    },
     publicKey: String,
     privateKey: String,
     secretKey: String,
@@ -62,6 +86,32 @@ export const createApiKeys = async function (param: any): Promise<object> {
   const secretKey = publicKey.concat(privateKey);
   const data = { publicKey, privateKey, secretKey };
   return data;
+};
+
+const weekly_task = cron.schedule(
+  "* * * * *",
+  () => {
+    console.log("true");
+  },
+  { scheduled: false }
+);
+
+channelSchema.methods.activateLock = async function (): Promise<Boolean> {
+  let success = false;
+  this.locked = "activated";
+  this.periodOfDeactivation = "not-set";
+  const result = await this.save();
+  if (result) success = true;
+  return success;
+};
+
+channelSchema.methods.deActivateLock = async function (): Promise<Boolean> {
+  let success = false;
+  this.locked = "de-activated";
+  this.periodOfDeactivation = "none";
+  const result = await this.save();
+  if (result) success = true;
+  return success;
 };
 
 export const channelModel = model<IChannel>("Channel", channelSchema);
