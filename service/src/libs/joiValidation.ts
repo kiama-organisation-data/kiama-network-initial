@@ -1,6 +1,7 @@
 import Joi from "@hapi/joi";
 import { IChannel } from "../model/Channels.Model";
 import { IPrmsg } from "../model/Messages.Model";
+import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
 
@@ -56,9 +57,6 @@ class JoiValidate {
   uploadFileValidation = (data: IPost) => {
     const postSchema = Joi.object({
       title: Joi.string().required().trim(),
-      fileUrl: Joi.string(),
-      fileType: Joi.string().required().trim(),
-      files: Joi.array(),
     });
     return postSchema.validate(data);
   };
@@ -87,6 +85,13 @@ class JoiValidate {
       name: Joi.string(),
       description: Joi.string(),
       category: Joi.string(),
+    });
+    return postSchema.validate(data);
+  };
+
+  channelsCreatePostValidation = (data: IPchannel) => {
+    const postSchema = Joi.object({
+      description: Joi.string().required(),
     });
     return postSchema.validate(data);
   };

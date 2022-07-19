@@ -10,16 +10,7 @@ import mongoSanitize from "express-mongo-sanitize";
 
 import compression from "compression";
 
-// Import all routes
-import UsersRouter from "./route/UsersAuth.Router";
-import RoleRouter from "./route/Role.Router";
-import PostsRouter from "./route/Posts.Router";
-import MessagesRouter from "./route/Messages.Router";
-import PagesRouter from "./route/Pages.Router";
-import PostsPagesRouter from "./route/Posts.Pages.Router";
-import validationToken from "./libs/verifyToken";
-import ChannelsRouter from "./route/Channels.Router";
-
+import rootRouter from "./route/Index";
 class Server {
   public app: Application;
 
@@ -76,37 +67,7 @@ class Server {
 
   public routes() {
     // DESCRIPTION: route part one
-    this.app.use("/kiama-network/api/v1/user", UsersRouter);
-    this.app.use("/kiama-network/api/v1/role", RoleRouter);
-    this.app.use(
-      "/kiama-network/api/v1/post",
-      validationToken.TokenValidation,
-      PostsRouter
-    );
-
-    this.app.use(
-      "/kiama-network/api/v1/msg",
-      validationToken.TokenValidation,
-      MessagesRouter
-    );
-
-    this.app.use(
-      "/kiama-network/api/v1/pages/post",
-      validationToken.TokenValidation,
-      PostsPagesRouter
-    );
-
-    this.app.use(
-      "/kiama-network/api/v1/page",
-      validationToken.TokenValidation,
-      PagesRouter
-    );
-
-    this.app.use(
-      "/kiama-network/api/v1/channel",
-      validationToken.TokenValidation,
-      ChannelsRouter
-    );
+    this.app.use("/kiama-network/api/v1", rootRouter());
 
     // Routes for upload file
     this.app.use(

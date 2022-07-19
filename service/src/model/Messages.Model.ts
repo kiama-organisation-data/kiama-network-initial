@@ -227,13 +227,12 @@ const groupSchema = new Schema(
 groupSchema.methods.removeMember = async function (
   params: string
 ): Promise<any> {
-  for (let i = 0; i < this.members.length; i++) {
-    if (this.members[i] === params) {
-      this.members[i] = null;
-      this.size = this.size - 1;
-      await this.save();
-    }
-  }
+  const newMembers = this.members.filter((member: any) => {
+    member !== params;
+  });
+  this.size = this.size - 1;
+  this.members = newMembers;
+  await this.save();
   return true;
 };
 
