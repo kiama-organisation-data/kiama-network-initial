@@ -6,6 +6,7 @@ export interface IHistory extends mongoose.Document {
     userId: string
     actions: string
     type: string
+    description: string
 }
 
 const historysShema = new shema({
@@ -21,6 +22,10 @@ const historysShema = new shema({
     type: {
         type: String,
         enum: ["friend", "group"],
+        required: true
+    },
+    description: {
+        type: String,
         required: true
     }
 }, { _id: true, timestamps: true })
