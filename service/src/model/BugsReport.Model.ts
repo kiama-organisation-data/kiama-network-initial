@@ -9,7 +9,6 @@ export interface IBug extends mongoose.Document {
     pageError: string
     priority: string
     image: string
-    user: string
     response: string
     reportBy: string
     isViewed: boolean
