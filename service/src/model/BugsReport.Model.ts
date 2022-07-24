@@ -14,6 +14,7 @@ export interface IBug extends mongoose.Document {
     reportBy: string
     isViewed: boolean
     isResolved: boolean
+    type: string
 }
 
 const bugsShema = new shema({
@@ -61,6 +62,11 @@ const bugsShema = new shema({
         default: "open",
         enum: ["open", "close"]
     },
+    type: {
+        type: String,
+        required: true,
+        enum: ["bug", "feature", "other"]
+    }
 
 }, { _id: true, timestamps: true })
 
