@@ -31,11 +31,11 @@ const reportsShema = new shema({
         type: String,
         required: true,
     },
-    type: {
-        type: Array<String>,
+    type: [{
+        type: String,
         required: true,
         enum: ["spam", "inappropriate", "fake", "nudity", "violence", "other"],
-    },
+    }],
     userToReport: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
