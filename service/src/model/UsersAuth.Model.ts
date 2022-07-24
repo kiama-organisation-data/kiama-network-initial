@@ -9,6 +9,7 @@ export interface IUser extends mongoose.Document {
     first: string;
     last: string;
   };
+  username: string;
   avatar: string;
   email: string;
   password: string;
@@ -38,6 +39,13 @@ const usersShema = new shema(
         trim: true,
         lowercase: true,
       },
+    },
+    username: {
+      type: String,
+      required: [true, "Username is required"],
+      trim: true,
+      lowercase: true,
+      unique: true,
     },
     avatar: {
       type: String,

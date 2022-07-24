@@ -6,7 +6,7 @@ import sortData from "../middleware/utils";
 
 class UserController {
   // initialisation constructor
-  constructor() {}
+  constructor() { }
 
   // =========================================================================
   // Get all users
@@ -33,15 +33,17 @@ class UserController {
         const filteredData = user.filter((item) => {
           return (
             // search
-            (item.name.toLowerCase().includes(queryLowered) ||
+            (
+              item.name.last.toLowerCase().includes(queryLowered) ||
+              item.name.first.toLowerCase().includes(queryLowered) ||
               item.username.toLowerCase().includes(queryLowered) ||
               item.email.toLowerCase().includes(queryLowered) ||
               item.role.toLowerCase().includes(queryLowered) ||
               item.status.toLowerCase().includes(queryLowered)) &&
             item.role.toString() ===
-              (role.toString() || item.role.toString()) &&
+            (role.toString() || item.role.toString()) &&
             item.status.toString() ===
-              (status.toString() || item.status.toString())
+            (status.toString() || item.status.toString())
           );
         });
 

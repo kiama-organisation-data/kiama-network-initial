@@ -31,6 +31,7 @@ class UserController {
           first: req.body.name.first,
           last: req.body.name.last,
         },
+        username: req.body.username,
         gender: req.body.gender,
         birthday: req.body.birthday,
         email: req.body.email,
