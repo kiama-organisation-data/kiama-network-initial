@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 
 class UserController {
   // initialisation constructor
-  constructor() {}
+  constructor() { }
 
   // =========================================================================
   // Add user
@@ -27,8 +27,10 @@ class UserController {
     // saving new User
     try {
       const user: IUser = new Users({
-        name: req.body.name,
-        username: req.body.username,
+        name: {
+          first: req.body.name.first,
+          last: req.body.name.last,
+        },
         gender: req.body.gender,
         birthday: req.body.birthday,
         email: req.body.email,
@@ -109,8 +111,8 @@ class UserController {
     // get user data
     const userData = {
       _id: user._id,
-      name: user.name,
-      username: user.username,
+      firstName: user.name.first,
+      lastName: user.name.last,
       role: userRole?.name,
       ability: userRole?.ability.concat(user.personalAbility),
       avatar: user.avatar,
@@ -184,8 +186,8 @@ class UserController {
       refreshToken: tokenRefresh,
       userData: {
         _id: userData._id,
-        name: userData.name,
-        username: userData.username,
+        firstName: userData.name.first,
+        lastName: userData.name.last,
         role: userRole?.name,
         ability: userRole?.ability.concat(userData.personalAbility),
       },
