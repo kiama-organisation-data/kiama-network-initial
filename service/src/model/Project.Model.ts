@@ -77,6 +77,11 @@ const projectsShema = new shema({
             ref: "Like",
         },
     ],
+    tags: [
+        {
+            type: Array,
+        },
+    ],
 }, { _id: true, timestamps: true })
 
 const Projects = mongoose.model<IProject>('Project', projectsShema)
