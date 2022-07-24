@@ -10,10 +10,10 @@ export interface ICollaborator extends mongoose.Document {
 }
 
 const collaboratorsShema = new shema({
-    colaborator: [{
+    colaborator: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
-    }],
+    },
     project: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Project"
