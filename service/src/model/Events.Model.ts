@@ -54,11 +54,11 @@ const eventsShema = new shema({
         type: String,
         required: true
     },
-    type: {
-        type: Array,
+    type: [{
+        type: String,
         required: true,
         enum: ["Event", "Workshop", "Seminar", "Conference"]
-    },
+    }],
     status: {
         type: String,
         required: true,
