@@ -2,11 +2,11 @@ import mongoose from "mongoose"
 
 const shema: any = mongoose.Schema
 
-export interface ILocalitie extends mongoose.Document {
-
+export interface ICountrie extends mongoose.Document {
+    name: string
 }
 
-const localitiesShema = new shema({
+const countriesShema = new shema({
     code: {
         type: String,
         required: true,
@@ -42,6 +42,6 @@ const localitiesShema = new shema({
     },
 }, { _id: true, timestamps: true })
 
-const Localities = mongoose.model<ILocalitie>('Localitie', localitiesShema)
+const Countries = mongoose.model<ICountrie>('Countrie', countriesShema)
 
-export default Localities
+export default Countries
