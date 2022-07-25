@@ -5,7 +5,10 @@ import { array } from "@hapi/joi";
 const shema: any = mongoose.Schema;
 
 export interface IUser extends mongoose.Document {
-  name: string;
+  name: {
+    first: string;
+    last: string;
+  };
   username: string;
   avatar: string;
   email: string;
@@ -25,15 +28,24 @@ export interface IUser extends mongoose.Document {
 const usersShema = new shema(
   {
     name: {
-      type: String,
-      required: [true, "Name is required"],
-      trim: true,
-      lowercase: true,
+      first: {
+        type: String,
+        required: [true, "Name is required"],
+        trim: true,
+        lowercase: true,
+      },
+      last: {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
     },
     username: {
       type: String,
+      required: [true, "Username is required"],
       trim: true,
       lowercase: true,
+      unique: true,
     },
     avatar: {
       type: String,
@@ -55,13 +67,14 @@ const usersShema = new shema(
       type: shema.Types.ObjectId,
       ref: "Role",
     },
+    isAdmin: { type: Boolean, required: true, default: false },
     personalAbility: {
       type: Array,
     },
     status: {
       type: String,
       default: "active",
-      enum: ["active", "inactive"],
+      enum: ["active", "suspended", "deleted", "deactivated"],
     },
     birthday: {
       type: Date,
@@ -80,8 +93,17 @@ const usersShema = new shema(
       type: Array,
     },
   },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+  },
   { _id: true, timestamps: true }
 );
+
+usersShema.virtual("fullName").get(function (this: IUser) {
+  return this.name.first + this.name.last;
+});
+
 
 usersShema.methods.encryptPassword = async (
   password: string

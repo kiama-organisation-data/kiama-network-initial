@@ -28,11 +28,7 @@ class usersRouter {
 
     // Route for user
     this.router.get("/:id", userController.GetUser);
-    this.router.get(
-      "/",
-      validationToken.TokenValidation,
-      userController.GetAllUsers
-    );
+    this.router.get("/", validationToken.TokenValidation, userController.GetAllUsers);
     this.router.put("/:id", userController.UpdateUser);
     this.router.put("/:id/inactive", userController.InactiveUser);
     this.router.delete("/:id", userController.DeleteUser);
