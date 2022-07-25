@@ -52,6 +52,11 @@ class ChannelRouter {
       .put(ChannelsController.deActivateChannel);
 
     this.router
+      .route("/utils/report/:channelId")
+      .put(ChannelsController.sendReport)
+      .delete(ChannelsController.deleteReport);
+
+    this.router
       .route("/post/single/:postId")
       .get(ChannelsController.getPost)
       .delete(ChannelsController.deletePost);

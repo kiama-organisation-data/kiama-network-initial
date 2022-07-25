@@ -4,7 +4,7 @@ class AppResponse {
   constructor() {}
 
   success = (res: Response, data: any) => {
-    res.status(200).json({ success: "true", json: data });
+    res.status(200).json({ success: "true", data });
   };
 
   created = (res: Response, data: any) => {
@@ -15,7 +15,7 @@ class AppResponse {
     res.status(400).json({ success: "fail", msg });
   };
 
-  notFound = (res: Response, msg: any) => {
+  notFound = (res: Response, msg: string = "resource not found") => {
     res.status(404).json({ success: "fail", msg });
   };
 
