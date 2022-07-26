@@ -1,6 +1,5 @@
 import { Schema, model, Document } from "mongoose";
 import { apiCrypto } from "../utils/CrytoUtils";
-import * as cron from "node-cron";
 
 //interface and model will be updated in the future to support payment
 export interface IChannel extends Document {
@@ -15,10 +14,11 @@ export interface IChannel extends Document {
   requests: Array<object>;
   category: string;
   locked: string;
+  reports: Array<object>;
   publicKey: string;
   privateKey: string;
   secretKey: string;
-  activateLock(): Promise<Boolean>;
+  activateLock(period: string): Promise<Boolean>;
   deActivateLock(): Promise<Boolean>;
 }
 
@@ -71,6 +71,9 @@ const channelSchema = new Schema(
       enum: ["one-week", "three-weeks", "one-month", "not-set", "none"],
       default: "none",
     },
+    reports: {
+      type: Array,
+    },
     publicKey: String,
     privateKey: String,
     secretKey: String,
@@ -88,18 +91,12 @@ export const createApiKeys = async function (param: any): Promise<object> {
   return data;
 };
 
-const weekly_task = cron.schedule(
-  "* * * * *",
-  () => {
-    console.log("true");
-  },
-  { scheduled: false }
-);
-
-channelSchema.methods.activateLock = async function (): Promise<Boolean> {
+channelSchema.methods.activateLock = async function (
+  period: string
+): Promise<Boolean> {
   let success = false;
   this.locked = "activated";
-  this.periodOfDeactivation = "not-set";
+  this.periodOfDeactivation = period;
   const result = await this.save();
   if (result) success = true;
   return success;

@@ -6,6 +6,7 @@ import ChannelServices from "../services/Channel.Services";
 import AppResponse from "../services/index";
 import channelPostModel, { IPchannel } from "../model/Posts.Channels";
 import unique from "../libs/randomGen";
+import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
 class ChannelCntrl {
   constructor() {}
@@ -163,15 +164,27 @@ class ChannelCntrl {
       return AppResponse.notPermitted(res, "");
     }
 
-    const coverImage = { publicId: "dummy", url: file.path };
+    //@ts-expect-error
+    const pId = channel?.coverImage.publicId;
+    if (pId) {
+      await deleteFromCloud(pId);
+    }
+
+    const coverImage = await uploadToCloud(file.path);
+
     let channel = await channelModel
       .findById(req.params.channelId)
       .select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
+
     if (channel !== null) {
-      channel.coverImage = coverImage;
+      channel.coverImage = {
+        url: coverImage.secure_url,
+        publicId: coverImage.public_id,
+      };
     }
     //@ts-expect-error
     channel = await channel?.save();
+
     try {
       AppResponse.success(res, channel);
     } catch (e) {
@@ -361,7 +374,7 @@ class ChannelCntrl {
         "only channel creator can lock group"
       );
     }
-    const result = channel?.activateLock();
+    const result = channel?.activateLock(req.query.period);
 
     try {
       if (!result) {
@@ -398,6 +411,61 @@ class ChannelCntrl {
       AppResponse.fail(res, e);
     }
   };
+
+  sendReport = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
+    //@ts-expect-error
+    const { user } = req;
+    const { userId, username } = req.query;
+
+    const reportObject = {
+      reporter: user,
+      reportedId: userId,
+      reportedName: username,
+      reason: req.body.reason,
+      id: unique(),
+    };
+
+    let channel = await channelModel.findById(channelId).select(["reports"]);
+    channel?.reports.push(reportObject);
+    await channel?.save();
+
+    try {
+      AppResponse.success(res, channel);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  deleteReport = async (req: Request, res: Response) => {
+    const { reportId } = req.query;
+    const { channelId } = req.params;
+
+    let channel = await channelModel.findById(channelId).select(["reports"]);
+
+    if (channel === null) {
+      return AppResponse.fail(res, "not found");
+    }
+
+    try {
+      const newReports = channel.reports.filter(
+        //@ts-expect-error
+        (report) => report.id !== reportId
+      );
+
+      channel.reports = newReports;
+
+      channel = await channel.save();
+
+      AppResponse.success(res, channel);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  // =========================================================================
+  // from here, channel post functionalities begin
+  // =========================================================================
 
   createPost = async (req: Request, res: Response) => {
     const { channelId } = req.params;
@@ -443,7 +511,7 @@ class ChannelCntrl {
     };
     let post: IPchannel | null | undefined;
     if (fileType === "video") {
-      console.log(Videopost);
+      post = await channelPostModel.create(Videopost);
     } else if (fileType === "image") {
       post = await channelPostModel.create(Imagepost);
     } else {

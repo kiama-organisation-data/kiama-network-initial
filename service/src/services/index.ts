@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 class AppResponse {
-  constructor() { }
+  constructor() {}
 
   success = (res: Response, data: any, count?: any) => {
     res.status(200).json({ success: "true", json: data, count: count });
@@ -15,7 +15,7 @@ class AppResponse {
     res.status(400).json({ success: "fail", msg });
   };
 
-  notFound = (res: Response, msg: any) => {
+  notFound = (res: Response, msg: string = "resource not found") => {
     res.status(404).json({ success: "fail", msg });
   };
 

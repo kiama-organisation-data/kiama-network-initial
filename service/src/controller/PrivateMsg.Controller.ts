@@ -8,6 +8,7 @@ class PrivateMsgController {
   constructor() {}
 
   /**
+   * remember to implement functionality to restrict how users messages can be forwarded
    * @function sendMsg handles creation of a new message, also remeber to passa check for
    * body or file
    * @constant newMsg, the 'to' property is the id of the user this message is sent to while
