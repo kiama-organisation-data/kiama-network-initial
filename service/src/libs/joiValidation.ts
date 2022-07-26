@@ -14,7 +14,7 @@ class JoiValidate {
       name: Joi.object({
         first: Joi.string().required(),
         last: Joi.string().required(),
-      }).required(),
+      }),
       username: Joi.string().required(),
       avatar: Joi.string(),
       email: Joi.string(),

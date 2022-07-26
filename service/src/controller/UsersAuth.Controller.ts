@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Users, { IUser } from "../model/UsersAuth.Model";
 import Roles, { IRole } from "../model/Role.Model";
 import mongoose from "mongoose";
+import userServices from "../services/User.Services";
 
 import joiValidation from "../libs/joiValidation";
 
@@ -41,17 +42,22 @@ class UserController {
         status: req.body.status,
         personalAbility: req.body.personalAbility,
       });
-
       user.password = await user.encryptPassword(user.password);
-
-      const newUser = await user.save();
-      res
-        .status(201)
-        .json({
-          success: true,
-          data: newUser,
-          message: "User created successfully",
-        });
+      let usernameFinal = userServices.proposeUsername(req.body.username);
+      usernameFinal
+        .then((username) => {
+          user.username = username;
+        })
+        .then(() => {
+          user.save();
+          res
+            .status(201)
+            .json({
+              success: true,
+              message: "user created",
+              user: user,
+            });
+        })
     } catch (e) {
       res.status(400).json({ success: false, message: e });
     }
