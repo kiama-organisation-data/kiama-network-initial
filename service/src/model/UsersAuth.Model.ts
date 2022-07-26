@@ -46,6 +46,9 @@ const usersShema = new shema(
       trim: true,
       lowercase: true,
       unique: true,
+      match: [/^[a-zA-Z0-9]+$/, "Username must contain only letters, numbers and special catactere"],
+      minlength: [3, "Username is too short"],
+      maxlength: [20, "Username is too long"],
     },
     avatar: {
       type: String,
@@ -104,13 +107,13 @@ usersShema.virtual("fullName").get(function (this: IUser) {
   return this.name.first + this.name.last;
 });
 
-
 usersShema.methods.encryptPassword = async (
   password: string
 ): Promise<string> => {
   const salt = await bcrypt.genSalt(10);
   return bcrypt.hash(password, salt);
 };
+
 usersShema.methods.validatePassword = async function (
   password: string
 ): Promise<Boolean> {
