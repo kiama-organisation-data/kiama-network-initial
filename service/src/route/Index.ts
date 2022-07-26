@@ -29,14 +29,12 @@ import SettingsRouter from "./Settings.Router";
 import StatisticsRouter from "./Statistics.Router";
 import TasksRouter from "./Tasks.Router";
 import VotesRouter from "./Votes.Router";
+import JobRouter from "./Job.Router";
 
 // category
 import NewsCatRouter from "./category/News.Router";
 import ChallengesCatRouter from "./category/Challenges.Router";
 import EventsCatRouter from "./category/Events.Router";
-
-
-
 
 const router: Router = Router();
 
@@ -51,17 +49,29 @@ function rootRouter() {
   router.use("/bug", validationToken.TokenValidation, BugsRouter);
   router.use("/challenge", validationToken.TokenValidation, ChallengesRouter);
   router.use("/event", validationToken.TokenValidation, EventsRouter);
-  router.use("/collaborator", validationToken.TokenValidation, CollaboratorsRouter);
+  router.use(
+    "/collaborator",
+    validationToken.TokenValidation,
+    CollaboratorsRouter
+  );
   router.use("/comment", validationToken.TokenValidation, CommentsRouter);
   router.use("/country", validationToken.TokenValidation, CountriesRouter);
   router.use("/favorite", validationToken.TokenValidation, FavoritesRouter);
   router.use("/friendreq", validationToken.TokenValidation, FriendReqsRouter);
   router.use("/history", validationToken.TokenValidation, HistorysRouter);
-  router.use("/notification", validationToken.TokenValidation, NotificationsRouter);
+  router.use(
+    "/notification",
+    validationToken.TokenValidation,
+    NotificationsRouter
+  );
   router.use("/language", validationToken.TokenValidation, LanguagesRouter);
   router.use("/medal", validationToken.TokenValidation, MedalsRouter);
   router.use("/news", validationToken.TokenValidation, NewsRouter);
-  router.use("/orientation", validationToken.TokenValidation, OrientationsRouter);
+  router.use(
+    "/orientation",
+    validationToken.TokenValidation,
+    OrientationsRouter
+  );
   router.use("/profile", validationToken.TokenValidation, ProfilesRouter);
   router.use("/project", validationToken.TokenValidation, ProjectsRouter);
   router.use("/report", validationToken.TokenValidation, ReportsRouter);
@@ -70,10 +80,15 @@ function rootRouter() {
   router.use("/statistic", validationToken.TokenValidation, StatisticsRouter);
   router.use("/task", validationToken.TokenValidation, TasksRouter);
   router.use("/vote", validationToken.TokenValidation, VotesRouter);
+  router.use("/job", validationToken.TokenValidation, JobRouter);
 
   // category
   router.use("/news/cat", validationToken.TokenValidation, NewsCatRouter);
-  router.use("/challenge/cat", validationToken.TokenValidation, ChallengesCatRouter);
+  router.use(
+    "/challenge/cat",
+    validationToken.TokenValidation,
+    ChallengesCatRouter
+  );
   router.use("/event/cat", validationToken.TokenValidation, EventsCatRouter);
 
   return router;
