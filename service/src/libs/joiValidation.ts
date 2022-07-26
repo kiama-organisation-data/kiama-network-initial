@@ -11,8 +11,11 @@ class JoiValidate {
   // signup verification
   signupValidation = (data: IUser) => {
     const usersShema = Joi.object({
-      name: Joi.string().required(),
-      username: Joi.string(),
+      name: Joi.object({
+        first: Joi.string().required(),
+        last: Joi.string().required(),
+      }).required(),
+      username: Joi.string().required(),
       avatar: Joi.string(),
       email: Joi.string(),
       password: Joi.string().min(6).required(),

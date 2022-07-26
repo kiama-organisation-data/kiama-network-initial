@@ -1,4 +1,5 @@
 import { Router } from "express";
+import ChannelsCommentsController from "../controller/Channels.Comments.Controller";
 import ChannelsController from "../controller/Channels.Controller";
 import { messageUploads, postsUploads } from "../libs/multerConfig";
 
@@ -60,6 +61,27 @@ class ChannelRouter {
       .route("/post/single/:postId")
       .get(ChannelsController.getPost)
       .delete(ChannelsController.deletePost);
+
+    // comments
+
+    this.router
+      .route("/comment")
+      .post(ChannelsCommentsController.createComment);
+
+    this.router
+      .route("/comment/:commentId")
+      .get(ChannelsCommentsController.getOneComment)
+      .delete(ChannelsCommentsController.deleteComment)
+      .patch(ChannelsCommentsController.editComment);
+
+    this.router
+      .route("/comment/reaction/:commentId")
+      .put(ChannelsCommentsController.addReaction)
+      .delete(ChannelsCommentsController.removeReaction);
+
+    this.router
+      .route("/comment/all/:postId")
+      .get(ChannelsCommentsController.getAllCommentsForAPost);
   }
 }
 

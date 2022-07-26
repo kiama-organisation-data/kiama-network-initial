@@ -3,8 +3,8 @@ import { Request, Response, NextFunction } from "express";
 class AppResponse {
   constructor() {}
 
-  success = (res: Response, data: any) => {
-    res.status(200).json({ success: "true", data });
+  success = (res: Response, data: any, count?: any) => {
+    res.status(200).json({ success: "true", json: data, count: count });
   };
 
   created = (res: Response, data: any) => {
