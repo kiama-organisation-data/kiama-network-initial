@@ -1,6 +1,6 @@
 import { Schema } from "mongoose";
 import Users from "../model/UsersAuth.Model";
-
+import * as cron from "node-cron";
 class ChannelServices {
   constructor() {}
 
@@ -18,6 +18,16 @@ class ChannelServices {
     }
     return success;
   }
+
+  weekly_task = cron.schedule(
+    "* * * * MON",
+    () => {
+      console.log("running");
+    },
+    {
+      scheduled: false,
+    }
+  );
 }
 
 export default new ChannelServices();

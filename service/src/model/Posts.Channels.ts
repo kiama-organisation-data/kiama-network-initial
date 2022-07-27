@@ -7,10 +7,11 @@ export interface IPchannel extends Document {
   video: object;
   image: object;
   creator: Schema.Types.ObjectId;
-  comments: Array<object>;
   views: number;
   reactions: string;
   category: string;
+  comments: Array<any>;
+  commentCount: number;
 }
 
 const channelPostSchema = new Schema({
@@ -62,8 +63,10 @@ const channelPostSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
   },
-  comments: {
-    type: Array,
+  comments: [{ type: Schema.Types.ObjectId, ref: "CommentChannel" }],
+  commentCount: {
+    type: Number,
+    default: 0,
   },
 });
 
