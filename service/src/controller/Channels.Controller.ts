@@ -8,6 +8,7 @@ import channelPostModel, { IPchannel } from "../model/Posts.Channels";
 import unique from "../libs/randomGen";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
+// remeber to update current line 240above to using pull and push
 class ChannelCntrl {
   constructor() {}
 
@@ -20,16 +21,11 @@ class ChannelCntrl {
       return AppResponse.fail(res, error?.message);
     }
 
-    const adminId = await Users.findById(user).select([
-      "username",
-      "_id",
-      "avatar",
-      "channels",
-    ]);
+    const adminId = await Users.findById(user).select(["_id", "channels"]);
     if (adminId === null) {
       return AppResponse.notFound(res, "user not found");
     }
-    let admins = [{ username: adminId?.username, userId: adminId?._id }];
+    let admins = [adminId?._id];
 
     const keys = await createApiKeys(admins);
     const channel: IChannel = await channelModel.create({
@@ -164,28 +160,21 @@ class ChannelCntrl {
       return AppResponse.notPermitted(res, "");
     }
 
-    //@ts-expect-error
-    const pId = channel?.coverImage.publicId;
-    if (pId) {
-      await deleteFromCloud(pId);
-    }
-
-    const coverImage = await uploadToCloud(file.path);
-
-    let channel = await channelModel
-      .findById(req.params.channelId)
-      .select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
-
-    if (channel !== null) {
-      channel.coverImage = {
-        url: coverImage.secure_url,
-        publicId: coverImage.public_id,
-      };
-    }
-    //@ts-expect-error
-    channel = await channel?.save();
-
     try {
+      const coverimage = await uploadToCloud(file.path);
+
+      let channel = await channelModel
+        .findByIdAndUpdate(
+          req.params.channelId,
+          {
+            coverImage: {
+              url: coverimage.secure_url,
+              publicId: coverimage.public_id,
+            },
+          },
+          { new: true }
+        )
+        .select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
       AppResponse.success(res, channel);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -219,20 +208,14 @@ class ChannelCntrl {
     }
 
     let channel = await channelModel.findById(channelId);
-    const newAdmin = await Users.findById(newAdminId)
-      .select(["username", "_id"])
-      .lean();
+    const newAdmin = await Users.findById(newAdminId).select(["_id"]).lean();
 
     if (!newAdmin) {
       return AppResponse.notFound(res, "user does not exist");
     }
-    const newAdminDetails = {
-      username: newAdmin.username,
-      userId: newAdmin._id,
-    };
     try {
       if (channel) {
-        channel.admins.push(newAdminDetails);
+        channel.admins.push(newAdmin._id);
         channel = await channel.save();
         AppResponse.success(res, channel);
       } else {
@@ -268,13 +251,13 @@ class ChannelCntrl {
       "size",
     ]);
 
-    if (user === null) {
+    if (!user) {
       return AppResponse.notFound(res, "user not found");
     }
 
     const newChannelRequest = channel.requests.filter((request) => {
       //@ts-expect-error
-      request.user._id !== user._id;
+      request !== user._id;
     });
     channel.requests = newChannelRequest;
     channel.followers.push(user._id);
@@ -302,19 +285,13 @@ class ChannelCntrl {
       return AppResponse.notFound(res, "channel does not exist");
     }
 
-    const user = await Users.findById(userId).select([
-      "-updatedAt",
-      "-password",
-      "-email",
-      "-role",
-      "-status",
-    ]);
+    const user = await Users.findById(userId).select(["_id"]);
 
     if (user === null) {
       return AppResponse.notFound(res, "user does not exist");
     }
 
-    channel.requests.push({ user });
+    channel.requests.push(userId);
     channel = await channel.save();
 
     try {
@@ -463,6 +440,60 @@ class ChannelCntrl {
     }
   };
 
+  getAdmins = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
+
+    try {
+      const channel = await channelModel
+        .findById(channelId)
+        .populate("admins")
+        .select(["admins"])
+        .lean();
+
+      if (!channel) return AppResponse.notFound(res);
+
+      AppResponse.success(res, channel);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  getRequest = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
+
+    try {
+      const requests = await channelModel
+        .findById(channelId)
+        .populate("requests", "name _id username avatar")
+        .select(["requests"])
+        .lean();
+
+      if (!requests) return AppResponse.notFound(res);
+
+      AppResponse.success(res, requests);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  getFollowers = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
+
+    try {
+      const followers = await channelModel
+        .findById(channelId)
+        .populate("followers", "name _id username avatar")
+        .select(["followers"])
+        .lean();
+
+      if (!followers) return AppResponse.notFound(res);
+
+      AppResponse.success(res, followers);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
   // =========================================================================
   // from here, channel post functionalities begin
   // =========================================================================
@@ -482,47 +513,50 @@ class ChannelCntrl {
       return AppResponse.notFound(res, "channel not found");
     }
 
-    const uniqueKey = unique();
-    const primary = {
-      channelId,
-      uniqueKey,
-      publicKey: channel.publicKey,
-      category: channel.category,
-      creator: user,
-    };
-    const Imagepost = {
-      ...primary,
-      image: {
-        description: req.body.description,
-        tags: req.body.tags,
-        publicId: "", // will be implemented with cloudinary
-        url: req.file?.path,
-      },
-    };
-
-    const Videopost = {
-      ...primary,
-      video: {
-        description: req.body.description,
-        tags: req.body.tags,
-        publicId: "", // will be implemented with cloudinary
-        url: req.file?.path,
-      },
-    };
-    let post: IPchannel | null | undefined;
-    if (fileType === "video") {
-      post = await channelPostModel.create(Videopost);
-    } else if (fileType === "image") {
-      post = await channelPostModel.create(Imagepost);
-    } else {
-      AppResponse.fail(res, "provide a valid fileType in the query");
-    }
-
-    if (!post) {
-      return AppResponse.fail(res, "failed creating a post");
-    }
-
     try {
+      //@ts-ignore
+      const upload = await uploadToCloud(req.file?.path);
+
+      const uniqueKey = unique();
+      const primary = {
+        channelId,
+        uniqueKey,
+        publicKey: channel.publicKey,
+        category: channel.category,
+        creator: user,
+      };
+      const Imagepost = {
+        ...primary,
+        image: {
+          description: req.body.description,
+          tags: req.body.tags,
+          publicId: upload.public_id,
+          url: upload.secure_url,
+        },
+      };
+
+      const Videopost = {
+        ...primary,
+        video: {
+          description: req.body.description,
+          tags: req.body.tags,
+          publicId: upload.public_id,
+          url: upload.secure_url,
+        },
+      };
+      let post: IPchannel | null | undefined;
+      if (fileType === "video") {
+        post = await channelPostModel.create(Videopost);
+      } else if (fileType === "image") {
+        post = await channelPostModel.create(Imagepost);
+      } else {
+        AppResponse.fail(res, "provide a valid fileType in the query");
+      }
+
+      if (!post) {
+        return AppResponse.fail(res, "failed creating a post");
+      }
+
       AppResponse.created(res, post);
     } catch (e) {
       AppResponse.fail(res, e);

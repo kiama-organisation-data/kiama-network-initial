@@ -45,6 +45,18 @@ class ChannelRouter {
       .get(ChannelsController.getAllPost);
 
     this.router
+      .route("/utils/admins/:channelId")
+      .get(ChannelsController.getAdmins);
+
+    this.router
+      .route("/utils/requests/:channelId")
+      .get(ChannelsController.getRequest);
+
+    this.router
+      .route("/utils/followers/:channelId")
+      .get(ChannelsController.getFollowers);
+
+    this.router
       .route("/utils/lock/:channelId")
       .put(ChannelsController.lockChannel);
 
