@@ -36,16 +36,9 @@ const channelSchema = new Schema(
       publicId: String,
       url: String,
     },
-    admins: {
-      type: Array,
-      required: true,
-    },
-    followers: {
-      type: Array,
-    },
-    requests: {
-      type: Array,
-    },
+    admins: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
     category: {
       type: String,
       default: "tech",
@@ -58,7 +51,6 @@ const channelSchema = new Schema(
     },
     email: {
       type: String,
-      unique: true,
       lowercase: true,
     },
     locked: {

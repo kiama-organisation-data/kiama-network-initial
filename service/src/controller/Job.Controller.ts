@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 import sortData from "../middleware/utils";
 import { IJobPortal, jobModel, jobPortalModel } from "../model/Job.Model";
+import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class JobCntrl {
@@ -113,10 +114,10 @@ class JobCntrl {
     //@ts-expect-error
     const { user } = req;
 
-    // @ts-expect-error
-    const upload = await uploadToCloud(req.file?.path);
-
     try {
+      // @ts-expect-error
+      const upload = await uploadToCloud(req.file?.path);
+
       const portal: IJobPortal = await jobPortalModel.create({
         ...req.body,
         admins: [user],
@@ -125,6 +126,12 @@ class JobCntrl {
           publicId: upload.public_id,
         },
       });
+
+      await Users.findByIdAndUpdate(
+        user,
+        { $push: { jobPortals: portal._id } },
+        { new: true }
+      );
 
       AppResponse.created(res, portal);
     } catch (e) {
@@ -222,6 +229,32 @@ class JobCntrl {
       await deleteFromCloud(portal.coverPhoto?.url);
 
       await jobPortalModel.findByIdAndDelete(portalId);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  addAdmin = async (req: Request, res: Response) => {
+    const { portalId } = req.params;
+    const { userId } = req.query;
+
+    try {
+      const portal = await jobPortalModel
+        .findByIdAndUpdate(
+          portalId,
+          { $push: { admins: userId } },
+          { new: true }
+        )
+        .select(["admins"]);
+
+      if (portal) {
+        await Users.findByIdAndUpdate(
+          userId,
+          { $push: { jobPortals: portal._id } },
+          { new: true }
+        );
+      }
+      AppResponse.success(res, portal);
     } catch (e) {
       AppResponse.fail(res, e);
     }

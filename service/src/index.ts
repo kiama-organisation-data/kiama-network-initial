@@ -9,6 +9,10 @@ const http = require("http").Server(server.app);
 const io = socket.init(http, {
   allowEIO3: true,
   transports: ["websocket", "polling"],
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST", "PUT"],
+  },
 });
 
 server.app.use((req: any, res: Response, next: NextFunction) => {
@@ -63,21 +67,33 @@ io.on("connection", (socket: any) => {
       }
     }
   );
+
   socket.on("read-message", (to: any) => {
-    socket.emit("message-read", to);
+    socket.to(to).emit("message-read");
   });
+
   socket.on("recording-audio", (username: string, to: any) => {
-    socket.emit("recording-audio", username, to);
+    socket.to(to).emit("recording-audio", username);
   });
+
   socket.on("reacted", (username: string, to: any) => {
-    socket.emit("reacted", username, to);
+    socket.to(to).emit("reacted", username);
   });
+
   socket.on("deleted-message", (username: string, to: any) => {
-    socket.emit("deleted-message", username, to);
+    socket.to(to).emit("deleted-message", username);
   });
-  socket.on("call", (from: any, to: any, location: Array<any>) => {
-    // the location param holds two or more values depending on if a me -to- you call or me -to- group call
-    // will emit to a function or method in the app that is responsibe for calls
+
+  socket.on("call-user", (from: any, to: any, signal: any, name: string) => {
+    socket.to(to).emit("call-user", { signal, name, from });
+  });
+
+  socket.on("answer-call", (to: any, signal: any) => {
+    socket.to(to).emit("call-accepted", signal);
+  });
+
+  socket.on("abort-call", (to: any, signal: any) => {
+    socket.to(to).emit("abort-call", signal);
   });
 });
 
