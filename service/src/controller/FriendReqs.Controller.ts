@@ -281,6 +281,31 @@ class FriendReqController {
             AppResponse.fail(res, err);
         });
     }
+
+    // =========================================================================
+    // UNBLOCK A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Unblock a friendreq
+    // @route   : PUT /api/v1/friendreq/unblock/:fromUserID
+    // @access  : Private
+    // @param   : id
+    unblockFriendReq(req: any, res: Response): void {
+        const fromUserID = req.params.fromUserID;
+        const toUserID = req.user;
+        // find and delete blocked friendreq
+        FriendReqs.findOneAndDelete({ status: 'blocked', toUserId: toUserID, fromUserId: fromUserID })
+            .then(friendreq => {
+                if (friendreq) {
+                    console.log(friendreq);
+                    AppResponse.success(res, "Friend request unblocked");
+                } else {
+                    AppResponse.fail(res, "Friend request already unblocked");
+                }
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
+
 }
 
 const friendreqsController = new FriendReqController()
