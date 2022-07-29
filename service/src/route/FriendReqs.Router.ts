@@ -26,6 +26,7 @@ class FriendReqsRouter {
             .patch(friendreqsController.update);
 
         this.router.route("/send/:toUserID").post(friendreqsController.sendFriendReq);
+        this.router.route("/accept/:fromUserID").post(friendreqsController.acceptFriendReq);
     }
 }
 

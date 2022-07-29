@@ -183,6 +183,45 @@ class FriendReqController {
         }
 
     }
+
+    // =========================================================================
+    // ACCEPT A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Accept a friendreq
+    // @route   : PUT /api/v1/friendreq/accept/:toUserID
+    // @access  : Private
+    // @param   : id
+    acceptFriendReq(req: any, res: Response): void {
+        const fromUserID = req.params.fromUserID;
+        const toUserID = req.user;
+        FriendReqs.findOne(
+            { status: "pending", toUserId: toUserID, fromUserId: fromUserID }
+        ).then(friendreq => {
+            if (friendreq?.status === "pending") {
+                FriendReqs.findOneAndUpdate(
+                    { status: 'pending', fromUserId: fromUserID, toUserId: toUserID },
+                    { status: 'accepted' },
+                    { new: true },
+                ).then((friendreq) => {
+                    Users.findByIdAndUpdate(fromUserID, { $push: { friends: toUserID } }).then((sender) => {
+                        Users.findByIdAndUpdate(toUserID, { $push: { friends: fromUserID } })
+                            .then((receiver) => {
+                                AppResponse.success(res, "Friend request accepted");
+                            })
+                            .catch((err) => {
+                                AppResponse.fail(res, err);
+                            });
+                    });
+                }).catch(err => {
+                    AppResponse.fail(res, err);
+                });
+            } else {
+                AppResponse.fail(res, "Friend request already accepted");
+            }
+        }).catch(err => {
+            AppResponse.fail(res, err);
+        });
+    }
 }
 
 const friendreqsController = new FriendReqController()
