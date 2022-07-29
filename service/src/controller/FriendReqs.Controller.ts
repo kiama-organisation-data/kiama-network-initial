@@ -141,9 +141,13 @@ class FriendReqController {
             AppResponse.fail(res, "You can't send friend request to yourself");
         } else {
             FriendReqs.findOne(
-                { status: "pending", toUserId: toUserID, fromUserId: fromUserID } ||
-                { status: "accepted", toUserId: toUserID, fromUserId: fromUserID } ||
-                { status: "blocked", toUserId: toUserID, fromUserId: fromUserID }
+                {
+                    $or: [
+                        { status: "pending", toUserId: toUserID, fromUserId: fromUserID },
+                        { status: "accepted", toUserId: toUserID, fromUserId: fromUserID },
+                        { status: "blocked", toUserId: toUserID, fromUserId: fromUserID },
+                    ]
+                }
             )
                 .then(friendreq => {
                     if (friendreq?.status === "pending") {
