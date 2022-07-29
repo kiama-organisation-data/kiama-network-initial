@@ -306,6 +306,24 @@ class FriendReqController {
             });
     }
 
+    // =========================================================================
+    // GET ALL FRIEND REQUESTS
+    // =========================================================================
+    // @desc    : Get all friendreqs
+    // @route   : GET /api/v1/friendreq/all
+    // @access  : Private
+    // @param   : id
+    getAllFriendReqs(req: any, res: Response): void {
+        const userID = req.user;
+        FriendReqs.find({ toUserId: userID })
+            .then(friendreqs => {
+                AppResponse.success(res, friendreqs);
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
+
+
 }
 
 const friendreqsController = new FriendReqController()
