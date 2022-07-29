@@ -258,6 +258,29 @@ class FriendReqController {
                 AppResponse.fail(res, err);
             });
     }
+
+
+    // =========================================================================
+    // BLOCK A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Block a friendreq
+    // @route   : PUT /api/v1/friendreq/block/:fromUserID
+    // @access  : Private
+    // @param   : id
+    blockFriendReq(req: any, res: Response): void {
+        const fromUserID = req.params.fromUserID;
+        const toUserID = req.user;
+        FriendReqs.findOneAndUpdate(
+            { status: 'pending', toUserId: toUserID, fromUserId: fromUserID },
+            { status: 'blocked' },
+            { new: true },
+        ).then((friendreq) => {
+            console.log(friendreq);
+            AppResponse.success(res, "Friend request blocked");
+        }).catch(err => {
+            AppResponse.fail(res, err);
+        });
+    }
 }
 
 const friendreqsController = new FriendReqController()
