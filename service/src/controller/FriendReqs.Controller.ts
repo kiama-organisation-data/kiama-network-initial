@@ -155,31 +155,41 @@ class FriendReqController {
                             if (friendreq?.status === "blocked") {
                                 AppResponse.fail(res, "You are blocked");
                             } else {
-                                const newFriend = new FriendReqs({
-                                    status: 'pending',
-                                    fromUserId: fromUserID,
-                                    toUserId: toUserID,
-                                })
-                                newFriend.save().then((sentFriend) => {
-                                    Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
-                                        .then((updatedUser) => {
-                                            Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
-                                                (updatedUser2) => {
-                                                    AppResponse.success(res, sentFriend);
-                                                },
-                                            );
-                                        })
-                                        .catch((err) => {
-                                            AppResponse.fail(res, err);
-                                        });
-                                });
+                                // verify if the user is already friends
+                                Users.findOne({ _id: toUserID })
+                                    .then(user => {
+                                        if (user?.friends?.includes(fromUserID)) {
+                                            AppResponse.fail(res, "You are already friends");
+                                        } else {
+                                            const newFriend = new FriendReqs({
+                                                status: 'pending',
+                                                fromUserId: fromUserID,
+                                                toUserId: toUserID,
+                                            })
+                                            newFriend.save().then((sentFriend) => {
+                                                Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
+                                                    .then((updatedUser) => {
+                                                        Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
+                                                            (updatedUser2) => {
+                                                                AppResponse.success(res, sentFriend);
+                                                            },
+                                                        );
+                                                    })
+                                                    .catch((err) => {
+                                                        AppResponse.fail(res, err);
+                                                    });
+                                            });
+                                        }
+                                    })
+                                    .catch((err) => {
+                                        AppResponse.fail(res, err);
+                                    })
                             }
                         }
                     }
                 }).catch(err => {
                     AppResponse.fail(res, err);
-                }
-                );
+                });
         }
 
     }
