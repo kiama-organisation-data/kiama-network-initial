@@ -27,6 +27,7 @@ class FriendReqsRouter {
 
         this.router.route("/send/:toUserID").post(friendreqsController.sendFriendReq);
         this.router.route("/accept/:fromUserID").post(friendreqsController.acceptFriendReq);
+        this.router.route("/decline/:fromUserID").post(friendreqsController.declineFriendReq);
     }
 }
 

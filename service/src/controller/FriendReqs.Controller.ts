@@ -232,6 +232,28 @@ class FriendReqController {
             AppResponse.fail(res, err);
         });
     }
+
+    // =========================================================================
+    // DECLINE A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Decline a friendreq
+    // @route   : PUT /api/v1/friendreq/decline/:fromUserID
+    // @access  : Private
+    // @param   : id
+    declineFriendReq(req: any, res: Response): void {
+        const fromUserID = req.params.fromUserID;
+        const toUserID = req.user;
+        FriendReqs.findOneAndDelete({ status: "pending", toUserId: toUserID, fromUserId: fromUserID })
+            .then(friendreq => {
+                if (friendreq) {
+                    AppResponse.success(res, friendreq);
+                } else {
+                    AppResponse.fail(res, "Friend request already declined");
+                }
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
 }
 
 const friendreqsController = new FriendReqController()
