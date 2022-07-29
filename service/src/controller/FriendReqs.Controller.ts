@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import FriendReqs, { IFriendReq } from '../model/FriendReqs.Model'
+import Users, { IUser } from '../model/UsersAuth.Model'
 import AppResponse from "../services/index";
 import sortData from "../middleware/utils";
 
@@ -123,6 +124,64 @@ class FriendReqController {
             .catch(err => {
                 AppResponse.fail(res, err);
             });
+    }
+
+
+    // =========================================================================
+    // SEND A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Send a friendreq
+    // @route   : POST /api/v1/friendreq/send/:toUserID
+    // @access  : Private
+    // @param   : id
+    sendFriendReq(req: any, res: Response): void {
+        const toUserID = req.params.toUserID;
+        const fromUserID = req.user;
+        if (req.user === toUserID) {
+            AppResponse.fail(res, "You can't send friend request to yourself");
+        } else {
+            FriendReqs.findOne(
+                { status: "pending", toUserId: toUserID, fromUserId: fromUserID } ||
+                { status: "accepted", toUserId: toUserID, fromUserId: fromUserID } ||
+                { status: "blocked", toUserId: toUserID, fromUserId: fromUserID }
+            )
+                .then(friendreq => {
+                    if (friendreq?.status === "pending") {
+                        AppResponse.fail(res, "Friend request already sent");
+                    } else {
+                        if (friendreq?.status === "accepted") {
+                            AppResponse.fail(res, "You are already friends");
+                        } else {
+                            if (friendreq?.status === "blocked") {
+                                AppResponse.fail(res, "You are blocked");
+                            } else {
+                                const newFriend = new FriendReqs({
+                                    status: 'pending',
+                                    fromUserId: fromUserID,
+                                    toUserId: toUserID,
+                                })
+                                newFriend.save().then((sentFriend) => {
+                                    Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
+                                        .then((updatedUser) => {
+                                            Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
+                                                (updatedUser2) => {
+                                                    AppResponse.success(res, sentFriend);
+                                                },
+                                            );
+                                        })
+                                        .catch((err) => {
+                                            AppResponse.fail(res, err);
+                                        });
+                                });
+                            }
+                        }
+                    }
+                }).catch(err => {
+                    AppResponse.fail(res, err);
+                }
+                );
+        }
+
     }
 }
 

@@ -24,6 +24,8 @@ class FriendReqsRouter {
             .delete(friendreqsController.deleteOne)
             .get(friendreqsController.getOne)
             .patch(friendreqsController.update);
+
+        this.router.route("/send/:toUserID").post(friendreqsController.sendFriendReq);
     }
 }
 
