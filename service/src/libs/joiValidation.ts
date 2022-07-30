@@ -1,5 +1,6 @@
 import Joi, { number, string } from "@hapi/joi";
 import { IChannel } from "../model/Channels.Model";
+import { IShop } from "../model/collections/Shop.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
@@ -111,6 +112,17 @@ class JoiValidate {
       device: Joi.string(),
     });
     return gettShema.validate(data);
+  };
+
+  shopCreationValidation = (data: IShop) => {
+    const postSchema = Joi.object({
+      name: Joi.string(),
+      email: Joi.string(),
+      mobile: Joi.string(),
+      country: Joi.string(),
+      city: Joi.string(),
+    });
+    return postSchema.validate(data);
   };
 }
 

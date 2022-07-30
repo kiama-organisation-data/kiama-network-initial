@@ -29,8 +29,8 @@ class RedisConfig {
     const redisClient = await this.connect();
     try {
       return await redisClient.set(key, value, expiresIn);
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 
@@ -39,8 +39,8 @@ class RedisConfig {
     try {
       await redisClient.del(key);
       return true;
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 
@@ -49,10 +49,12 @@ class RedisConfig {
     try {
       const data = await redisClient.get(key);
       return data;
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 }
 
-export default new RedisConfig();
+const redisConfig = new RedisConfig();
+
+export default redisConfig;
