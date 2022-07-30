@@ -176,9 +176,9 @@ class FriendReqController {
                                                             toUserId: toUserID,
                                                         })
                                                         newFriend.save().then((sentFriend) => {
-                                                            Users.findByIdAndUpdate(toUserID, { $push: { friendRequestSent: sentFriend } })
+                                                            Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
                                                                 .then((updatedUser) => {
-                                                                    Users.findByIdAndUpdate(fromUserID, { $push: { friendRequestReceived: sentFriend } }).then(
+                                                                    Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
                                                                         (updatedUser2) => {
                                                                             AppResponse.success(res, sentFriend);
                                                                         },
@@ -314,15 +314,32 @@ class FriendReqController {
     }
 
     // =========================================================================
-    // GET ALL FRIEND REQUESTS
+    // GET ALL FRIEND REQUESTS RECEIVED
     // =========================================================================
-    // @desc    : Get all friendreqs
-    // @route   : GET /api/v1/friendreq/all
+    // @desc    : Get all friendreqs received
+    // @route   : GET /api/v1/friendreq/receive/friendreqs
     // @access  : Private
     // @param   : id
-    getAllFriendReqs(req: any, res: Response): void {
+    getAllFriendRec(req: any, res: Response): void {
         const userID = req.user;
         FriendReqs.find({ toUserId: userID })
+            .then(friendreqs => {
+                AppResponse.success(res, friendreqs);
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
+
+    // =========================================================================
+    // GET ALL FRIEND REQUESTS SENT
+    // =========================================================================
+    // @desc    : Get all friendreqs sent
+    // @route   : GET /api/v1/friendreq/send/friendreqs
+    // @access  : Private
+    // @param   : id
+    getAllFriendSent(req: any, res: Response): void {
+        const userID = req.user;
+        FriendReqs.find({ fromUserId: userID })
             .then(friendreqs => {
                 AppResponse.success(res, friendreqs);
             }).catch(err => {
