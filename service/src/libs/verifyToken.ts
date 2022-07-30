@@ -9,8 +9,8 @@ export interface IPayload {
 }
 
 class ValidationToken {
-  constructor() { }
-  TokenValidation = (req: Request, res: Response, next: NextFunction) => {
+  constructor() {}
+  TokenValidation = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.header("Authorization");
       const bearer: any = token?.split(" ");
@@ -26,9 +26,14 @@ class ValidationToken {
         process.env["SECRET_TOKEN"] || "defaultToken"
       ) as IPayload;
 
+      const user = await Users.findById(payload._id).select([
+        "-password",
+        "-personalRate",
+      ]);
       //@ts-expect-error
       req.user = payload._id;
-
+      //@ts-expect-error
+      req.details = user;
 
       next();
     } catch (e) {
