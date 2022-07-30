@@ -33,6 +33,7 @@ class FriendReqsRouter {
         this.router.route("/receive/friendreq").get(friendreqsController.getAllFriendRec); // to check because she don't work with simple get
         this.router.route("/sent/friendreq").get(friendreqsController.getAllFriendSent); // to check because she don't work with simple get
         this.router.route("/friend/:userID").get(friendreqsController.getAllFriends);
+        this.router.route("/cancel/:fromUserID").post(friendreqsController.cancelFriendReq);
     }
 }
 

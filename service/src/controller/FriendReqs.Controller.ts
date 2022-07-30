@@ -362,6 +362,29 @@ class FriendReqController {
             });
     }
 
+    // =========================================================================
+    // CANCEL A FRIEND REQUEST
+    // =========================================================================
+    // @desc    : Cancel a friendreq
+    // @route   : PUT /api/v1/friendreq/cancel/:fromUserID
+    // @access  : Private
+    // @param   : id
+    cancelFriendReq(req: any, res: Response): void {
+        const toUserID = req.params.fromUserID;
+        const fromUserID = req.user;
+        FriendReqs.findOneAndDelete({ status: "pending", toUserId: toUserID, fromUserId: fromUserID })
+            .then(friendreq => {
+                if (friendreq) {
+                    // delete friendRequests array into the User model when id is deleted 
+                    AppResponse.success(res, friendreq);
+                } else {
+                    AppResponse.fail(res, "Friend request already cancelled");
+                }
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            }
+            );
+    }
 
 
 }
