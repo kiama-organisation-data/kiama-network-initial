@@ -24,6 +24,16 @@ class FriendReqsRouter {
             .delete(friendreqsController.deleteOne)
             .get(friendreqsController.getOne)
             .patch(friendreqsController.update);
+
+        this.router.route("/send/:toUserID").post(friendreqsController.sendFriendReq);
+        this.router.route("/accept/:fromUserID").post(friendreqsController.acceptFriendReq);
+        this.router.route("/decline/:fromUserID").post(friendreqsController.declineFriendReq);
+        this.router.route("/block/:fromUserID").post(friendreqsController.blockFriendReq);
+        this.router.route("/unblock/:fromUserID").post(friendreqsController.unblockFriendReq);
+        this.router.route("/receive/friendreq").get(friendreqsController.getAllFriendRec); // to check because she don't work with simple get
+        this.router.route("/sent/friendreq").get(friendreqsController.getAllFriendSent); // to check because she don't work with simple get
+        this.router.route("/friend/:userID").get(friendreqsController.getAllFriends);
+        this.router.route("/cancel/:fromUserID").post(friendreqsController.cancelFriendReq);
     }
 }
 

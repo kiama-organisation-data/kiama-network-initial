@@ -21,7 +21,7 @@ const friendreqsShema = new shema({
     },
     status: {
         type: String,
-        enum: ["pending", "accepted", "rejected"],
+        enum: ["pending", "accepted", "declined", "blocked",],
         required: true
     },
 }, { _id: true, timestamps: true })
