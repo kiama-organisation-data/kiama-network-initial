@@ -20,7 +20,8 @@ class JobRoute {
       .route("/portal/:portalId")
       .get(JobController.getAJobPortal)
       .patch(messageUploads, JobController.updatePortalCoverPhoto)
-      .delete(JobController.deletePortal);
+      .delete(JobController.deletePortal)
+      .put(JobController.addAdmin);
     // portal
     this.router
       .route("/")

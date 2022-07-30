@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 import { array } from "@hapi/joi";
 
@@ -48,7 +48,10 @@ const usersShema = new shema(
       trim: true,
       lowercase: true,
       unique: true,
-      match: [/^[a-zA-Z0-9]+$/, "Username must contain only letters, numbers and special catactere"],
+      match: [
+        /^[a-zA-Z0-9]+$/,
+        "Username must contain only letters, numbers and special catactere",
+      ],
       minlength: [3, "Username is too short"],
       maxlength: [20, "Username is too long"],
     },
@@ -86,15 +89,9 @@ const usersShema = new shema(
     },
     gender: {
       type: String,
-      enum: ['female', 'male', 'custom', 'prefer not to say'] // To check
+      enum: ["female", "male", "custom", "prefer not to say"], // To check
     },
     groups: {
-      type: Array,
-    },
-    pages: {
-      type: Array,
-    },
-    channels: {
       type: Array,
     },
     friends: [
@@ -103,10 +100,13 @@ const usersShema = new shema(
         ref: 'User'
       }
     ],
+    pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
+    channels: [{ type: Schema.Types.ObjectId, ref: "Channel" }],
+    jobPortals: [{ type: Schema.Types.ObjectId, ref: "Jobportal" }],
   },
   {
     toJSON: { virtuals: true },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   },
   { _id: true, timestamps: true }
 );

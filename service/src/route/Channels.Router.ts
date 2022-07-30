@@ -35,14 +35,23 @@ class ChannelRouter {
     this.router
       .route("/followers/:channelId")
       .put(ChannelsController.addFollowers)
-      .post(ChannelsController.requestToBeFollower)
       .delete(ChannelsController.unFollow);
 
     this.router
-      .route("/post/:channelId")
-      .post(messageUploads, ChannelsController.createPost)
-      .put(ChannelsController.editPost)
-      .get(ChannelsController.getAllPost);
+      .route("/requests/:channelId")
+      .put(ChannelsController.requestToBeFollower);
+
+    this.router
+      .route("/utils/admins/:channelId")
+      .get(ChannelsController.getAdmins);
+
+    this.router
+      .route("/utils/requests/:channelId")
+      .get(ChannelsController.getRequest);
+
+    this.router
+      .route("/utils/followers/:channelId")
+      .get(ChannelsController.getFollowers);
 
     this.router
       .route("/utils/lock/:channelId")
@@ -56,6 +65,12 @@ class ChannelRouter {
       .route("/utils/report/:channelId")
       .put(ChannelsController.sendReport)
       .delete(ChannelsController.deleteReport);
+
+    this.router
+      .route("/post/:channelId")
+      .post(messageUploads, ChannelsController.createPost)
+      .put(ChannelsController.editPost)
+      .get(ChannelsController.getAllPost);
 
     this.router
       .route("/post/single/:postId")

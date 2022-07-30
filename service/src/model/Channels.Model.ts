@@ -36,16 +36,9 @@ const channelSchema = new Schema(
       publicId: String,
       url: String,
     },
-    admins: {
-      type: Array,
-      required: true,
-    },
-    followers: {
-      type: Array,
-    },
-    requests: {
-      type: Array,
-    },
+    admins: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    followers: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    requests: [{ type: Schema.Types.ObjectId, ref: "User" }],
     category: {
       type: String,
       default: "tech",
@@ -58,7 +51,6 @@ const channelSchema = new Schema(
     },
     email: {
       type: String,
-      unique: true,
       lowercase: true,
     },
     locked: {
@@ -82,9 +74,9 @@ const channelSchema = new Schema(
 );
 
 export const createApiKeys = async function (param: any): Promise<object> {
-  const username = param[0].username;
+  const username = param.username;
   const publicKey = await apiCrypto.hashParam(username);
-  const userId = param[0].userId;
+  const userId = param._id;
   const privateKey = await apiCrypto.hashParamJwt(username, userId);
   const secretKey = publicKey.concat(privateKey);
   const data = { publicKey, privateKey, secretKey };

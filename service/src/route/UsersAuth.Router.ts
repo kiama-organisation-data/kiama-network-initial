@@ -5,6 +5,7 @@ import userController from "../controller/User.Controller";
 import validationToken from "../libs/verifyToken";
 
 import multerMiddleware from "../middleware/fileUpload";
+import UserUtilityController from "../controller/UserUtility.Controller";
 
 class usersRouter {
   router: Router;
@@ -28,8 +29,27 @@ class usersRouter {
     this.router.post("/update-password/:id", userAuthController.UpdatePassword);
 
     // Route for user
+    this.router.get(
+      "/portal",
+      validationToken.TokenValidation,
+      UserUtilityController.getAllUserJobPortals
+    );
+    this.router.get(
+      "/channel",
+      validationToken.TokenValidation,
+      UserUtilityController.getAllUserChannels
+    );
+    this.router.get(
+      "/page",
+      validationToken.TokenValidation,
+      UserUtilityController.getAllUserPages
+    );
     this.router.get("/:id", userController.GetUser);
-    this.router.get("/", validationToken.TokenValidation, userController.GetAllUsers);
+    this.router.get(
+      "/",
+      validationToken.TokenValidation,
+      userController.GetAllUsers
+    );
     this.router.put("/:id", userController.UpdateUser);
     this.router.put("/:id/inactive", userController.InactiveUser);
     this.router.delete("/:id", userController.DeleteUser);

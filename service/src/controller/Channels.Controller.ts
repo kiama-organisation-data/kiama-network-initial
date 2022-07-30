@@ -8,41 +8,33 @@ import channelPostModel, { IPchannel } from "../model/Posts.Channels";
 import unique from "../libs/randomGen";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
+// remeber to update current line 240above to using pull and push
 class ChannelCntrl {
   constructor() {}
 
   create = async (req: Request, res: Response) => {
     //@ts-ignore
-    const { body, user } = req;
+    const { body, user, details } = req;
     const { error } = joiValidation.channelsValidation(body);
 
     if (error) {
       return AppResponse.fail(res, error?.message);
     }
-
-    const adminId = await Users.findById(user).select([
-      "username",
-      "_id",
-      "avatar",
-      "channels",
-    ]);
-    if (adminId === null) {
-      return AppResponse.notFound(res, "user not found");
-    }
-    let admins = [{ username: adminId?.username, userId: adminId?._id }];
-
-    const keys = await createApiKeys(admins);
+    const keys = await createApiKeys(details);
     const channel: IChannel = await channelModel.create({
       ...body,
       ...keys,
-      admins,
+      admins: [user],
       stars: 1,
       size: 1,
     });
-
-    adminId?.channels.push(channel._id);
-    await adminId.save();
     try {
+      await Users.findByIdAndUpdate(
+        user,
+        { $push: { channels: channel._id } },
+        { new: true }
+      ).select(["_id", "channels"]);
+
       AppResponse.created(res, channel);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -50,17 +42,18 @@ class ChannelCntrl {
   };
 
   getAll = async (req: Request, res: Response) => {
-    const channels = await channelModel
-      .find()
-      .select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
-      .sort({ category: -1 })
-      .lean();
-
-    if (!channels) {
-      return AppResponse.fail(res, "no channels yet");
-    }
-
+    // remember to set-up for query
     try {
+      const channels = await channelModel
+        .find()
+        .select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
+        .sort({ createdAt: -1 })
+        .lean();
+
+      if (!channels) {
+        return AppResponse.fail(res, "no channels yet");
+      }
+
       AppResponse.success(res, channels);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -69,16 +62,16 @@ class ChannelCntrl {
 
   getOne = async (req: Request, res: Response) => {
     const { channelId } = req.params;
-    const channels = await channelModel
-      .findOne({ _id: channelId })
-      .select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
-      .lean();
-
-    if (channels == null) {
-      return AppResponse.notFound(res, "not found");
-    }
-
     try {
+      const channels = await channelModel
+        .findOne({ _id: channelId })
+        .select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
+        .lean();
+
+      if (channels == null) {
+        return AppResponse.notFound(res, "not found");
+      }
+
       AppResponse.success(res, channels);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -122,9 +115,8 @@ class ChannelCntrl {
   };
 
   edit = async (req: Request, res: Response) => {
-    const { channelId } = req.params;
-    const { adminId } = req.query;
     const { body } = req;
+    const { channelId } = req.params;
 
     const { error } = joiValidation.channelsEditValidation(body);
 
@@ -132,60 +124,40 @@ class ChannelCntrl {
       AppResponse.fail(res, error.message);
     }
 
-    let next = false;
-
-    const isAdmin = await ChannelServices.isAdmin(adminId);
-    if (isAdmin) {
-      next = true;
-    }
-    if (next) {
+    try {
       const channel = await channelModel
-        .findByIdAndUpdate(channelId, body)
+        .findByIdAndUpdate(channelId, body, { new: true })
         .select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
         .lean();
-      try {
-        AppResponse.success(res, channel);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+
+      AppResponse.success(res, channel);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   uploadCoverPhoto = async (req: Request, res: Response) => {
     const { file } = req;
-    const { adminId } = req.query;
 
     if (!file) {
       return AppResponse.fail(res, "provide a valid image");
     }
 
-    const isAdmin = await ChannelServices.isAdmin(adminId);
-    if (!isAdmin) {
-      return AppResponse.notPermitted(res, "");
-    }
-
-    //@ts-expect-error
-    const pId = channel?.coverImage.publicId;
-    if (pId) {
-      await deleteFromCloud(pId);
-    }
-
-    const coverImage = await uploadToCloud(file.path);
-
-    let channel = await channelModel
-      .findById(req.params.channelId)
-      .select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
-
-    if (channel !== null) {
-      channel.coverImage = {
-        url: coverImage.secure_url,
-        publicId: coverImage.public_id,
-      };
-    }
-    //@ts-expect-error
-    channel = await channel?.save();
-
     try {
+      const coverimage = await uploadToCloud(file.path);
+
+      let channel = await channelModel
+        .findByIdAndUpdate(
+          req.params.channelId,
+          {
+            coverImage: {
+              url: coverimage.secure_url,
+              publicId: coverimage.public_id,
+            },
+          },
+          { new: true }
+        )
+        .select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
       AppResponse.success(res, channel);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -210,30 +182,22 @@ class ChannelCntrl {
   };
 
   addAdmin = async (req: Request, res: Response) => {
-    const { adminId, newAdminId } = req.query;
-    const isAdmin = await ChannelServices.isAdmin(adminId);
+    const { newAdminId } = req.query;
     const { channelId } = req.params;
 
-    if (!isAdmin) {
-      return AppResponse.notPermitted(res, "");
-    }
-
-    let channel = await channelModel.findById(channelId);
-    const newAdmin = await Users.findById(newAdminId)
-      .select(["username", "_id"])
-      .lean();
-
-    if (!newAdmin) {
-      return AppResponse.notFound(res, "user does not exist");
-    }
-    const newAdminDetails = {
-      username: newAdmin.username,
-      userId: newAdmin._id,
-    };
     try {
+      let channel = await channelModel.findByIdAndUpdate(
+        channelId,
+        { $push: { admins: newAdminId } },
+        { new: true }
+      );
+      await Users.findByIdAndUpdate(
+        newAdminId,
+        { $push: { channels: channelId } },
+        { new: true }
+      ).lean();
+
       if (channel) {
-        channel.admins.push(newAdminDetails);
-        channel = await channel.save();
         AppResponse.success(res, channel);
       } else {
         AppResponse.notFound(res, "channel not found");
@@ -244,80 +208,44 @@ class ChannelCntrl {
   };
 
   addFollowers = async (req: Request, res: Response) => {
-    const { adminId, followerId } = req.query;
+    const { followerId } = req.query;
     const { channelId } = req.params;
-    const isAdmin = await ChannelServices.isAdmin(adminId);
-
-    if (!isAdmin) {
-      return AppResponse.notPermitted(res, "");
-    }
-
-    let channel = await channelModel
-      .findById(channelId)
-      .select(["followers", "requests"]);
-
-    if (!channel) {
-      return AppResponse.notFound(res, "channel does not exist");
-    }
-
-    let user = await Users.findById(followerId).select([
-      "channels",
-      "pages",
-      "groups",
-      "_id",
-      "size",
-    ]);
-
-    if (user === null) {
-      return AppResponse.notFound(res, "user not found");
-    }
-
-    const newChannelRequest = channel.requests.filter((request) => {
-      //@ts-expect-error
-      request.user._id !== user._id;
-    });
-    channel.requests = newChannelRequest;
-    channel.followers.push(user._id);
-    channel.size = channel.size + 1;
-    user.channels.push(channel._id);
-    channel = await channel.save();
-    user = await user.save();
 
     try {
-      AppResponse.success(res, { channel });
+      const channel = await channelModel.findByIdAndUpdate(
+        channelId,
+        {
+          $pull: { requests: followerId },
+          $push: { followers: followerId },
+          $inc: { size: 1 },
+        },
+        { new: true }
+      );
+      await Users.findByIdAndUpdate(
+        followerId,
+        { $push: { channels: channelId } },
+        { new: true }
+      );
+
+      AppResponse.success(res, channel);
     } catch (e) {
       AppResponse.fail(res, e);
     }
   };
 
   requestToBeFollower = async (req: Request, res: Response) => {
+    //@ts-expect-error
+    const { user } = req;
     const { channelId } = req.params;
-    const { userId } = req.query;
-
-    let channel = await channelModel
-      .findById(channelId)
-      .select(["followers", "requests"]);
-
-    if (channel === null) {
-      return AppResponse.notFound(res, "channel does not exist");
-    }
-
-    const user = await Users.findById(userId).select([
-      "-updatedAt",
-      "-password",
-      "-email",
-      "-role",
-      "-status",
-    ]);
-
-    if (user === null) {
-      return AppResponse.notFound(res, "user does not exist");
-    }
-
-    channel.requests.push({ user });
-    channel = await channel.save();
-
     try {
+      await channelModel
+        .findByIdAndUpdate(
+          channelId,
+          { $push: { requests: user } },
+          { new: true }
+        )
+        .select(["followers", "requests"]);
+
       AppResponse.success(res, "your request was successful");
     } catch (e) {
       AppResponse.fail(res, e);
@@ -325,88 +253,74 @@ class ChannelCntrl {
   };
 
   unFollow = async (req: Request, res: Response) => {
+    //@ts-ignore
+    const { user } = req;
     const { channelId } = req.params;
-    const { followerId } = req.query;
 
-    let channel = await channelModel
-      .findById(channelId)
-      .select(["followers", "size"]);
-    const newFollowers = channel?.followers.filter(
-      (follower) => follower !== followerId
-    );
-    if (newFollowers === undefined) {
-      AppResponse.notFound(res, "user not a follower");
-    } else {
-      let userChannels = await Users.findById(followerId).select(["channels"]);
-      const newChannels = userChannels?.channels.filter(
-        (channel) => channel._id !== channelId
+    try {
+      await channelModel.findByIdAndUpdate(
+        channelId,
+        { $pull: { followers: user }, $inc: { size: -1 } },
+        { new: true }
       );
-      //@ts-expect-error
-      userChannels?.channels = newChannels;
-      //@ts-expect-error
-      channel?.followers = newFollowers;
-      //@ts-expect-error
-      channel.size = channel.size - 1;
-      //@ts-expect-error
-      channel = await channel?.save();
-      //@ts-expect-error
-      userChannels = await userChannels?.save();
 
-      try {
-        AppResponse.success(res, channel);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+      await Users.findByIdAndUpdate(
+        user,
+        { $pull: { channels: channelId } },
+        { new: true }
+      );
+
+      AppResponse.success(res, "user successfully unfollowed");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   // remember to make scheduling of lock and unlock
   lockChannel = async (req: Request, res: Response) => {
-    const channel = await channelModel.findById(req.params.channelId);
     //@ts-expect-error
     const { user } = req;
-    const creator = channel?.admins[0];
-
-    //@ts-expect-error
-    if (creator?.userId?.toString() !== user.toString()) {
-      return AppResponse.notPermitted(
-        res,
-        "only channel creator can lock group"
-      );
-    }
-    const result = channel?.activateLock(req.query.period);
-
     try {
+      const channel = await channelModel.findById(req.params.channelId);
+      const creator = channel?.admins[0];
+
+      if (creator?.toString() !== user.toString()) {
+        return AppResponse.notPermitted(
+          res,
+          "only channel creator can lock group"
+        );
+      }
+      const result = channel?.activateLock(req.query.period);
+
       if (!result) {
         return AppResponse.fail(res, "error");
       }
-      AppResponse.success(res, channel);
+      AppResponse.success(res, "lock activated");
     } catch (e) {
       AppResponse.fail(res, e);
     }
   };
 
   deActivateChannel = async (req: Request, res: Response) => {
-    const channel = await channelModel.findById(req.params.channelId);
     //@ts-expect-error
     const { user } = req;
-    const creator = channel?.admins[0];
-
-    //@ts-expect-error
-    if (creator?.userId.toString() !== user.toString()) {
-      return AppResponse.notPermitted(
-        res,
-        "only channel creator can unlock group"
-      );
-    }
-
-    const result = channel?.deActivateLock();
-
     try {
+      const channel = await channelModel.findById(req.params.channelId);
+      const creator = channel?.admins[0];
+
+      if (creator?.toString() !== user.toString()) {
+        return AppResponse.notPermitted(
+          res,
+          "only channel creator can unlock group"
+        );
+      }
+
+      const result = channel?.deActivateLock();
+
       if (!result) {
         return AppResponse.fail(res, "error");
       }
-      AppResponse.success(res, channel);
+      AppResponse.success(res, "lock de-activated");
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -416,48 +330,64 @@ class ChannelCntrl {
     const { channelId } = req.params;
     //@ts-expect-error
     const { user } = req;
-    const { userId, username } = req.query;
+    // remeber to deal with report model
+  };
 
-    const reportObject = {
-      reporter: user,
-      reportedId: userId,
-      reportedName: username,
-      reason: req.body.reason,
-      id: unique(),
-    };
+  deleteReport = async (req: Request, res: Response) => {
+    const { reportId } = req.query;
+    const { channelId } = req.params;
+    // remeber to deal with report model
+  };
 
-    let channel = await channelModel.findById(channelId).select(["reports"]);
-    channel?.reports.push(reportObject);
-    await channel?.save();
+  getAdmins = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
 
     try {
+      const channel = await channelModel
+        .findById(channelId)
+        .populate("admins", "name _id username ")
+        .select(["admins"])
+        .lean();
+
+      if (!channel) return AppResponse.notFound(res);
+
       AppResponse.success(res, channel);
     } catch (e) {
       AppResponse.fail(res, e);
     }
   };
 
-  deleteReport = async (req: Request, res: Response) => {
-    const { reportId } = req.query;
+  getRequest = async (req: Request, res: Response) => {
     const { channelId } = req.params;
 
-    let channel = await channelModel.findById(channelId).select(["reports"]);
+    try {
+      const requests = await channelModel
+        .findById(channelId)
+        .populate("requests", "name _id username avatar")
+        .select(["requests"])
+        .lean();
 
-    if (channel === null) {
-      return AppResponse.fail(res, "not found");
+      if (!requests) return AppResponse.notFound(res);
+
+      AppResponse.success(res, requests);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
+  };
+
+  getFollowers = async (req: Request, res: Response) => {
+    const { channelId } = req.params;
 
     try {
-      const newReports = channel.reports.filter(
-        //@ts-expect-error
-        (report) => report.id !== reportId
-      );
+      const followers = await channelModel
+        .findById(channelId)
+        .populate("followers", "name _id username avatar")
+        .select(["followers"])
+        .lean();
 
-      channel.reports = newReports;
+      if (!followers) return AppResponse.notFound(res);
 
-      channel = await channel.save();
-
-      AppResponse.success(res, channel);
+      AppResponse.success(res, followers);
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -469,60 +399,63 @@ class ChannelCntrl {
 
   createPost = async (req: Request, res: Response) => {
     const { channelId } = req.params;
-    const { fileType } = req.query;
+    const { fileType } = req.body;
     //@ts-expect-error
     const { user } = req;
 
-    const channel = await channelModel
-      .findById(channelId)
-      .select(["publicKey", "category"])
-      .lean();
-
-    if (channel == null) {
-      return AppResponse.notFound(res, "channel not found");
-    }
-
-    const uniqueKey = unique();
-    const primary = {
-      channelId,
-      uniqueKey,
-      publicKey: channel.publicKey,
-      category: channel.category,
-      creator: user,
-    };
-    const Imagepost = {
-      ...primary,
-      image: {
-        description: req.body.description,
-        tags: req.body.tags,
-        publicId: "", // will be implemented with cloudinary
-        url: req.file?.path,
-      },
-    };
-
-    const Videopost = {
-      ...primary,
-      video: {
-        description: req.body.description,
-        tags: req.body.tags,
-        publicId: "", // will be implemented with cloudinary
-        url: req.file?.path,
-      },
-    };
-    let post: IPchannel | null | undefined;
-    if (fileType === "video") {
-      post = await channelPostModel.create(Videopost);
-    } else if (fileType === "image") {
-      post = await channelPostModel.create(Imagepost);
-    } else {
-      AppResponse.fail(res, "provide a valid fileType in the query");
-    }
-
-    if (!post) {
-      return AppResponse.fail(res, "failed creating a post");
-    }
-
     try {
+      const channel = await channelModel
+        .findById(channelId)
+        .select(["publicKey", "category"])
+        .lean();
+
+      if (channel == null) {
+        return AppResponse.notFound(res, "channel not found");
+      }
+
+      //@ts-ignore
+      const upload = await uploadToCloud(req.file?.path);
+
+      const uniqueKey = unique();
+      const primary = {
+        channelId,
+        uniqueKey,
+        publicKey: channel.publicKey,
+        category: channel.category,
+        creator: user,
+      };
+      const Imagepost = {
+        ...primary,
+        image: {
+          description: req.body.description,
+          tags: req.body.tags,
+          publicId: upload.public_id,
+          url: upload.secure_url,
+        },
+      };
+
+      const Videopost = {
+        ...primary,
+        video: {
+          description: req.body.description,
+          tags: req.body.tags,
+          publicId: upload.public_id,
+          url: upload.secure_url,
+        },
+      };
+      let post: IPchannel | null | undefined;
+      if (fileType === "video") {
+        post = await channelPostModel.create(Videopost);
+      } else if (fileType === "image") {
+        post = await channelPostModel.create(Imagepost);
+      } else {
+        AppResponse.fail(res, "provide a valid fileType in the body");
+      }
+
+      if (!post) {
+        return AppResponse.fail(res, "failed creating a post");
+      }
+
       AppResponse.created(res, post);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -531,7 +464,7 @@ class ChannelCntrl {
 
   editPost = async (req: Request, res: Response) => {
     const { channelId } = req.params;
-    const { fileType } = req.query;
+    const { fileType } = req.body;
 
     const { error } = joiValidation.channelsCreatePostValidation(req.body);
 
@@ -540,21 +473,20 @@ class ChannelCntrl {
     }
 
     let description: string = req.body.description;
-
-    let post: IPchannel | null | undefined = await channelPostModel
-      .findById(channelId)
-      .select(["image", "video"]);
-
-    if (fileType === "video") {
-      //@ts-expect-error
-      post?.video.description = description;
-    } else if (fileType === "image") {
-      //@ts-expect-error
-      post?.image.description = description;
-    }
-
-    post = await post?.save();
     try {
+      let post: IPchannel | null | undefined = await channelPostModel
+        .findById(channelId)
+        .select(["image", "video"]);
+
+      if (fileType === "video") {
+        //@ts-expect-error
+        post?.video.description = description;
+      } else if (fileType === "image") {
+        //@ts-expect-error
+        post?.image.description = description;
+      }
+
+      post = await post?.save();
       AppResponse.success(res, post);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -563,15 +495,38 @@ class ChannelCntrl {
 
   getAllPost = async (req: Request, res: Response) => {
     const { channelId } = req.params;
+    const { error } = joiValidation.channelQueryValidation(req.query);
 
-    const posts = await channelPostModel.find({ channelId }).lean();
+    if (error) return AppResponse.fail(res, error);
 
-    if (!posts) {
-      return AppResponse.notFound(res, "not found");
+    const { page, sortBy, device } = req.query;
+    let sort: object;
+    let totalItems: number;
+    const currentPage = page || 1;
+    const perPage = device === "mobile" ? 15 : 20;
+
+    if (sortBy === "latest" || "") {
+      sort = { createdAt: -1 };
+    } else if (sortBy === "oldest") {
+      sort = { createdAt: 1 };
     }
 
     try {
-      AppResponse.success(res, posts);
+      const count = await channelPostModel.find().countDocuments();
+      const posts = await channelPostModel
+        .find({ channelId })
+        .skip((+currentPage - 1) * perPage)
+        .limit(perPage)
+        //@ts-ignore
+        .sort(sort)
+        .lean();
+
+      totalItems = count;
+      if (count === 0) {
+        return AppResponse.notFound(res, "no posts yet");
+      }
+
+      AppResponse.success(res, { totalItems, posts });
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -580,13 +535,13 @@ class ChannelCntrl {
   getPost = async (req: Request, res: Response) => {
     const { postId } = req.params;
 
-    const post = await channelPostModel.findById(postId).lean();
-
-    if (!post) {
-      return AppResponse.notFound(res, "not found");
-    }
-
     try {
+      const post = await channelPostModel.findById(postId).lean();
+
+      if (!post) {
+        return AppResponse.notFound(res, "not found");
+      }
+
       AppResponse.success(res, post);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -596,9 +551,9 @@ class ChannelCntrl {
   deletePost = async (req: Request, res: Response) => {
     const { postId } = req.params;
 
-    await channelPostModel.findByIdAndDelete(postId);
-
     try {
+      await channelPostModel.findByIdAndDelete(postId);
+
       AppResponse.success(res, "deleted");
     } catch (e) {
       AppResponse.fail(res, e);

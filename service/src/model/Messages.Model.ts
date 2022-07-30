@@ -2,7 +2,7 @@ import mongoose, { Schema, model } from "mongoose";
 
 export interface IPrmsg extends mongoose.Document {
   message: object;
-  reply: object;
+  reply: Array<any>;
   users: Array<any>;
   sender: Schema.Types.ObjectId;
   messageFormat: string;
@@ -13,10 +13,10 @@ export interface IPrmsg extends mongoose.Document {
 
 export interface IGrmsg extends mongoose.Document {
   message: object;
-  reply: object;
+  reply: Array<any>;
   sender: Schema.Types.ObjectId;
   messageFormat: string;
-  reaction: string;
+  reaction: Array<object>;
   seen: Boolean;
   forwarded: Boolean;
   groupId: Schema.Types.ObjectId;
@@ -26,7 +26,7 @@ export interface IGroup extends mongoose.Document {
   name: string;
   description: string;
   members: Array<any>;
-  admin: object;
+  admins: Array<any>;
   image: object;
   isImage: Boolean;
   size: number;
@@ -63,21 +63,24 @@ const privateMsgSchema = new Schema(
         },
       },
     },
-    reply: {
-      text: {
-        type: String,
-        min: 1,
+    reply: [
+      {
+        text: {
+          type: String,
+          min: 1,
+        },
+        from: Schema.Types.ObjectId,
       },
-      // from: Schema.Types.ObjectId,
-      from: String,
-    },
-    users: {
-      type: Array,
-      required: true,
-    },
+    ],
+    users: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    ],
     sender: {
-      // type: Schema.Types.ObjectId,
-      type: String,
+      type: Schema.Types.ObjectId,
       ref: "User",
     },
     messageFormat: {
@@ -124,31 +127,32 @@ const groupMsgSchema = new Schema(
         },
       },
     },
-    reply: {
-      text: {
-        type: String,
-        min: 1,
+    reply: [
+      {
+        text: {
+          type: String,
+          min: 1,
+        },
+        audio: {
+          publicId: {
+            type: String || null,
+          },
+          url: {
+            type: String || null,
+          },
+        },
+        image: {
+          publicId: {
+            type: String || null,
+          },
+          url: {
+            type: String || null,
+          },
+        },
+        messageFormat: String,
+        from: Schema.Types.ObjectId,
       },
-      audio: {
-        publicId: {
-          type: String || null,
-        },
-        url: {
-          type: String || null,
-        },
-      },
-      image: {
-        publicId: {
-          type: String || null,
-        },
-        url: {
-          type: String || null,
-        },
-      },
-      messageFormat: String,
-      from: Schema.Types.ObjectId,
-      // from: String,
-    },
+    ],
     sender: {
       type: Schema.Types.ObjectId,
       ref: "User",
@@ -157,10 +161,12 @@ const groupMsgSchema = new Schema(
       type: String,
       required: true,
     },
-    reaction: {
-      type: String,
-      default: "none", //it has three possible outcomes ["laughing", "angry", "love"]
-    },
+    reaction: [
+      {
+        reactors: { type: Schema.Types.ObjectId, ref: "User" },
+        reactions: { type: String, enum: ["love", "laughing", "clap", "wow"] },
+      },
+    ],
     seen: {
       type: Boolean,
       default: false,
@@ -197,21 +203,20 @@ const groupSchema = new Schema(
         type: String,
       },
     },
-    members: {
-      type: Array,
-      min: 1,
-      ref: "User",
-    },
-    admin: {
-      id: {
+    members: [
+      {
+        type: Schema.Types.ObjectId,
+        min: 1,
+        ref: "User",
+      },
+    ],
+    admins: [
+      {
         type: Schema.Types.ObjectId,
         required: true,
+        ref: "User",
       },
-      username: {
-        type: String,
-        required: true,
-      },
-    },
+    ],
     isImage: {
       type: Boolean,
       default: false,
