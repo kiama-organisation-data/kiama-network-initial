@@ -165,24 +165,31 @@ class FriendReqController {
                                         if (user?.friends?.includes(fromUserID)) {
                                             AppResponse.fail(res, "You are already friends");
                                         } else {
-                                            const newFriend = new FriendReqs({
-                                                status: 'pending',
-                                                fromUserId: fromUserID,
-                                                toUserId: toUserID,
-                                            })
-                                            newFriend.save().then((sentFriend) => {
-                                                Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
-                                                    .then((updatedUser) => {
-                                                        Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
-                                                            (updatedUser2) => {
-                                                                AppResponse.success(res, sentFriend);
-                                                            },
-                                                        );
-                                                    })
-                                                    .catch((err) => {
-                                                        AppResponse.fail(res, err);
-                                                    });
-                                            });
+                                            FriendReqs.findOne({ status: "pending", toUserId: fromUserID, fromUserId: toUserID })
+                                                .then(friendreq => {
+                                                    if (friendreq) {
+                                                        AppResponse.fail(res, "Friend request already sent");
+                                                    } else {
+                                                        const newFriend = new FriendReqs({
+                                                            status: 'pending',
+                                                            fromUserId: fromUserID,
+                                                            toUserId: toUserID,
+                                                        })
+                                                        newFriend.save().then((sentFriend) => {
+                                                            Users.findByIdAndUpdate(toUserID, { $push: { friendRequestSent: sentFriend } })
+                                                                .then((updatedUser) => {
+                                                                    Users.findByIdAndUpdate(fromUserID, { $push: { friendRequestReceived: sentFriend } }).then(
+                                                                        (updatedUser2) => {
+                                                                            AppResponse.success(res, sentFriend);
+                                                                        },
+                                                                    );
+                                                                })
+                                                                .catch((err) => {
+                                                                    AppResponse.fail(res, err);
+                                                                });
+                                                        });
+                                                    }
+                                                })
                                         }
                                     })
                                     .catch((err) => {
@@ -337,6 +344,8 @@ class FriendReqController {
                 "path": "friends",
                 "select": "name.first name.last",
             })
+            .sort({ createdAt: -1 })
+            .lean()
             .then((user: any) => {
                 AppResponse.success(res, user.friends);
             }).catch(err => {
