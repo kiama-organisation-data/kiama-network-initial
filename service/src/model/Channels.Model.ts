@@ -74,9 +74,9 @@ const channelSchema = new Schema(
 );
 
 export const createApiKeys = async function (param: any): Promise<object> {
-  const username = param[0].username;
+  const username = param.username;
   const publicKey = await apiCrypto.hashParam(username);
-  const userId = param[0].userId;
+  const userId = param._id;
   const privateKey = await apiCrypto.hashParamJwt(username, userId);
   const secretKey = publicKey.concat(privateKey);
   const data = { publicKey, privateKey, secretKey };

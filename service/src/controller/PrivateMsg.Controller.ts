@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { uploadToCloud } from "../libs/cloudinary";
 import joiValidation from "../libs/joiValidation";
 import { IPrmsg, privateMsgModel } from "../model/Messages.Model";
 import AppResponse from "../services/index";
@@ -28,21 +29,33 @@ class PrivateMsgController {
     let image: object = {};
     let text: string = "";
     let msgFormat: string = "";
+    let url: string;
+    let publicId: string;
 
     const audioMimeType = ["audio/mp3", "audio/wmp", "audio/mpeg"];
     const imageMimeType = ["image/jpeg", "image/pdf", "image/gif"];
 
     if (req.file) {
+      const data = await uploadToCloud(req.file?.path);
+      url = data.secure_url;
+      publicId = data.public_id;
+    }
+
+    if (req.file) {
       if (audioMimeType.includes(req.file.mimetype)) {
         audio = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
+          //@ts-expect-error
+          publicId,
+          //@ts-expect-error
+          url,
         };
         msgFormat = "audio";
       } else if (imageMimeType.includes(req.file.mimetype)) {
         image = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
+          //@ts-expect-error
+          publicId,
+          //@ts-expect-error
+          url,
         };
         msgFormat = "image";
       } else {
@@ -54,53 +67,65 @@ class PrivateMsgController {
         msgFormat = "text";
       }
     }
-    const newMsg: IPrmsg = await privateMsgModel.create({
-      message: {
-        text,
-        audio,
-        image,
-      },
-      users: [req.body.from, req.body.to], //Note: this req.body.to and .from will be supplied by front-office
-      sender: req.body.from,
-      messageFormat: msgFormat,
-    });
+    try {
+      const newMsg: IPrmsg = await privateMsgModel.create({
+        message: {
+          text,
+          audio,
+          image,
+        },
+        users: [req.body.from, req.body.to], //Note: this req.body.to and .from will be supplied by front-office
+        sender: req.body.from,
+        messageFormat: msgFormat,
+      });
 
-    if (!newMsg) return AppResponse.fail(res, "an error occured while saving");
+      if (!newMsg)
+        return AppResponse.fail(res, "an error occured while saving");
 
-    AppResponse.created(res, newMsg);
+      AppResponse.created(res, newMsg);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
   };
 
   getMessages = async (req: Request, res: Response) => {
-    const { from, to } = req.body;
+    const { from, to } = req.query;
 
-    const messages = await privateMsgModel
-      .find({
-        users: {
-          $all: [from, to],
-        },
-      })
-      .sort({ updatedAt: 1 });
+    try {
+      const messages = await privateMsgModel
+        .find({
+          users: {
+            $all: [from, to],
+          },
+        })
+        .sort({ updatedAt: 1 });
 
-    const msgs = messages.map((msg) => {
-      return {
-        from: msg.sender.toString() === from,
-        //@ts-expect-error
-        message: msg.message.text || msg.message.audio || msg.message.image,
-        reply: msg.reply,
-        //@ts-expect-error
-        time: msg.message.updatedAt,
-        user1: msg.users[0],
-        user2: msg.users[1],
-        messageFormat: msg.messageFormat,
-        seen: msg.seen,
-        reaction: msg.reaction,
-        id: msg._id,
-      };
-    });
-    if (!msgs)
-      return AppResponse.fail(res, "there is no conversation between you two");
+      const msgs = messages.map((msg) => {
+        return {
+          from: msg.sender.toString() === from,
+          //@ts-expect-error
+          message: msg.message.text || msg.message.audio || msg.message.image,
+          reply: msg.reply,
+          //@ts-expect-error
+          time: msg.message.updatedAt,
+          user1: msg.users[0],
+          user2: msg.users[1],
+          messageFormat: msg.messageFormat,
+          seen: msg.seen,
+          reaction: msg.reaction,
+          id: msg._id,
+        };
+      });
+      if (!msgs)
+        return AppResponse.fail(
+          res,
+          "there is no conversation between you two"
+        );
 
-    AppResponse.success(res, msgs);
+      AppResponse.success(res, msgs);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
   };
 
   deleteMessage = async (req: Request, res: Response) => {
@@ -110,19 +135,17 @@ class PrivateMsgController {
 
   addReply = async (req: Request, res: Response) => {
     const { id } = req.params;
-
-    if (!id || !req.body.text)
+    const { from, text } = req.body;
+    if (!id || !text || !from)
       return AppResponse.fail(res, "please provide data");
 
-    let msg = await privateMsgModel.findById(id);
-    if (!msg) return AppResponse.notFound(res, "not found any messages");
-    //@ts-expect-error
-    msg.reply.text = req.body.text;
-    //@ts-expect-error
-    msg.reply.from = req.body.from;
-    msg = await msg.save();
-
     try {
+      let msg = await privateMsgModel.findByIdAndUpdate(
+        id,
+        { $push: { reply: { text, from } } },
+        { new: true }
+      );
+
       AppResponse.success(res, msg);
     } catch (error) {
       AppResponse.fail(res, error);
@@ -130,35 +153,30 @@ class PrivateMsgController {
   };
 
   markSeen = async (req: Request, res: Response) => {
-    let msg = await privateMsgModel.findById(req.params.id);
-    if (!msg) {
-      return AppResponse.notFound(res, "message not found");
+    try {
+      await privateMsgModel.findByIdAndUpdate(req.params.id, {
+        $set: { seen: true },
+      });
+      AppResponse.success(res, "updated");
+    } catch (error) {
+      AppResponse.fail(res, error);
     }
-    msg.seen = true;
-    msg = await msg.save();
-    AppResponse.success(res, "");
   };
 
   addReactions = async (req: Request, res: Response) => {
     const { id } = req.params;
-    if (!id || !req.body.reaction)
-      return AppResponse.fail(res, "provide a reaction");
+    const { reaction } = req.body;
+    // remeber to add joi validation
 
     const reactions = ["laughing", "angry", "love"];
 
-    if (!reactions.includes(req.body.reaction)) {
+    if (!reactions.includes(reaction)) {
       return AppResponse.fail(res, "reaction is not valid");
     }
-
-    let msg = await privateMsgModel.findById(id);
-
-    if (!msg) return AppResponse.notFound(res, "message not found");
-
-    msg.reaction = req.body.reaction;
-    msg = await msg.save();
-
     try {
-      AppResponse.success(res, msg);
+      await privateMsgModel.findByIdAndUpdate(id, { $set: { reaction } });
+
+      AppResponse.success(res, "updated");
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -166,14 +184,14 @@ class PrivateMsgController {
 
   //right now this function will be only called on the front-office when a sendMsg has
   setMsgAsFowarded = async (req: Request, res: Response) => {
-    let msg = await privateMsgModel.findById(req.params.id);
-    if (!msg) {
-      return AppResponse.notFound(res, "message not found");
+    try {
+      await privateMsgModel.findByIdAndUpdate(req.params.id, {
+        $set: { forwarded: true },
+      });
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
-
-    msg.forwarded = true;
-    msg = await msg.save();
-    AppResponse.success(res, msg);
   };
 }
 

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 import {
   groupModel,
   groupMsgModel,
@@ -33,66 +34,46 @@ class GroupController {
    */
 
   createGroup = async (req: Request, res: Response) => {
-    //id is the id of the group creator
     const imageMimeType = ["image/jpeg", "image/png", "image/jpg"];
+    let image = { publicId: "", url: "" };
 
-    if (req.file) {
-      if (!imageMimeType.includes(req.file?.mimetype)) {
-        return AppResponse.fail(res, "the file type is not accepted");
+    try {
+      if (req.file) {
+        if (!imageMimeType.includes(req.file?.mimetype)) {
+          return AppResponse.fail(res, "the file type is not accepted");
+        }
+        const upload = await uploadToCloud(req.file.path);
+        image = { publicId: upload.public_id, url: upload.secure_url };
       }
-    }
 
-    const { id } = req.params;
-    let user = await Users.findById(id).select(["username", "_id", "groups"]);
-
-    if (!user) return AppResponse.notFound(res, "user not found");
-
-    const group: IGroup = await groupModel.create({
-      ...req.body,
-      members: [id],
-      admin: {
-        id: user._id,
-        username: user.username,
-      },
-      image: {
-        url: req.file ? req.file.path : null,
-        publicId: null,
-      },
-      isImage: req.file ? true : false,
-      size: 1,
-    });
-
-    user.groups.push(group._id);
-    user = await user.save();
-
-    if (!group) {
-      AppResponse.fail(res, "");
-    } else {
-      AppResponse.success(res, group);
+      //@ts-expect-error
+      const { details } = req;
+      const group: IGroup = await groupModel.create({
+        ...req.body,
+        members: [details._id],
+        admins: [details._id],
+        image,
+        isImage: req.file ? true : false,
+        size: 1,
+      });
+      details.groups.push(group._id);
+      await details.save();
+      AppResponse.created(res, group);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   editGroup = async (req: Request, res: Response) => {
-    const { id } = req.params; // admins Id
+    const groupId = req.body.groupId;
 
-    const groupId = req.body.id;
+    const body = req.body;
+    try {
+      await groupModel.findByIdAndUpdate(groupId, body);
 
-    const isAdmin = await groupModel.findOne({ _id: groupId });
-
-    if (!isAdmin) return AppResponse.notFound(res, "groups not found");
-
-    //@ts-expect-error
-    if (isAdmin.admin.id.toString() !== id) {
-      AppResponse.notPermitted(res, "");
-    } else {
-      const body = req.body;
-      const group = await groupModel.findByIdAndUpdate(groupId, body);
-
-      try {
-        AppResponse.success(res, group);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
@@ -101,118 +82,97 @@ class GroupController {
       return AppResponse.fail(res, "provide an image");
     }
 
-    let group = await groupModel.findById(req.body.id);
-
-    if (!group) {
-      AppResponse.notFound(res, "group not found");
-    } else {
-      //@ts-expect-error
-      if (group.admin.id.toString() !== id)
-        return AppResponse.notPermitted(res, "");
+    try {
+      let group = await groupModel.findById(req.body.groupId);
 
       const imageMimeType = ["image/jpeg", "image/png", "image/jpg"];
 
       if (!imageMimeType.includes(req.file.mimetype))
         return AppResponse.fail(res, "not a valid file type");
 
-      // In the future cloudinary would be used here
       //@ts-expect-error
-      group.image.url = req.file.path;
-      //@ts-expect-error
-      group.image.publicId = "dummy"; //will be proccessed with cloudinary in the future
-      group = await group.save();
+      const currentUrl = group?.image?.url;
+      await deleteFromCloud(currentUrl);
+      const upload = await uploadToCloud(req.file.path);
 
-      try {
-        AppResponse.success(res, group);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+      if (!group) return AppResponse.notFound(res);
+
+      group.image = {
+        publicId: upload.public_id,
+        url: upload.secure_url,
+      };
+
+      await group.save();
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   deleteGroupPhoto = async (req: Request, res: Response) => {
-    let group = await groupModel.findOne({ _id: req.body.id });
+    try {
+      let group = await groupModel.findById(req.body.groupId);
 
-    if (!group) {
-      AppResponse.notFound(res, "group not found");
-    } else {
-      //@ts-expect-error
-      if (group.admin.id.toString() !== id) AppResponse.notPermitted(res, "");
-
-      //@ts-expect-error
-      group.image.url = null;
-      //@ts-expect-error
-      group.image.publicId = null;
-      group.isImage = false;
-      group = await group.save();
-
-      try {
-        AppResponse.success(res, group);
-      } catch (e) {
-        AppResponse.fail(res, e);
+      if (!group) {
+        return AppResponse.notFound(res, "group not found");
       }
+      //@ts-expect-error
+      const currentUrl = group.image.url;
+      await deleteFromCloud(currentUrl);
+      group.image = {
+        publicId: null,
+        url: null,
+      };
+      group.isImage = false;
+      await group.save();
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   addMember = async (req: Request, res: Response) => {
-    let group = await groupModel.findById(req.body.id);
+    const { userId, groupId } = req.body;
 
-    if (!group) {
-      AppResponse.notFound(res, "group not found");
-    } else {
-      //@ts-expect-error
-      if (group.admin.id.toString() !== req.params.id)
-        return AppResponse.notPermitted(res, "");
+    try {
+      let group = await groupModel.findById(groupId);
 
-      let user = await Users.findById(req.body.member);
+      if (!group) return AppResponse.notFound(res, "group not found");
 
-      if (!user) return AppResponse.notFound(res, "user not found");
-      user.groups.push(group._id);
-      group.members.push(req.body.member); //req.body.member is user id;
-      group.size = group.size + 1;
-      group = await group.save();
-      user = await user.save();
+      await Users.findByIdAndUpdate(userId, { $push: { groups: group._id } });
 
-      try {
-        AppResponse.success(res, group);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+      await groupModel.findByIdAndUpdate(groupId, {
+        $push: { members: userId },
+        $inc: { size: 1 },
+      });
+
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   removeMember = async (req: Request, res: Response) => {
-    let group = await groupModel.findById(req.body.id);
-    if (!group) {
-      AppResponse.notFound(res, "group not found");
-    }
+    const { groupId, userId } = req.body;
+    let group = await groupModel.findById(groupId);
 
-    //@ts-expect-error
-    if (group.admin.id.toString() !== req.params.id) {
-      AppResponse.notPermitted(res, "");
-    } else {
-      //remeber to change members to use a linked list for effeciency in query
-      let memberToBeDeleted: String = "";
-      //@ts-expect-error
-      group.members.map((member) => {
-        if (member.toString() === req.body.member) {
-          memberToBeDeleted = member;
-        }
+    if (!group) return AppResponse.notFound(res, "group not found");
+
+    try {
+      await Users.findByIdAndUpdate(userId, { $pull: { groups: groupId } });
+
+      await groupModel.findByIdAndUpdate(groupId, {
+        $inc: { size: -1 },
+        $pull: { members: userId },
       });
-      //@ts-expect-error
-      const deleted = await group.removeMember(memberToBeDeleted);
-      if (deleted) {
-        try {
-          AppResponse.success(res, group);
-        } catch (e) {
-          AppResponse.fail(res, e);
-        }
-      } else {
-        AppResponse.fail(res, "fail");
-      }
+
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
+  // TO.DO :remove groupId from all group members
   deleteGroup = async (req: Request, res: Response) => {
     await groupModel.findByIdAndDelete(req.params.id);
     try {
@@ -223,20 +183,8 @@ class GroupController {
   };
 
   exitGroup = async (req: Request, res: Response) => {
-    let user = await Users.findById(req.params.id).select("groups");
-
-    let group = await groupModel.findById(req.body.id).select("removeMember");
-
-    if (!user || !group) {
-      AppResponse.notFound(res, "group not found");
-    } else {
-      const result = group.removeMember(req.params.id);
-      try {
-        AppResponse.success(res, result);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
-    }
+    const response = await this.removeMember(req, res);
+    return response;
   };
 
   /**
@@ -247,26 +195,29 @@ class GroupController {
     let audio: object = {};
     let image: object = {};
     let text: string = "";
+    let data: object = {};
     let msgFormat: string = "";
 
     const audioMimeType = ["audio/mp3", "audio/wmp", "audio/mpeg"];
     const imageMimeType = ["image/jpeg", "image/pdf", "image/gif"];
 
     if (req.file) {
+      const upload = await uploadToCloud(req.file.path);
+      data = {
+        publicId: upload.public_id,
+        url: upload.secure_url,
+      };
+    }
+
+    if (req.file) {
       if (audioMimeType.includes(req.file.mimetype)) {
-        audio = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
+        audio = { ...data };
         msgFormat = "audio";
       } else if (imageMimeType.includes(req.file.mimetype)) {
-        image = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
+        image = { ...data };
         msgFormat = "image";
       } else {
-        AppResponse.fail(res, "fail");
+        AppResponse.fail(res, "fail, file type not allowed");
       }
     } else {
       if (req.body) {
@@ -274,32 +225,49 @@ class GroupController {
         msgFormat = "text";
       }
     }
-    const newMsg: IGrmsg = await groupMsgModel.create({
-      message: {
-        text,
-        audio,
-        image,
-      },
-      sender: req.body.from,
-      messageFormat: msgFormat,
-      groupId: req.params.groupId,
-    });
-    if (!newMsg) return AppResponse.fail(res, "error");
-
-    AppResponse.created(res, newMsg);
+    try {
+      const newMsg: IGrmsg = await groupMsgModel.create({
+        message: {
+          text,
+          audio,
+          image,
+        },
+        sender: req.body.from,
+        messageFormat: msgFormat,
+        groupId: req.body.groupId,
+      });
+      if (!newMsg) return AppResponse.fail(res, "error");
+      AppResponse.created(res, newMsg);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
   };
 
+  // remeber to paginatePOST
   getMessages = async (req: Request, res: Response) => {
+    const tab = req.query.tab || 1;
+    let totalMsgs = 0;
+    const perTab = req.query.device === "mobile" ? 15 : 20;
+
     const { groupId } = req.params;
 
     if (!groupId) return AppResponse.notFound(res, "id not found");
 
-    const messages = await groupMsgModel.find({ groupId });
+    const count = await groupMsgModel.find({ groupId }).countDocuments();
+
+    const messages = await groupMsgModel
+      .find({ groupId })
+      .skip((+tab - 1) * perTab)
+      .limit(perTab)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    totalMsgs = count;
 
     if (!messages) {
       AppResponse.notFound(res, "not found");
     } else {
-      AppResponse.success(res, messages);
+      AppResponse.success(res, { messages, totalMsgs });
     }
   };
 
@@ -309,35 +277,39 @@ class GroupController {
   };
 
   markSeen = async (req: Request, res: Response) => {
-    let message = await groupMsgModel.findById(req.params.id).select("seen");
+    const { id } = req.params;
+    try {
+      await groupMsgModel.findByIdAndUpdate(id, { $set: { seen: true } });
 
-    if (!message) {
-      AppResponse.notFound(res, "cannot find any message");
-    } else {
-      //@ts-ignore
-      message?.seen = true;
-      message = await message.save();
-
-      try {
-        AppResponse.success(res, message);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   addReaction = async (req: Request, res: Response) => {
-    let message = await groupMsgModel.findById(req.params.id);
+    //@ts-ignore
+    const { user } = req;
+    const { reaction } = req.query;
 
-    if (!message) {
-      AppResponse.notFound(res, "cannot find message");
-    } else {
-      message.reaction = req.body.reaction;
-      message = await message.save();
-      AppResponse.success(res, message);
+    const reactArray = ["wow", "laughing", "clap", "love"];
+
+    if (!reactArray.includes(reaction))
+      return AppResponse.fail(res, "not a valid reaction");
+
+    try {
+      await groupMsgModel.findByIdAndUpdate(req.params.id, {
+        $push: { reactions: { reactions: reaction, reactors: user } },
+      });
+      AppResponse.success(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
+  /**
+   * I have stopped updates here, TO.DO: remember to test the method above
+   */
   setAsForwarded = async (req: Request, res: Response) => {
     let message = await groupMsgModel.findById(req.params.id);
 

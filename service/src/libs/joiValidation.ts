@@ -1,12 +1,17 @@
-import Joi from "@hapi/joi";
+import Joi, { number, string } from "@hapi/joi";
 import { IChannel } from "../model/Channels.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
+export interface Iparam {
+  page: string;
+  sortBy: string;
+  device: string;
+}
 
 class JoiValidate {
-  constructor() { }
+  constructor() {}
 
   // signup verification
   signupValidation = (data: IUser) => {
@@ -97,6 +102,15 @@ class JoiValidate {
       description: Joi.string().required(),
     });
     return postSchema.validate(data);
+  };
+
+  channelQueryValidation = (data: Iparam) => {
+    const gettShema = Joi.object({
+      page: Joi.string(),
+      sortBy: Joi.string(),
+      device: Joi.string(),
+    });
+    return gettShema.validate(data);
   };
 }
 

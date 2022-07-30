@@ -39,7 +39,6 @@ class Server {
       .catch((err) => console.log("Error connection db.", err));
 
     // mongoose.set('useFindAndModify', false);
-
     // config
     this.app.use(express.json({ limit: "25mb" }));
     this.app.use(express.urlencoded({ limit: "25mb", extended: true }));
