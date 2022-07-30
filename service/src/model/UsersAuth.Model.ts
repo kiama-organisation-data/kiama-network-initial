@@ -103,12 +103,6 @@ const usersShema = new shema(
         ref: 'User'
       }
     ],
-    friendRequests: [
-      {
-        type: shema.Types.ObjectId,
-        ref: 'FriendReq'
-      }
-    ],
   },
   {
     toJSON: { virtuals: true },

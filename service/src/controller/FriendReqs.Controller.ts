@@ -176,17 +176,9 @@ class FriendReqController {
                                                             toUserId: toUserID,
                                                         })
                                                         newFriend.save().then((sentFriend) => {
-                                                            Users.findByIdAndUpdate(toUserID, { $push: { friendRequests: sentFriend } })
-                                                                .then((updatedUser) => {
-                                                                    Users.findByIdAndUpdate(fromUserID, { $push: { friendRequests: sentFriend } }).then(
-                                                                        (updatedUser2) => {
-                                                                            AppResponse.success(res, sentFriend);
-                                                                        },
-                                                                    );
-                                                                })
-                                                                .catch((err) => {
-                                                                    AppResponse.fail(res, err);
-                                                                });
+                                                            AppResponse.success(res, sentFriend);
+                                                        }).catch(err => {
+                                                            AppResponse.fail(res, err);
                                                         });
                                                     }
                                                 })
@@ -369,6 +361,7 @@ class FriendReqController {
                 AppResponse.fail(res, err);
             });
     }
+
 
 
 }
