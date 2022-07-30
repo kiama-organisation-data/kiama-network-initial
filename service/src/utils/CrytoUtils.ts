@@ -1,5 +1,6 @@
 import { compareSync, hashSync } from "bcrypt";
 import { sign, verify } from "jsonwebtoken";
+import unique from "../libs/randomGen";
 
 /**
  * @constant hashedParam
@@ -32,6 +33,31 @@ class ApiCryptoUtils {
   decryptHashedParamJwt = async (hashedString: string, secret: string) => {
     const decryptedHash = verify(hashedString, secret.toString());
     return decryptedHash;
+  };
+
+  developShopToken = async (
+    shopId: string,
+    secretKey: string,
+    exp: any = "24h"
+  ) => {
+    const token = sign({ shopId: shopId.toString() }, secretKey.toString(), {
+      expiresIn: exp,
+    });
+    return token;
+  };
+
+  compareShopToken = async (token: string, secretKey: string) => {
+    const compareToken = verify(token, secretKey.toString());
+    return compareToken;
+  };
+
+  developeRefreshToken = async () => {};
+
+  developeSecretKey = () => {
+    const firstString = unique();
+    const secondString = unique();
+    const secretKey = firstString.concat(secondString);
+    return secretKey;
   };
 }
 
