@@ -30,7 +30,8 @@ class FriendReqsRouter {
         this.router.route("/decline/:fromUserID").post(friendreqsController.declineFriendReq);
         this.router.route("/block/:fromUserID").post(friendreqsController.blockFriendReq);
         this.router.route("/unblock/:fromUserID").post(friendreqsController.unblockFriendReq);
-        this.router.route("/all/user").get(friendreqsController.getAllFriendReqs); // to check because she don't work with simple get
+        this.router.route("/all/friendreq").get(friendreqsController.getAllFriendReqs); // to check because she don't work with simple get
+        this.router.route("/friend/:userID").get(friendreqsController.getAllFriends);
     }
 }
 

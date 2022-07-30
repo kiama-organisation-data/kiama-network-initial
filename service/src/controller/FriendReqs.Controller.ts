@@ -323,6 +323,27 @@ class FriendReqController {
             });
     }
 
+    // =========================================================================
+    // GET ALL FRIENDS
+    // =========================================================================
+    // @desc    : Get all friends
+    // @route   : GET /api/v1/friends/all
+    // @access  : Private
+    // @param   : id
+    getAllFriends(req: any, res: Response): void {
+        const userID = req.params.userID;
+        Users.findById(userID)
+            .populate({
+                "path": "friends",
+                "select": "name.first name.last",
+            })
+            .then((user: any) => {
+                AppResponse.success(res, user.friends);
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
+
 
 }
 
