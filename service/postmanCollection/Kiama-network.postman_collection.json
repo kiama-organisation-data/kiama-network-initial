@@ -175,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"andry@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"email\":\"robot@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -785,6 +785,55 @@
 								"friendreq",
 								"decline",
 								"62de22578693cf497561e24a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "cancel",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/friendreq/cancel/62e37939774f987c5196e299",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"friendreq",
+								"cancel",
+								"62e37939774f987c5196e299"
 							]
 						}
 					},
