@@ -21,6 +21,8 @@ export interface IUser extends mongoose.Document {
   groups: Array<any>;
   pages: Array<any>;
   channels: Array<any>;
+  friends: Array<IUser>;
+  friendRequests: Array<IUser>;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
 }
@@ -92,6 +94,12 @@ const usersShema = new shema(
     groups: {
       type: Array,
     },
+    friends: [
+      {
+        type: shema.Types.ObjectId,
+        ref: 'User'
+      }
+    ],
     pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
     channels: [{ type: Schema.Types.ObjectId, ref: "Channel" }],
     jobPortals: [{ type: Schema.Types.ObjectId, ref: "Jobportal" }],

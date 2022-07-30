@@ -3,7 +3,7 @@ import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class UserUtilCntrl {
-  constructor() {}
+  constructor() { }
 
   getAllUserJobPortals = async (req: Request, res: Response) => {
     //@ts-expect-error
@@ -61,6 +61,23 @@ class UserUtilCntrl {
       AppResponse.fail(res, e);
     }
   };
+
+  getAllUserFriends = async (req: Request, res: Response) => {
+    //@ts-expect-error
+    const { user } = req;
+    try {
+      const friends = await Users.findById(user)
+        .populate("friends", "name.first name.last")
+        .select(["friends"])
+        .lean();
+
+      if (!friends) return AppResponse.notFound(res);
+
+      AppResponse.success(res, friends);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
 }
 
 export default new UserUtilCntrl();
