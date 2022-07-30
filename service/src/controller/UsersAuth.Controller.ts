@@ -3,6 +3,7 @@ import Users, { IUser } from "../model/UsersAuth.Model";
 import Roles, { IRole } from "../model/Role.Model";
 import mongoose from "mongoose";
 import userServices from "../services/User.Services";
+import AppResponse from "../services/index";
 
 import joiValidation from "../libs/joiValidation";
 
@@ -221,6 +222,30 @@ class UserController {
     await user.save();
     res.json({ success: true, message: "Password changed successfully" });
   };
+
+  // =========================================================================
+  // logout user
+  // =========================================================================
+  // @desc    : logout user
+  // @route   : PUT /api/v1/user/logout
+  // @access  : Private
+  // @param   : id
+
+  Logout = async (req: Request, res: Response) => {
+    try {
+      const token = req.header("Authorization");
+      if (!token)
+        return res
+          .status(401)
+          .json({ message: "No token, authorization denied" });
+
+      const tokena = token.split(" ")[1];
+      jwt.verify(tokena, process.env.SECRET_TOKEN || "defaultToken");
+      AppResponse.success(res, "Logout success");
+    } catch (error) {
+      AppResponse.fail(res, error);
+    }
+  }
 }
 
 const userController = new UserController();
