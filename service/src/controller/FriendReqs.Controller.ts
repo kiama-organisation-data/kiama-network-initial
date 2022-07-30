@@ -386,7 +386,46 @@ class FriendReqController {
             );
     }
 
+    // =========================================================================
+    // GET NEW PEOPLE FOR A USER TO FRIEND
+    // =========================================================================
+    // @desc    : Get new people for a user to friend
+    // @route   : GET /api/v1/friendreq/newpeople
+    // @access  : Private
+    // @param   : id
+    getNewPeople(req: any, res: Response, next: any): void {
+        const search = req.query.search || '';
+        const userID = req.user;
+        Users.findOne({ _id: userID }).then((user: any) => {
+            FriendReqs.find({ $or: [{ fromUserId: user._id }, { toUserId: user._id }] }).then((fr) => {
+                Users.find(
+                    {
+                        _id: { $nin: user.friends, $ne: user._id },
+                        friendRequests: { $nin: fr },
+                        $or: [
+                            { 'name.first': new RegExp(search, 'i') },
+                            { 'name.last': new RegExp(search, 'i') },
+                        ],
+                    },
+                    'name.first name.last',
+                )
+                    .limit(Number(req.query.limit))
+                    .lean()
+                    .then((people) => {
+                        AppResponse.success(res, people);
+                    })
+                    .catch((error) => {
+                        AppResponse.fail(res, error);
+                    });
+            });
+        }
+        ).catch((error) => {
+            AppResponse.fail(res, error);
+        }
+        );
 
+
+    }
 }
 
 const friendreqsController = new FriendReqController()
