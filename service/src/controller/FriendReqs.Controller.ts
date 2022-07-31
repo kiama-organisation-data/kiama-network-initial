@@ -356,7 +356,7 @@ class FriendReqController {
             .sort({ createdAt: -1 })
             .lean()
             .then((user: any) => {
-                AppResponse.success(res, user.friends);
+                AppResponse.success(res, user.friends, user.friends.length);
             }).catch(err => {
                 AppResponse.fail(res, err);
             });

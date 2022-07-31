@@ -72,8 +72,7 @@ class UserUtilCntrl {
         .lean();
 
       if (!friends) return AppResponse.notFound(res);
-
-      AppResponse.success(res, friends);
+      AppResponse.success(res, friends, friends.friends.length);
     } catch (e) {
       AppResponse.fail(res, e);
     }
