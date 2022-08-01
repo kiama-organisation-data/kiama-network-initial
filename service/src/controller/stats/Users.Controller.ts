@@ -2,7 +2,7 @@ import Users, { IUser } from './../../model/UsersAuth.Model';
 import { Request, Response } from 'express'
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
-import * as moment from 'moment'
+import moment from 'moment'
 
 class UsersStatController {
 
