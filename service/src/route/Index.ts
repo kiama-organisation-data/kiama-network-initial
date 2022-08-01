@@ -36,6 +36,9 @@ import NewsCatRouter from "./category/News.Router";
 import ChallengesCatRouter from "./category/Challenges.Router";
 import EventsCatRouter from "./category/Events.Router";
 
+// stats
+import UsersStatsRouter from "./stats/Users.Router";
+
 const router: Router = Router();
 
 function rootRouter() {
@@ -90,6 +93,10 @@ function rootRouter() {
     ChallengesCatRouter
   );
   router.use("/event/cat", validationToken.TokenValidation, EventsCatRouter);
+
+
+  // stats
+  router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);
 
   return router;
 }
