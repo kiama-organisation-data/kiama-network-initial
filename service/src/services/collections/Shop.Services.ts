@@ -1,4 +1,5 @@
 import shopModel, { IShop } from "../../model/collections/Shop.Model";
+import Users from "../../model/UsersAuth.Model";
 import { apiCrypto } from "../../utils/CrytoUtils";
 
 class ShopServices {
@@ -25,6 +26,7 @@ class ShopServices {
     const shop = await shopModel.findByIdAndUpdate(shopId, {
       $push: { customers: customerId },
     });
+    await Users.findByIdAndUpdate(customerId, { $push: { shops: shopId } });
     return shop;
   }
 

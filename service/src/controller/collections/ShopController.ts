@@ -5,6 +5,7 @@ import { uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import shopModel from "../../model/collections/Shop.Model";
 import redisConfig from "../../libs/redis";
+import Users from "../../model/UsersAuth.Model";
 
 class ShopCntl {
   constructor() {}
@@ -26,7 +27,9 @@ class ShopCntl {
       };
 
       const shop = await shopServices.createNew({ brand, body, owner: user });
-
+      await Users.findByIdAndUpdate(user, {
+        $push: { "collections.shop": shop._id },
+      });
       AppResponse.created(res, shop);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -59,7 +62,7 @@ class ShopCntl {
 
     try {
       const shop = await shopModel.findById(shopId).populate("products").lean();
-
+      //   console.log(shop);
       if (!shop) return AppResponse.notFound(res);
       AppResponse.success(res, shop.products);
     } catch (e) {
@@ -134,6 +137,70 @@ class ShopCntl {
       secretKey,
       msg: "token expires in 24 hours",
     });
+  }
+
+  async loginToShop(req: Request, res: Response) {
+    //@ts-expect-error
+    const { user } = req;
+    const { shopId } = req.body;
+
+    const loginKey = await redisConfig.getValueFromRedis(shopId.toString());
+
+    if (loginKey) return AppResponse.success(res, { token: loginKey });
+
+    try {
+      const userM = Users.findById(user).populate(
+        "collections.shop",
+        "credentials"
+      );
+      console.log(userM);
+      // @ts-expect-error
+      if (!userM.credentials) return AppResponse.throwError(res);
+
+      const shop = await shopModel.findById(shopId);
+
+      if (!shop?.credentials) return AppResponse.throwError(res);
+      //@ts-expect-error
+      if (userM.collections.shop.secretKey !== shop?.credentials.secretKey) {
+        return AppResponse.notPermitted(res, "not owner");
+      }
+
+      const token = await shopServices.developeCredentials(
+        shopId,
+        //@ts-expect-error
+        userM.collections.shop.secretKey
+      );
+
+      const add = await redisConfig.addToRedis(
+        shopId.toString(),
+        token,
+        60 * 60 * 24
+      );
+
+      if (!add) return AppResponse.fail(res, "failed to save to redis");
+
+      AppResponse.success(res, {
+        token,
+        msg: "token expires in 24 hours",
+      });
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  async getUsersShop(req: Request, res: Response) {
+    //@ts-expect-error
+    const { user } = req;
+    try {
+      const shops = await shopModel
+        .find({ owner: user })
+        .lean()
+        .sort({ createdAt: -1 });
+      if (!shops) return AppResponse.notFound(res, "no shops for user");
+      AppResponse.success(res, shops);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
   }
 }
 

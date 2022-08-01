@@ -47,7 +47,7 @@ class ApiCryptoUtils {
   };
 
   compareShopToken = async (token: string, secretKey: string) => {
-    const compareToken = verify(token, secretKey.toString());
+    const compareToken = verify(token, secretKey);
     return compareToken;
   };
 

@@ -21,8 +21,10 @@ export interface IUser extends mongoose.Document {
   groups: Array<any>;
   pages: Array<any>;
   channels: Array<any>;
+  shops: Array<any>;
   friends: Array<IUser>;
   friendRequests: Array<IUser>;
+  collections: object;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
 }
@@ -97,12 +99,21 @@ const usersShema = new shema(
     friends: [
       {
         type: shema.Types.ObjectId,
-        ref: 'User'
-      }
+        ref: "User",
+      },
     ],
+    collections: {
+      shop: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "Shop",
+        },
+      ],
+    },
     pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
     channels: [{ type: Schema.Types.ObjectId, ref: "Channel" }],
     jobPortals: [{ type: Schema.Types.ObjectId, ref: "Jobportal" }],
+    shops: [{ type: Schema.Types.ObjectId, ref: "Shop" }],
   },
   {
     toJSON: { virtuals: true },
