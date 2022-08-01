@@ -3,7 +3,7 @@ import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class UserUtilCntrl {
-  constructor() { }
+  constructor() {}
 
   getAllUserJobPortals = async (req: Request, res: Response) => {
     //@ts-expect-error
@@ -77,7 +77,26 @@ class UserUtilCntrl {
     } catch (e) {
       AppResponse.fail(res, e);
     }
-  }
+  };
+
+  getAllUsersVisitedShops = async (req: Request, res: Response) => {
+    //@ts-expect-error
+    const { user } = req;
+
+    try {
+      const shops = await Users.findById(user)
+        .populate("shops", "name brand _id")
+        .lean();
+
+      if (!shops) return AppResponse.notFound(res);
+
+      const shopObj = { shops: shops.shops };
+
+      AppResponse.success(res, shopObj);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
 }
 
 export default new UserUtilCntrl();

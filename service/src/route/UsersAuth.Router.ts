@@ -49,6 +49,11 @@ class usersRouter {
       validationToken.TokenValidation,
       UserUtilityController.getAllUserFriends
     );
+    this.router.get(
+      "/shops",
+      validationToken.TokenValidation,
+      UserUtilityController.getAllUsersVisitedShops
+    );
     this.router.get("/:id", userController.GetUser);
     this.router.get(
       "/",

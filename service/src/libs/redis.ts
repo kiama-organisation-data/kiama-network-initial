@@ -15,14 +15,9 @@ class RedisConfig {
     const client = createClient({
       url: REDIS_URL,
     });
-    await client
-      .connect()
-      .then((res) => {
-        console.info("redis has been connected successfully");
-      })
-      .catch((err) => {
-        console.error(`redis error ====> ${err}`);
-      });
+    await client.connect().catch((err) => {
+      console.error(`redis error ====> ${err}`);
+    });
     return client;
   }
   async addToRedis(key: string, value: any, expiresIn: any = 60 * 60 * 24) {

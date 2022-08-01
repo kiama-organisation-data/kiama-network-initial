@@ -1,6 +1,8 @@
 import { Router } from "express";
+import ProductController from "../../controller/collections/Product.Controller";
 import shopController from "../../controller/collections/ShopController";
 import { messageUploads } from "../../libs/multerConfig";
+import { validateShop } from "../../middleware/validateShopOwner";
 
 class ShopRouter {
   router: Router;
@@ -21,6 +23,14 @@ class ShopRouter {
     this.router.route("/products").get(shopController.getShopsProducts);
     this.router.route("/customers").get(shopController.getShopCustomers);
     this.router.route("/generate-token").get(shopController.getShopToken);
+    this.router.route("/get-all/users-shops").get(shopController.getUsersShop);
+    this.router.route("/login").post(shopController.loginToShop);
+
+    // products
+    this.router
+      .route("/product/:shopId")
+      .post(validateShop, messageUploads, ProductController.createProduct)
+      .get(ProductController.getProducts);
   }
 }
 
