@@ -4,7 +4,7 @@ import { pagePostModel } from "../model/Posts.Model";
 import AppResponse from "./index";
 
 class PageServices {
-  constructor() {}
+  constructor() { }
 
   checkFile = (req: Request, res: Response) => {
     if (req.file) {
@@ -58,7 +58,7 @@ class PageServices {
   saveImages = async (req: Request, res: Response) => {
     const url: Array<any> = [];
     let coverText: String | null = null;
-    //@ts-expect-error
+    // @ts-ignore
     req.files.map((i: any) => {
       url.push(i.path);
     });
@@ -83,7 +83,7 @@ class PageServices {
   saveVideos = async (req: Request, res: Response) => {
     const url: Array<any> = [];
     let coverText: String | null = null;
-    //@ts-expect-error
+    // @ts-ignore
     req.files.map((i: any) => {
       url.push(i.path);
     });

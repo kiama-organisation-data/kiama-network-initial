@@ -10,7 +10,7 @@ import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
 // remeber to update current line 240above to using pull and push
 class ChannelCntrl {
-  constructor() {}
+  constructor() { }
 
   create = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -234,7 +234,7 @@ class ChannelCntrl {
   };
 
   requestToBeFollower = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     const { channelId } = req.params;
     try {
@@ -278,12 +278,12 @@ class ChannelCntrl {
 
   // remember to make scheduling of lock and unlock
   lockChannel = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const channel = await channelModel.findById(req.params.channelId);
       const creator = channel?.admins[0];
-
+      // @ts-ignore
       if (creator?.toString() !== user.toString()) {
         return AppResponse.notPermitted(
           res,
@@ -302,12 +302,12 @@ class ChannelCntrl {
   };
 
   deActivateChannel = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const channel = await channelModel.findById(req.params.channelId);
       const creator = channel?.admins[0];
-
+      // @ts-ignore
       if (creator?.toString() !== user.toString()) {
         return AppResponse.notPermitted(
           res,
@@ -328,7 +328,7 @@ class ChannelCntrl {
 
   sendReport = async (req: Request, res: Response) => {
     const { channelId } = req.params;
-    //@ts-expect-error
+
     const { user } = req;
     // remeber to deal with report model
   };
@@ -400,7 +400,7 @@ class ChannelCntrl {
   createPost = async (req: Request, res: Response) => {
     const { channelId } = req.params;
     const { fileType } = req.body;
-    //@ts-expect-error
+
     const { user } = req;
 
     try {
@@ -479,10 +479,10 @@ class ChannelCntrl {
         .select(["image", "video"]);
 
       if (fileType === "video") {
-        //@ts-expect-error
+        // @ts-ignore
         post?.video.description = description;
       } else if (fileType === "image") {
-        //@ts-expect-error
+        // @ts-ignore
         post?.image.description = description;
       }
 

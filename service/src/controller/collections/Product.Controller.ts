@@ -6,7 +6,7 @@ import shopModel from "../../model/collections/Shop.Model";
 import AppResponse from "../../services/index";
 
 class ProductCntrl {
-  constructor() {}
+  constructor() { }
 
   async createProduct(req: Request, res: Response) {
     const shopId = req.get("x-shop-id");
@@ -115,7 +115,7 @@ class ProductCntrl {
       const product = await productModel.findById(producId).select(["image"]);
       if (!product) return AppResponse.notFound(res);
 
-      //@ts-expect-error
+      // @ts-ignore
       await deleteFromCloud(product.image.url);
       await productModel.deleteOne({ _id: producId });
       AppResponse.success(res, "deleted successfully");
@@ -136,15 +136,15 @@ class ProductCntrl {
     }
   }
 
-  async addToCart(req: Request, res: Response) {}
+  async addToCart(req: Request, res: Response) { }
 
-  async removeFromCart(req: Request, res: Response) {}
+  async removeFromCart(req: Request, res: Response) { }
 
-  async getCart(req: Request, res: Response) {}
+  async getCart(req: Request, res: Response) { }
 
-  async makeOrder(req: Request, res: Response) {}
+  async makeOrder(req: Request, res: Response) { }
 
-  async chargeCard(req: Request, res: Response) {}
+  async chargeCard(req: Request, res: Response) { }
 }
 
 export default new ProductCntrl();
