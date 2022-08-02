@@ -65,6 +65,20 @@ class ProductCntrl {
       AppResponse.fail(res, e);
     }
   }
+
+  async editProducts(req: Request, res: Response) {
+    const { body } = req;
+    const { error } = joiValidation.productEditValidation(body);
+
+    if (error) return AppResponse.fail(res, error);
+
+    try {
+      await productModel.findByIdAndUpdate(body.productId, body);
+      return AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
 }
 
 export default new ProductCntrl();
