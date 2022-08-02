@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { uploadToCloud } from "../../libs/cloudinary";
+import { deleteFromCloud, uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import productModel, { IProduct } from "../../model/collections/Product.Model";
 import shopModel from "../../model/collections/Shop.Model";
@@ -54,9 +54,37 @@ class ProductCntrl {
 
   async getProducts(req: Request, res: Response) {
     const { shopId } = req.params;
+    const { page, sortBy, search } = req.query;
+
+    const currentPage: number = +page || 1;
+    const perPage = 6;
+    let totalProducts: number = 0;
+    let sortObj: object = {};
+    let searchObj: object = {};
+
+    if (sortBy == "newest" || !sortBy) {
+      sortObj = { updatedAt: -1 };
+    } else if (sortBy == "oldest") {
+      sortObj = { updatedAt: 1 };
+    }
+
+    if (search == "name") {
+      const searchAlgo = new RegExp(sortBy, "ig");
+      searchObj = { name: searchAlgo };
+    } else if (search == "category") {
+      searchObj = { category: search };
+    }
 
     try {
-      const products = await productModel.find({ shopId }).lean();
+      const count = await productModel.find({ shopId }).countDocuments();
+      totalProducts = count;
+
+      const products = await productModel
+        .find({ $and: [{ shopId }, searchObj] })
+        .skip((currentPage - 1) * perPage)
+        .limit(perPage)
+        .sort(sortObj)
+        .lean();
 
       if (!products) return AppResponse.notFound(res);
 
@@ -79,6 +107,44 @@ class ProductCntrl {
       AppResponse.fail(res, e);
     }
   }
+
+  async deleteProduct(req: Request, res: Response) {
+    const { producId } = req.query;
+
+    try {
+      const product = await productModel.findById(producId).select(["image"]);
+      if (!product) return AppResponse.notFound(res);
+
+      //@ts-expect-error
+      await deleteFromCloud(product.image.url);
+      await productModel.deleteOne({ _id: producId });
+      AppResponse.success(res, "deleted successfully");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  async getOneProduct(req: Request, res: Response) {
+    const { producId } = req.query;
+
+    try {
+      const product = await productModel.findById(producId).lean();
+
+      AppResponse.success(res, product);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  async addToCart(req: Request, res: Response) {}
+
+  async removeFromCart(req: Request, res: Response) {}
+
+  async getCart(req: Request, res: Response) {}
+
+  async makeOrder(req: Request, res: Response) {}
+
+  async chargeCard(req: Request, res: Response) {}
 }
 
 export default new ProductCntrl();

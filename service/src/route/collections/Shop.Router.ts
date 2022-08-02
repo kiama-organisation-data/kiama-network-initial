@@ -31,7 +31,10 @@ class ShopRouter {
       .route("/product/:shopId")
       .post(validateShop, messageUploads, ProductController.createProduct)
       .get(ProductController.getProducts)
-      .patch(validateShop, ProductController.editProducts);
+      .patch(validateShop, ProductController.editProducts)
+      .delete(validateShop, ProductController.deleteProduct);
+
+    this.router.route("/product").get(ProductController.getOneProduct);
   }
 }
 
