@@ -9,7 +9,7 @@ import AppResponse from "../services/index";
  */
 
 class PostPgtrl {
-  constructor() {}
+  constructor() { }
 
   create = async (req: Request, res: Response) => {
     let post: IPagepost | null = null;
@@ -33,16 +33,16 @@ class PostPgtrl {
     let post = await pagePostModel.findById(req.params.id);
 
     if (req.query.file === "video") {
-      //@ts-expect-error
+      // @ts-ignore
       post?.content.video.coverText = req.body.coverText;
     } else if (req.query.file === "image") {
-      //@ts-expect-error
+      // @ts-ignore
       post?.content.image.coverText = req.body.coverText;
     } else if (req.query.file === "text") {
-      //@ts-expect-error
+      // @ts-ignore
       post?.content.text = req.body.text;
     }
-    //@ts-expect-error
+    // @ts-ignore
     post = await post?.save();
     try {
       AppResponse.success(res, post);

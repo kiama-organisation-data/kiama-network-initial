@@ -9,7 +9,7 @@ export interface IPayload {
 }
 
 class ValidationToken {
-  constructor() {}
+  constructor() { }
   TokenValidation = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.header("Authorization");
@@ -30,9 +30,9 @@ class ValidationToken {
         "-password",
         "-personalRate",
       ]);
-      //@ts-expect-error
+
       req.user = payload._id;
-      //@ts-expect-error
+      // @ts-ignore
       req.details = user;
 
       next();
@@ -45,7 +45,7 @@ class ValidationToken {
   GrantAccess = (req: Request, res: Response, next: NextFunction) => {
     // get the role from payload._id
 
-    //@ts-expect-error
+
 
     const userId = req.user;
     console.log("azaz", userId);

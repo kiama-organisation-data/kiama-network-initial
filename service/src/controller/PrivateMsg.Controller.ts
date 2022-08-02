@@ -6,7 +6,7 @@ import AppResponse from "../services/index";
 
 //remeber to add try catch to all functions
 class PrivateMsgController {
-  constructor() {}
+  constructor() { }
 
   /**
    * remember to implement functionality to restrict how users messages can be forwarded
@@ -44,17 +44,17 @@ class PrivateMsgController {
     if (req.file) {
       if (audioMimeType.includes(req.file.mimetype)) {
         audio = {
-          //@ts-expect-error
+          // @ts-ignore
           publicId,
-          //@ts-expect-error
+          // @ts-ignore
           url,
         };
         msgFormat = "audio";
       } else if (imageMimeType.includes(req.file.mimetype)) {
         image = {
-          //@ts-expect-error
+          // @ts-ignore
           publicId,
-          //@ts-expect-error
+          // @ts-ignore
           url,
         };
         msgFormat = "image";
@@ -103,10 +103,10 @@ class PrivateMsgController {
       const msgs = messages.map((msg) => {
         return {
           from: msg.sender.toString() === from,
-          //@ts-expect-error
+          // @ts-ignore
           message: msg.message.text || msg.message.audio || msg.message.image,
           reply: msg.reply,
-          //@ts-expect-error
+          // @ts-ignore
           time: msg.message.updatedAt,
           user1: msg.users[0],
           user2: msg.users[1],

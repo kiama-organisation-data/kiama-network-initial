@@ -15,22 +15,17 @@ class RedisConfig {
     const client = createClient({
       url: REDIS_URL,
     });
-    await client
-      .connect()
-      .then((res) => {
-        console.info("redis has been connected successfully");
-      })
-      .catch((err) => {
-        console.error(`redis error ====> ${err}`);
-      });
+    await client.connect().catch((err) => {
+      console.error(`redis error ====> ${err}`);
+    });
     return client;
   }
   async addToRedis(key: string, value: any, expiresIn: any = 60 * 60 * 24) {
     const redisClient = await this.connect();
     try {
       return await redisClient.set(key, value, expiresIn);
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 
@@ -39,8 +34,8 @@ class RedisConfig {
     try {
       await redisClient.del(key);
       return true;
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 
@@ -49,10 +44,12 @@ class RedisConfig {
     try {
       const data = await redisClient.get(key);
       return data;
-    } catch (e: any) {
-      throw new Error(e);
+    } catch (e) {
+      throw new Error("error");
     }
   }
 }
 
-export default new RedisConfig();
+const redisConfig = new RedisConfig();
+
+export default redisConfig;

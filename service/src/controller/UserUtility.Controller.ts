@@ -6,7 +6,7 @@ class UserUtilCntrl {
   constructor() { }
 
   getAllUserJobPortals = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const userPortals = await Users.findById(user)
@@ -23,7 +23,7 @@ class UserUtilCntrl {
   };
 
   getAllUserChannels = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const channels = await Users.findById(user)
@@ -63,7 +63,7 @@ class UserUtilCntrl {
   };
 
   getAllUserFriends = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const friends = await Users.findById(user)
@@ -76,7 +76,26 @@ class UserUtilCntrl {
     } catch (e) {
       AppResponse.fail(res, e);
     }
-  }
+  };
+
+  getAllUsersVisitedShops = async (req: Request, res: Response) => {
+
+    const { user } = req;
+
+    try {
+      const shops = await Users.findById(user)
+        .populate("shops", "name brand _id")
+        .lean();
+
+      if (!shops) return AppResponse.notFound(res);
+
+      const shopObj = { shops: shops.shops };
+
+      AppResponse.success(res, shopObj);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
 }
 
 export default new UserUtilCntrl();

@@ -423,8 +423,48 @@ class FriendReqController {
             AppResponse.fail(res, error);
         }
         );
+    }
 
+    // =========================================================================
+    // Unfriend a user
+    // =========================================================================
+    // @desc    : Unfriend a user
+    // @route   : PUT /api/v1/friendreq/unfriend/:userID
+    // @access  : Private
+    // @param   : id
+    unfriend(req: any, res: Response): void {
+        const userID = req.user;
+        const friendID = req.params.userID;
+        Users.findOneAndUpdate({ _id: userID }, { $pull: { friends: friendID } })
+            .then(user => {
+                Users.findOneAndUpdate({ _id: friendID }, { $pull: { friends: userID } })
+                    .then(friend => {
+                        // delete friendRequests array into the User model when id is deleted
+                        FriendReqs.findOneAndDelete(
+                            {
+                                $or: [
+                                    { fromUserId: userID, toUserId: friendID },
+                                    { fromUserId: friendID, toUserId: userID },
+                                ],
+                            }
+                        )
+                            .then(friendreq => {
+                                if (friendreq) {
+                                    AppResponse.success(res, "Unfriended");
+                                } else {
+                                    AppResponse.fail(res, "Friend request already cancelled");
+                                }
+                            }).catch(err => {
+                                AppResponse.fail(res, err);
+                            });
 
+                    }).catch(err => {
+                        AppResponse.fail(res, err);
+                    });
+            }).catch(err => {
+                AppResponse.fail(res, err);
+            }
+            );
     }
 }
 

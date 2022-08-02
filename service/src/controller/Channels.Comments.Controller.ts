@@ -4,10 +4,9 @@ import channelPostModel from "../model/Posts.Channels";
 import AppResponse from "../services/index";
 
 class channelCommentCntrl {
-  constructor() {}
+  constructor() { }
 
   createComment = async (req: Request, res: Response) => {
-    //@ts-expect-error
     const { user } = req;
     const { parentId, postId, comment } = req.body;
 
@@ -49,16 +48,17 @@ class channelCommentCntrl {
 
   getOneComment = async (req: Request, res: Response) => {
     const { commentId } = req.params;
-    const comment = await channelCommentModel
-      .findById(commentId)
-      .populate("author", "username")
-      .populate("replies", "author comment parentId")
-      .select(["-uniqueKey", "-publicKey", "-creator"])
-      .lean();
-
-    if (!comment) return AppResponse.notFound(res);
 
     try {
+      const comment = await channelCommentModel
+        .findById(commentId)
+        .populate("author", "username")
+        .populate("replies", "author comment parentId")
+        .select(["-uniqueKey", "-publicKey", "-creator"])
+        .lean();
+
+      if (!comment) return AppResponse.notFound(res);
+
       AppResponse.success(res, comment);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -69,11 +69,11 @@ class channelCommentCntrl {
     const { commentId } = req.params;
     const { comment } = req.body;
 
-    const commentM = await channelCommentModel
-      .findByIdAndUpdate(commentId, { comment }, { new: true })
-      .lean();
-
     try {
+      const commentM = await channelCommentModel
+        .findByIdAndUpdate(commentId, { comment }, { new: true })
+        .lean();
+
       AppResponse.success(res, commentM);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -83,17 +83,37 @@ class channelCommentCntrl {
   // remeber to add pagination
   getAllCommentsForAPost = async (req: Request, res: Response) => {
     const { postId } = req.params;
+    const { tab, sortBy } = req.query;
+    const currentTab = tab || 1;
+    const perTab = 20;
+    let totalComments: number;
+    let sort: any;
 
-    const channel = await channelPostModel.findById(postId).lean().populate({
-      path: "comments",
-      select:
-        "author comment replies updatedAt createdAt _id reactors reactionCount reaction",
-    });
+    if (sortBy === "latest" || "") {
+      sort = { createdAt: -1 };
+    } else if (sortBy === "oldest") {
+      sort = { createdAt: 1 };
+    }
 
     try {
+      const count = await channelPostModel.find().countDocuments();
+      totalComments = count;
+
+      const channel = await channelPostModel
+        .findById(postId)
+        .populate({
+          path: "comments",
+          select:
+            "author comment replies updatedAt createdAt _id reactors reactionCount reaction",
+        })
+        .skip((+currentTab - 1) * perTab)
+        .limit(perTab)
+        .sort(sort)
+        .lean();
+
       if (!channel) return AppResponse.notFound(res);
 
-      AppResponse.success(res, channel.comments);
+      AppResponse.success(res, { comments: channel.comments, totalComments });
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -110,35 +130,35 @@ class channelCommentCntrl {
 
     const { parentId, postId } = comment;
 
-    const post = await channelPostModel.findById(postId);
-
-    //@ts-expect-error
-    const { comments, commentCount, creator } = post;
-
-    if (!comments.length && commentCount < 1) {
-      return AppResponse.fail(res, "no comments");
-      //@ts-expect-error
-    } else if (creator.toString() !== req.user) {
-      return AppResponse.notPermitted(res, "not permitted");
-    }
-
-    if (parentId) {
-      await channelCommentModel.findByIdAndUpdate(
-        parentId,
-        { $pull: { replies: comment._id }, $inc: { totalReplies: -1 } },
-        { new: true }
-      );
-    }
-
-    const updatedPost = await channelPostModel
-      .findByIdAndUpdate(
-        { _id: comment.postId },
-        { $pull: { comments: commentId }, $inc: { commentCount: -1 } },
-        { new: true }
-      )
-      .select(["-uniqueKey", "-publicKey", "-creator"]);
-
     try {
+      const post = await channelPostModel.findById(postId);
+
+      // @ts-ignore
+      const { comments, commentCount, creator } = post;
+
+      if (!comments.length && commentCount < 1) {
+        return AppResponse.fail(res, "no comments");
+
+      } else if (creator.toString() !== req.user) {
+        return AppResponse.notPermitted(res, "not permitted");
+      }
+
+      if (parentId) {
+        await channelCommentModel.findByIdAndUpdate(
+          parentId,
+          { $pull: { replies: comment._id }, $inc: { totalReplies: -1 } },
+          { new: true }
+        );
+      }
+
+      const updatedPost = await channelPostModel
+        .findByIdAndUpdate(
+          { _id: comment.postId },
+          { $pull: { comments: commentId }, $inc: { commentCount: -1 } },
+          { new: true }
+        )
+        .select(["-uniqueKey", "-publicKey", "-creator"]);
+
       await channelCommentModel.deleteOne({ _id: commentId });
       AppResponse.success(res, updatedPost);
     } catch (e) {
@@ -149,25 +169,25 @@ class channelCommentCntrl {
   addReaction = async (req: Request, res: Response) => {
     const { reaction } = req.query;
     const { commentId } = req.params;
-    //@ts-expect-error
+
     const reactor = req.user;
 
-    const comment = await channelCommentModel
-      .findByIdAndUpdate(
-        commentId,
-        {
-          $push: { reaction: { reactor, reaction } },
-          $inc: { reactionCount: 1 },
-        },
-        { new: true }
-      )
-      .lean();
-
-    if (!comment) {
-      return AppResponse.notFound(res);
-    }
-
     try {
+      const comment = await channelCommentModel
+        .findByIdAndUpdate(
+          commentId,
+          {
+            $push: { reaction: { reactor, reaction } },
+            $inc: { reactionCount: 1 },
+          },
+          { new: true }
+        )
+        .lean();
+
+      if (!comment) {
+        return AppResponse.notFound(res);
+      }
+
       AppResponse.success(res, comment);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -177,7 +197,7 @@ class channelCommentCntrl {
   removeReaction = async (req: Request, res: Response) => {
     const { reaction } = req.query;
     const { commentId } = req.params;
-    //@ts-expect-error
+
     const reactor = req.user;
 
     const reactionCheck = await channelCommentModel
@@ -191,6 +211,7 @@ class channelCommentCntrl {
     let procceed = false;
 
     reactionCheck.reaction.map((i: any) => {
+      // @ts-ignore
       if (i.reactor.toString() === reactor.toString()) {
         procceed = true;
       }
@@ -200,18 +221,18 @@ class channelCommentCntrl {
       return AppResponse.fail(res, "fail");
     }
 
-    const comment = await channelCommentModel
-      .findByIdAndUpdate(
-        commentId,
-        {
-          $pull: { reaction: { reactor, reaction } },
-          $inc: { reactionCount: -1 },
-        },
-        { new: true }
-      )
-      .lean();
-
     try {
+      const comment = await channelCommentModel
+        .findByIdAndUpdate(
+          commentId,
+          {
+            $pull: { reaction: { reactor, reaction } },
+            $inc: { reactionCount: -1 },
+          },
+          { new: true }
+        )
+        .lean();
+
       AppResponse.success(res, comment);
     } catch (e) {
       AppResponse.fail(res, e);

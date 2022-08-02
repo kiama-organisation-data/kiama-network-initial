@@ -6,7 +6,7 @@ import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class JobCntrl {
-  constructor() {}
+  constructor() { }
 
   createJobPosting = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -89,7 +89,7 @@ class JobCntrl {
             item.poster.toString().includes(querylowerd) &&
             // Filter
             item.poster.toString() ===
-              (jobPortalId.toString() || item.poster.toString())
+            (jobPortalId.toString() || item.poster.toString())
           );
         });
 
@@ -111,7 +111,7 @@ class JobCntrl {
   };
 
   createPortal = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
 
     try {
@@ -140,7 +140,7 @@ class JobCntrl {
   };
 
   editPortal = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { body, user } = req;
 
     const portal = await jobPortalModel.findByIdAndUpdate(
@@ -161,7 +161,7 @@ class JobCntrl {
   };
 
   updatePortalCoverPhoto = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { file, user } = req;
     let procceed = false;
 
@@ -175,6 +175,7 @@ class JobCntrl {
         .select(["coverPhoto", "admins"]);
 
       portal?.admins.map((admin: any) => {
+        // @ts-ignore
         if (user.toString() === admin.toString()) {
           procceed = true;
         }
@@ -182,7 +183,7 @@ class JobCntrl {
 
       if (!procceed) return AppResponse.notPermitted(res, "not an admin");
 
-      //@ts-expect-error
+      // @ts-ignore
       await deleteFromCloud(portal?.coverPhoto.url);
       const upload = await uploadToCloud(file.path);
 
@@ -204,7 +205,7 @@ class JobCntrl {
 
   deletePortal = async (req: Request, res: Response) => {
     const { portalId } = req.params;
-    //@ts-expect-error
+
     const { user } = req;
     let proceed = false;
 
@@ -218,6 +219,7 @@ class JobCntrl {
     }
 
     portal?.admins.map((admin: any) => {
+      // @ts-ignore
       if (user.toString() === admin.toString()) {
         proceed = true;
       }
@@ -225,7 +227,7 @@ class JobCntrl {
 
     try {
       if (!proceed) return AppResponse.notPermitted(res, "not an admin");
-      //@ts-expect-error
+      // @ts-ignore
       await deleteFromCloud(portal.coverPhoto?.url);
 
       await jobPortalModel.findByIdAndDelete(portalId);
@@ -297,7 +299,7 @@ class JobCntrl {
             item._id.toString().includes(querylowerd) &&
             // Filter
             item._id.toString() ===
-              (jobPortalId.toString() || item._id.toString())
+            (jobPortalId.toString() || item._id.toString())
           );
         });
 

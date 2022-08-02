@@ -39,6 +39,11 @@ import EventsCatRouter from "./category/Events.Router";
 // stats
 import UsersStatsRouter from "./stats/Users.Router";
 
+// collections
+
+import shopRouter from "./collections/Shop.Router";
+
+
 const router: Router = Router();
 
 function rootRouter() {
@@ -84,6 +89,9 @@ function rootRouter() {
   router.use("/task", validationToken.TokenValidation, TasksRouter);
   router.use("/vote", validationToken.TokenValidation, VotesRouter);
   router.use("/job", validationToken.TokenValidation, JobRouter);
+
+  // collections
+  router.use("/collections/shop", validationToken.TokenValidation, shopRouter);
 
   // category
   router.use("/news/cat", validationToken.TokenValidation, NewsCatRouter);

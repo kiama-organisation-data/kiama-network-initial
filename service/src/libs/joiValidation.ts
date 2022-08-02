@@ -1,5 +1,7 @@
 import Joi, { number, string } from "@hapi/joi";
 import { IChannel } from "../model/Channels.Model";
+import { IProduct } from "../model/collections/Product.Model";
+import { IShop } from "../model/collections/Shop.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
@@ -111,6 +113,45 @@ class JoiValidate {
       device: Joi.string(),
     });
     return gettShema.validate(data);
+  };
+
+  shopCreationValidation = (data: IShop) => {
+    const postSchema = Joi.object({
+      name: Joi.string(),
+      email: Joi.string(),
+      mobile: Joi.string(),
+      country: Joi.string(),
+      city: Joi.string(),
+    });
+    return postSchema.validate(data);
+  };
+
+  productCreationValidation = (data: IProduct) => {
+    const postSchema = Joi.object({
+      name: Joi.string().min(3).max(35).required(),
+      description: Joi.string().min(5).max(400).required(),
+      initPrice: Joi.string().required().trim(),
+      currency: Joi.string().trim().required(),
+      discount: Joi.number(),
+      //   specs: Joi.object({
+      color: Joi.string(),
+      extraInfo: Joi.string().min(10),
+      //   }),
+    });
+    return postSchema.validate(data);
+  };
+
+  productEditValidation = (data: IProduct) => {
+    const postSchema = Joi.object({
+      description: Joi.string().min(5).max(400),
+      initPrice: Joi.string().trim(),
+      discount: Joi.number(),
+      //   specs: Joi.object({
+      color: Joi.string(),
+      extraInfo: Joi.string().min(10),
+      //   }),
+    });
+    return postSchema.validate(data);
   };
 }
 

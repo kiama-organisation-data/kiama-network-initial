@@ -26,7 +26,7 @@ import AppResponse from "../services/index";
  */
 
 class GroupController {
-  constructor() {}
+  constructor() { }
 
   /**
    * Up until next comment at line 200+, here only handles group functionalities
@@ -46,7 +46,7 @@ class GroupController {
         image = { publicId: upload.public_id, url: upload.secure_url };
       }
 
-      //@ts-expect-error
+      // @ts-ignore
       const { details } = req;
       const group: IGroup = await groupModel.create({
         ...req.body,
@@ -90,7 +90,7 @@ class GroupController {
       if (!imageMimeType.includes(req.file.mimetype))
         return AppResponse.fail(res, "not a valid file type");
 
-      //@ts-expect-error
+      // @ts-ignore
       const currentUrl = group?.image?.url;
       await deleteFromCloud(currentUrl);
       const upload = await uploadToCloud(req.file.path);
@@ -116,7 +116,7 @@ class GroupController {
       if (!group) {
         return AppResponse.notFound(res, "group not found");
       }
-      //@ts-expect-error
+      // @ts-ignore
       const currentUrl = group.image.url;
       await deleteFromCloud(currentUrl);
       group.image = {
@@ -354,17 +354,18 @@ class GroupController {
       }
     }
     let message = await groupMsgModel.findById(req.params.id);
-    //@ts-expect-error
+
+    // @ts-ignore
     message?.reply.audio = audio;
-    //@ts-expect-error
+    // @ts-ignore
     message?.reply.image = image;
-    //@ts-expect-error
+    // @ts-ignore
     message?.reply.text = text;
-    //@ts-expect-error
+    // @ts-ignore
     message?.reply.from = req.body.from;
-    //@ts-expect-error
+    // @ts-ignore
     message?.reply.messageFormat = msgFormat;
-    //@ts-expect-error
+    // @ts-ignore
     message = await message?.save();
     if (!message) return AppResponse.notFound(res, "message not found");
 

@@ -22,6 +22,18 @@ class AppResponse {
   notPermitted = (res: Response, msg: any) => {
     res.status(403).json({ message: "not permitted" });
   };
+
+  updated = (res: Response, msg: "updated") => {
+    res.status(200).json({ success: "true", msg });
+  };
+
+  noFile = (res: Response) => {
+    res.status(400).send("No file present in request ");
+  };
+
+  throwError = (res: Response) => {
+    res.status(400).send("An error occured");
+  };
 }
 
 export default new AppResponse();
