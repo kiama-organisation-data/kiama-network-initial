@@ -144,8 +144,7 @@ class JoiValidate {
   productEditValidation = (data: IProduct) => {
     const postSchema = Joi.object({
       description: Joi.string().min(5).max(400),
-      initPrice: Joi.string().trim(),
-      discount: Joi.number(),
+      name: Joi.string().min(3),
       //   specs: Joi.object({
       color: Joi.string(),
       extraInfo: Joi.string().min(10),

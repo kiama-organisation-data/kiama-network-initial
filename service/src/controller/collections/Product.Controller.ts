@@ -3,6 +3,7 @@ import { deleteFromCloud, uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import productModel, { IProduct } from "../../model/collections/Product.Model";
 import shopModel from "../../model/collections/Shop.Model";
+import Users from "../../model/UsersAuth.Model";
 import AppResponse from "../../services/index";
 
 class ProductCntrl {
@@ -88,7 +89,7 @@ class ProductCntrl {
 
       if (!products) return AppResponse.notFound(res);
 
-      AppResponse.success(res, products);
+      AppResponse.success(res, { products, totalProducts });
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -115,7 +116,7 @@ class ProductCntrl {
       const product = await productModel.findById(producId).select(["image"]);
       if (!product) return AppResponse.notFound(res);
 
-      //@ts-expect-error
+      //@ts-ignore
       await deleteFromCloud(product.image.url);
       await productModel.deleteOne({ _id: producId });
       AppResponse.success(res, "deleted successfully");
@@ -125,10 +126,10 @@ class ProductCntrl {
   }
 
   async getOneProduct(req: Request, res: Response) {
-    const { producId } = req.query;
+    const { productId } = req.query;
 
     try {
-      const product = await productModel.findById(producId).lean();
+      const product = await productModel.findById(productId).lean();
 
       AppResponse.success(res, product);
     } catch (e) {
@@ -136,11 +137,58 @@ class ProductCntrl {
     }
   }
 
-  async addToCart(req: Request, res: Response) {}
+  async addToCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { user } = req;
+    const { productId } = req.params;
 
-  async removeFromCart(req: Request, res: Response) {}
+    try {
+      const product = await productModel.findById(productId);
 
-  async getCart(req: Request, res: Response) {}
+      if (!product) return AppResponse.notFound(res);
+
+      const fetchUser = await Users.findById(user);
+
+      await fetchUser?.addToCart(product);
+
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  async removeFromCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { details } = req;
+    const { productId } = req.params;
+
+    try {
+      await details.removeFromCart(productId);
+
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  async getCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { user } = req;
+
+    try {
+      const userCart = await Users.findById(user).populate(
+        "cart.items.productId",
+        "Product"
+      );
+
+      if (!userCart) return AppResponse.notFound(res);
+
+      //@ts-ignore
+      AppResponse.success(res, { data: userCart.cart.items });
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
 
   async makeOrder(req: Request, res: Response) {}
 
