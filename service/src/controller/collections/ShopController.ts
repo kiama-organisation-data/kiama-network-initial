@@ -8,10 +8,10 @@ import redisConfig from "../../libs/redis";
 import Users from "../../model/UsersAuth.Model";
 
 class ShopCntl {
-  constructor() {}
+  constructor() { }
 
   async createShop(req: Request, res: Response) {
-    //@ts-expect-error
+
     const { body, user, file } = req;
     if (!file) return AppResponse.noFile(res);
 
@@ -102,7 +102,7 @@ class ShopCntl {
   }
 
   async addCustomer(req: Request, res: Response) {
-    //@ts-expect-error
+
     const { user } = req;
     const { shopId } = req.query;
 
@@ -140,7 +140,7 @@ class ShopCntl {
   }
 
   async loginToShop(req: Request, res: Response) {
-    //@ts-expect-error
+
     const { user } = req;
     const { shopId } = req.body;
 
@@ -160,14 +160,14 @@ class ShopCntl {
       const shop = await shopModel.findById(shopId);
 
       if (!shop?.credentials) return AppResponse.throwError(res);
-      //@ts-expect-error
+      // @ts-ignore
       if (userM.collections.shop.secretKey !== shop?.credentials.secretKey) {
         return AppResponse.notPermitted(res, "not owner");
       }
 
       const token = await shopServices.developeCredentials(
         shopId,
-        //@ts-expect-error
+        // @ts-ignore
         userM.collections.shop.secretKey
       );
 
@@ -189,7 +189,7 @@ class ShopCntl {
   }
 
   async getUsersShop(req: Request, res: Response) {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const shops = await shopModel

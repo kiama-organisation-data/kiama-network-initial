@@ -4,10 +4,9 @@ import channelPostModel from "../model/Posts.Channels";
 import AppResponse from "../services/index";
 
 class channelCommentCntrl {
-  constructor() {}
+  constructor() { }
 
   createComment = async (req: Request, res: Response) => {
-    //@ts-expect-error
     const { user } = req;
     const { parentId, postId, comment } = req.body;
 
@@ -134,12 +133,12 @@ class channelCommentCntrl {
     try {
       const post = await channelPostModel.findById(postId);
 
-      //@ts-expect-error
+      // @ts-ignore
       const { comments, commentCount, creator } = post;
 
       if (!comments.length && commentCount < 1) {
         return AppResponse.fail(res, "no comments");
-        //@ts-expect-error
+
       } else if (creator.toString() !== req.user) {
         return AppResponse.notPermitted(res, "not permitted");
       }
@@ -170,7 +169,7 @@ class channelCommentCntrl {
   addReaction = async (req: Request, res: Response) => {
     const { reaction } = req.query;
     const { commentId } = req.params;
-    //@ts-expect-error
+
     const reactor = req.user;
 
     try {
@@ -198,7 +197,7 @@ class channelCommentCntrl {
   removeReaction = async (req: Request, res: Response) => {
     const { reaction } = req.query;
     const { commentId } = req.params;
-    //@ts-expect-error
+
     const reactor = req.user;
 
     const reactionCheck = await channelCommentModel
@@ -212,6 +211,7 @@ class channelCommentCntrl {
     let procceed = false;
 
     reactionCheck.reaction.map((i: any) => {
+      // @ts-ignore
       if (i.reactor.toString() === reactor.toString()) {
         procceed = true;
       }

@@ -4,7 +4,7 @@ import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class PostsController {
-  constructor() {}
+  constructor() { }
 
   // =========================================================================
   // upload posts with a maximum number of 5 files
@@ -22,7 +22,7 @@ class PostsController {
     let filesUrl: Array<string> = [];
     let filesType: Array<string> = [];
 
-    //@ts-expect-error
+    // @ts-ignore
     req.files.map((i: any) => {
       filesUrl.push(i.path);
       filesType.push(i.mimetype);

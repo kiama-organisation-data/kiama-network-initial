@@ -3,10 +3,10 @@ import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class UserUtilCntrl {
-  constructor() {}
+  constructor() { }
 
   getAllUserJobPortals = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const userPortals = await Users.findById(user)
@@ -23,7 +23,7 @@ class UserUtilCntrl {
   };
 
   getAllUserChannels = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const channels = await Users.findById(user)
@@ -63,7 +63,7 @@ class UserUtilCntrl {
   };
 
   getAllUserFriends = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
     try {
       const friends = await Users.findById(user)
@@ -80,7 +80,7 @@ class UserUtilCntrl {
   };
 
   getAllUsersVisitedShops = async (req: Request, res: Response) => {
-    //@ts-expect-error
+
     const { user } = req;
 
     try {

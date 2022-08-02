@@ -10,7 +10,7 @@ import Users from "../model/UsersAuth.Model";
  */
 
 class PagesController {
-  constructor() {}
+  constructor() { }
 
   create = async (req: Request, res: Response) => {
     const isFile = PageServices.checkFile(req, res);
@@ -28,7 +28,7 @@ class PagesController {
 
       let user = await Users.findById(req.params.id);
       user?.pages.push(page._id);
-      //@ts-expect-error
+      // @ts-ignore
       user = await user?.save();
       try {
         AppResponse.created(res, page);
@@ -62,11 +62,11 @@ class PagesController {
     const isFile = PageServices.checkFile(req, res);
     if (isFile) {
       let page = await pageModel.findById(req.params.id);
-      //@ts-expect-error
+      // @ts-ignore
       page?.image.publicId = "dummy"; // to be implemented in cloudinary
-      //@ts-expect-error
+      // @ts-ignore
       page?.image.url = req.file?.path;
-      //@ts-expect-error
+      // @ts-ignore
       page = await page?.save();
       try {
         AppResponse.success(res, page);
@@ -94,11 +94,11 @@ class PagesController {
     const isModerator = await PageServices.isModerator(req, res);
     if (isModerator.success) {
       isModerator.page?.moderators.push(req.body.moderator);
-      //@ts-expect-error
+      // @ts-ignore
       isModerator.page = await isModerator.page.save();
       let user = await Users.findOne({ _id: req.body.moderator });
       user?.pages.push(isModerator.page._id);
-      //@ts-expect-error
+      // @ts-ignore
       user = await user.save();
       try {
         AppResponse.success(res, isModerator.page);
@@ -170,7 +170,7 @@ class PagesController {
       .findOne({ pageId: req.params.pageId })
       .select(["visitors"]);
     try {
-      //@ts-expect-error
+      // @ts-ignore
       if (visitors?.visitors?.length > 1) {
         AppResponse.success(res, visitors);
       } else {
