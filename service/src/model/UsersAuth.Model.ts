@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { array } from "@hapi/joi";
 
 const shema: any = mongoose.Schema;
 
@@ -24,9 +23,15 @@ export interface IUser extends mongoose.Document {
   shops: Array<any>;
   friends: Array<IUser>;
   friendRequests: Array<IUser>;
-  collections: object;
+  collections: {
+    shop: Array<any>;
+  };
+  cart: object;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
+  addToCart(product: object): Promise<string | boolean>;
+  removeFromCart(product: object): Promise<string>;
+  clearCart: Function;
 }
 
 const usersShema = new shema(
@@ -110,6 +115,21 @@ const usersShema = new shema(
         },
       ],
     },
+    cart: {
+      items: [
+        {
+          productId: {
+            type: Schema.Types.ObjectId,
+            ref: "Product",
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+          },
+        },
+      ],
+    },
     pages: [{ type: Schema.Types.ObjectId, ref: "Page" }],
     channels: [{ type: Schema.Types.ObjectId, ref: "Channel" }],
     jobPortals: [{ type: Schema.Types.ObjectId, ref: "Jobportal" }],
@@ -137,6 +157,44 @@ usersShema.methods.validatePassword = async function (
   password: string
 ): Promise<Boolean> {
   return await bcrypt.compare(password, this.password);
+};
+
+usersShema.methods.addToCart = function (
+  product: any
+): Promise<string | boolean> {
+  const cartProductIndex = this.cart.items.findIndex((cp: any) => {
+    return cp.productId.toString() === product._id.toString();
+  });
+  let newQuantity = 1;
+  const updatedCartItems = [...this.cart.items];
+
+  if (cartProductIndex >= 0) {
+    newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+    updatedCartItems[cartProductIndex].quantity = newQuantity;
+  } else {
+    updatedCartItems.push({
+      productId: product._id,
+      quantity: newQuantity,
+    });
+  }
+  const updatedCart = {
+    items: updatedCartItems,
+  };
+  this.cart = updatedCart;
+  return this.save();
+};
+
+usersShema.methods.removeFromCart = function (productId: any): Promise<string> {
+  const updatedCartItems = this.cart.items.filter((item: any) => {
+    return item.productId.toString() !== productId.toString();
+  });
+  this.cart.items = updatedCartItems;
+  return this.save();
+};
+
+usersShema.methods.clearCart = function (): Function {
+  this.cart = { items: [] };
+  return this.save();
 };
 
 const Users = mongoose.model<IUser>("User", usersShema);
