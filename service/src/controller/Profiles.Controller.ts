@@ -75,7 +75,7 @@ class ProfileController {
                     page = 1,
                     sortBy = "createdAt",
                     sortDesc = false,
-                    user = "",
+                    about = "",
                     select = "all",
                 } = req.query;
 
@@ -85,11 +85,11 @@ class ProfileController {
                     return (
                         // search
                         (
-                            item.user.toLowerCase().includes(queryLowered)
+                            item.about?.toLowerCase().includes(queryLowered)
                         )
                         &&
                         // Filter
-                        item.user.toString() === (user.toString() || item.user.toString())
+                        item.about.toString() === (about.toString() || item.about.toString())
                     );
                 });
 
@@ -103,6 +103,7 @@ class ProfileController {
                 AppResponse.success(res, sortData.paginateArray(dataFinal, perPage, page), filteredData.length);
             })
             .catch(err => {
+                console.log(err);
                 AppResponse.fail(res, err);
             });
     }
@@ -116,13 +117,53 @@ class ProfileController {
     // @access  : Private
     // @param   : id
     getOne(req: any, res: Response): void {
-        Profiles.findOne({ _id: req.params.id })
+        Profiles.findOne({ user: req.params.id })
             .then(profile => {
                 AppResponse.success(res, profile);
             })
             .catch(err => {
                 AppResponse.fail(res, err);
             });
+    }
+
+
+
+    // =========================================================================
+    // follow a profile
+    // =========================================================================
+    // @desc    : follow a profile
+    // @route   : POST /api/v1/profile/:id/follow
+    // @access  : Private
+    // @param   : id
+    followUser = async (req: any, res: Response, next: any): Promise<void> => {
+        const userToFollow: any = await Profiles.findOne({ user: req.params.id });
+        const user: any = await Profiles.findOne({ user: req.user });
+
+        if (!userToFollow) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            if (user.following.includes(userToFollow._id)) {
+                const indexFollowing = user.following.indexOf(userToFollow._id);
+                user.following.splice(indexFollowing, 1);
+
+                const indexFollower = userToFollow.followers.indexOf(user._id);
+                userToFollow.followers.splice(indexFollower, 1);
+
+                await user.save();
+                await userToFollow.save();
+
+                AppResponse.success(res, "Unfollowed");
+            } else {
+                user.following.push(userToFollow._id);
+                userToFollow.followers.push(user._id);
+
+                await user.save();
+                await userToFollow.save();
+
+                AppResponse.success(res, "Followed");
+            }
+        }
+
     }
 }
 

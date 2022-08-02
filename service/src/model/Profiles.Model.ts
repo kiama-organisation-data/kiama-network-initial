@@ -127,7 +127,7 @@ const profilesShema = new shema({
         type: String,
         enum: relationship,
     },
-    religion: { type: String, required: true, enum: religions },
+    religion: { type: String, enum: religions },
     followers: [
         {
             type: mongoose.Schema.Types.ObjectId,
@@ -147,18 +147,18 @@ const profilesShema = new shema({
     city: {
         type: String,
         required: false,
-        default: null
+
     },
     country: {
         to: {
             type: String,
             required: false,
-            default: null
+
         },
         from: {
             type: String,
             required: false,
-            default: null
+
         }
     },
     medals: [
@@ -170,65 +170,61 @@ const profilesShema = new shema({
     company: {
         type: String,
         required: false,
-        default: null
     },
     organization: {
         type: String,
         required: false,
-        default: null
     },
     job: {
         type: String,
         required: false,
-        default: null
     },
     languages: [
         {
             type: String,
             required: false,
-            default: null,
         },
     ],
     interests: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     music: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     books: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     movies: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     websites: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     skills: [
         {
             type: String,
             required: false,
-            default: null,
+
         },
     ],
     experience: [
@@ -236,27 +232,27 @@ const profilesShema = new shema({
             title: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             company: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             location: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             from: {
                 type: Date,
                 required: false,
-                default: null,
+
             },
             to: {
                 type: Date,
                 required: false,
-                default: null,
+
             },
             current: {
                 type: Boolean,
@@ -265,7 +261,7 @@ const profilesShema = new shema({
             description: {
                 type: String,
                 required: false,
-                default: null,
+
             },
         },
     ],
@@ -274,27 +270,27 @@ const profilesShema = new shema({
             school: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             degree: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             fieldofstudy: {
                 type: String,
                 required: false,
-                default: null,
+
             },
             from: {
                 type: Date,
                 required: false,
-                default: null,
+
             },
             to: {
                 type: Date,
                 required: false,
-                default: null,
+
             },
             current: {
                 type: Boolean,
@@ -303,7 +299,7 @@ const profilesShema = new shema({
             description: {
                 type: String,
                 required: false,
-                default: null,
+
             },
         },
     ],
@@ -311,29 +307,31 @@ const profilesShema = new shema({
         youtube: {
             type: String,
             required: false,
-            default: null,
+
         },
         twitter: {
             type: String,
             required: false,
-            default: null,
+
         },
         facebook: {
             type: String,
             required: false,
-            default: null,
+
         },
         linkedin: {
             type: String,
             required: false,
-            default: null,
+
         },
         instagram: {
             type: String,
             required: false,
-            default: null,
+
         },
     },
+}, {
+    toJSON: { virtuals: true }
 }, { _id: true, timestamps: true })
 
 profilesShema.virtual("followersCount").get(function (this: { followers: IProfile[] }) {

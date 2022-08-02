@@ -1,0 +1,21 @@
+import { Router } from "express";
+import UsersStatController from "../../controller/stats/Users.Controller";
+import validationToken from "../../libs/verifyToken";
+
+class UsersStatRouter {
+    router: Router;
+
+    constructor() {
+        this.router = Router();
+        this.routes();
+    }
+    /**
+     * @description: This method is used to define the routes of the UsersStatRouter
+     * @function routes "/:id" gets an id as a param used for fetching, deleting and editing
+     */
+    routes() {
+        this.router.get("/new-per-day", validationToken.TokenValidation, UsersStatController.countNewUserPerDay);
+    }
+}
+
+export default new UsersStatRouter().router;

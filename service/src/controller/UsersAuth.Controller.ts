@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Users, { IUser } from "../model/UsersAuth.Model";
 import Roles, { IRole } from "../model/Role.Model";
+import Profiles, { IProfile } from "../model/Profiles.Model";
 import mongoose from "mongoose";
 import userServices from "../services/User.Services";
 import AppResponse from "../services/index";
@@ -51,6 +52,11 @@ class UserController {
         })
         .then(() => {
           user.save();
+          // add user id into the profile
+          const profile: IProfile = new Profiles({
+            user: user._id,
+          });
+          profile.save();
           res
             .status(201)
             .json({
