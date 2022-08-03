@@ -3,6 +3,10 @@ import express, { Application, Request, Response } from "express";
 import * as dotenv from "dotenv";
 import * as path from "path";
 import cors from "cors";
+import passport from "passport";
+import passportLibs from "./libs/passport";
+import session from "express-session";
+
 
 // security
 import helmet from "helmet";
@@ -56,8 +60,30 @@ class Server {
     // Todo: add express-rate-limit
 
     // call compression to compress all responses of middleware
-    //@ts-ignore
     this.app.use(compression());
+
+    // call session
+    this.app.use(
+      session({
+        secret: "secret",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          maxAge: 1000 * 60 * 60 * 24 * 7,
+          secure: false,
+          httpOnly: true,
+        },
+      })
+    );
+
+    // call passport
+    this.app.use(passport.initialize());// call passport libs
+    this.app.use(passport.session())
+
+    passportLibs.init();
+    passportLibs.facebook();
+
+
 
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(express.static(path.join(__dirname, "uploads")));
