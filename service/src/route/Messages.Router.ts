@@ -60,7 +60,7 @@ class MessagesRouter {
       .delete(messageHelpers.isId, GroupMsgController.deleteGroup);
 
     this.router
-      .route("/group/exit/:id")
+      .route("/group/edit/:id")
       .delete(messageHelpers.isId, GroupMsgController.editGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
 
     this.router

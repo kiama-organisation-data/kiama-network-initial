@@ -24,6 +24,8 @@ class ProfilesRouter {
             .delete(profilesController.deleteOne)
             .get(profilesController.getOne)
             .patch(profilesController.update);
+
+        this.router.route("/:id/follow").post(profilesController.followUser);
     }
 }
 
