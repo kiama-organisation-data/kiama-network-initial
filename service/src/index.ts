@@ -95,6 +95,10 @@ io.on("connection", (socket: any) => {
   socket.on("abort-call", (to: any, signal: any) => {
     socket.to(to).emit("abort-call", signal);
   });
+
+  socket.on("new-notification", (user: any, body: any) => {
+    socket.emti("new-notification", { user, body });
+  });
 });
 
 http.listen(PORT, () => {

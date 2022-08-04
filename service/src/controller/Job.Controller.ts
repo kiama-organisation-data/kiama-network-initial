@@ -5,27 +5,44 @@ import { IJobPortal, jobModel, jobPortalModel } from "../model/Job.Model";
 import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
+/**
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * @function getAllJobPortals /job/portal                               -- get request
+ * @function createPortal /job/portal                                   -- post request
+ * @function editPortal /job/portal                                     -- patch request
+ * @function getAJobPortal /job/portal/:portalId                        -- get request
+ * @function updatePortalCoverPhoto /job/portal/:portalId               -- patch request
+ * @function deletePortal /job/portal/:portalId                         -- delete request
+ * @function addAdmin /job/portal/:portalId                             -- put request
+ * @function getAllJobPost /job                                         -- get request
+ * @function createJobPosting /job                                      -- post request
+ * @function getJobPost /job/:postId                                    -- get request
+ * @function deleteJobPost /job/:postId                                 -- delete request
+ *
+ * totalRequest: 11
+ */
+
 class JobCntrl {
-  constructor() { }
+  constructor() {}
 
   createJobPosting = async (req: Request, res: Response) => {
     //@ts-ignore
     const { body, user, file } = req;
     let doc: object = {};
 
-    if (file) {
-      const { secure_url, public_id } = await uploadToCloud(file.path);
-      doc = { url: secure_url, publicId: public_id };
-    }
-
-    const job = await jobModel.create({
-      ...body,
-      poster: user,
-      portal: req.query.portal,
-      file: { ...doc, fileType: file?.mimetype },
-    });
-
     try {
+      if (file) {
+        const { secure_url, public_id } = await uploadToCloud(file.path);
+        doc = { url: secure_url, publicId: public_id };
+      }
+
+      const job = await jobModel.create({
+        ...body,
+        poster: user,
+        portal: req.query.portal,
+        file: { ...doc, fileType: file?.mimetype },
+      });
+
       AppResponse.created(res, job);
     } catch (error) {
       AppResponse.fail(res, error);
@@ -39,17 +56,17 @@ class JobCntrl {
       return AppResponse.notFound(res);
     }
 
-    //@ts-ignore
-    const publicId = jobPost.file.url;
-    let result: any;
-
-    if (publicId) {
-      result = await deleteFromCloud(publicId);
-    }
-
-    await jobModel.findByIdAndDelete(req.params.postId);
-
     try {
+      //@ts-ignore
+      const publicId = jobPost.file.url;
+      let result: any;
+
+      if (publicId) {
+        result = await deleteFromCloud(publicId);
+      }
+
+      await jobModel.findByIdAndDelete(req.params.postId);
+
       AppResponse.success(res, result);
     } catch (e) {
       AppResponse.fail(res, e);
@@ -89,7 +106,7 @@ class JobCntrl {
             item.poster.toString().includes(querylowerd) &&
             // Filter
             item.poster.toString() ===
-            (jobPortalId.toString() || item.poster.toString())
+              (jobPortalId.toString() || item.poster.toString())
           );
         });
 
@@ -109,9 +126,10 @@ class JobCntrl {
         AppResponse.fail(res, e);
       });
   };
-
+  /**
+   * Creates a Job portal for Job posting by a recruiter
+   */
   createPortal = async (req: Request, res: Response) => {
-
     const { user } = req;
 
     try {
@@ -140,13 +158,11 @@ class JobCntrl {
   };
 
   editPortal = async (req: Request, res: Response) => {
-
     const { body, user } = req;
 
     const portal = await jobPortalModel.findByIdAndUpdate(
       req.query.portal,
-      body,
-      { new: true }
+      body
     );
 
     if (!portal) {
@@ -154,14 +170,13 @@ class JobCntrl {
     }
 
     try {
-      AppResponse.success(res, portal);
+      AppResponse.updated(res, "updated");
     } catch (e) {
       AppResponse.fail(res, e);
     }
   };
 
   updatePortalCoverPhoto = async (req: Request, res: Response) => {
-
     const { file, user } = req;
     let procceed = false;
 
@@ -174,6 +189,7 @@ class JobCntrl {
         .findById(req.params.portalId)
         .select(["coverPhoto", "admins"]);
 
+      // unneccessary check if user is an admin, will be removed in future
       portal?.admins.map((admin: any) => {
         // @ts-ignore
         if (user.toString() === admin.toString()) {
@@ -218,6 +234,7 @@ class JobCntrl {
       return AppResponse.notFound(res);
     }
 
+    // unneccessary check, will be removed in future
     portal?.admins.map((admin: any) => {
       // @ts-ignore
       if (user.toString() === admin.toString()) {
@@ -299,7 +316,7 @@ class JobCntrl {
             item._id.toString().includes(querylowerd) &&
             // Filter
             item._id.toString() ===
-            (jobPortalId.toString() || item._id.toString())
+              (jobPortalId.toString() || item._id.toString())
           );
         });
 

@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 import {
   groupModel,
@@ -9,24 +9,43 @@ import {
 import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
+// Some valuable information on the methods
+
 /**
  * @function createGroup will create a new group setting the creator as admin an member
- * in the future cloudinary will be used for the image processing
- * also, replacing members with doublyLinked list rather than arrays
  * @function editGroup will only edit other group fileds except image
  * @function editGroupPhoto will edit the group photo accepting only jpg, jpeg and png.
  * @function deleteGroupPhoto will set the publicId and url of group image to null
  * @param isAdmin remember to set this to a middleware in the future
- * @param createGroup admin should be changed to work with more than one id
- * @function removeMember in the future should also remove the groups id from the group
- * param in user model
- * @function deleteGroup in the future should remove the groups id from the user model
+ * @function deleteGroup deletes a groip
  * @function sendMessage in the future a timeStamp will be used to calculate seconds before
  * not allowing for deleting anymore
  */
 
+// All the routes for the methods in this controller.
+// Note: the routes are appended to http://localhost:port/kiama-network/v1
+
+/**
+ * @function createGroup /msg/group                                      -- post request
+ * @function editGroup /msg/group                                        -- patch request
+ * @function addMember /msg/group/add                                    -- post request
+ * @function removeMember /msg/group/remove                              -- delete request
+ * @function sendMessage /msg/group/msg                                  -- post request
+ * @function getMessages /msg/group/msg/:groupId                         -- get request
+ * @function addReaction /msg/group/msg/add-reaction/:messageId          -- patch request
+ * @function replyMessage /msg/group/msg/reply/:messageId                -- put request
+ * @function deleteGroupPhoto /msg/group                                 -- delete request
+ * @function editGroupPhoto /msg/group                                   -- put request
+ * @function removeMember /msg/group/remove                              -- delete request
+ * @function  deleteMessage /msg/group/msg/:id                           -- delete request
+ * @function markSeen /msg/group/msg/mark-seen/:id                       --patch request
+ * @function setAsForwarded /msg/group/msg/forwarded/:id                 --patch request
+ *
+ * totalRoutes : 14
+ */
+
 class GroupController {
-  constructor() { }
+  constructor() {}
 
   /**
    * Up until next comment at line 200+, here only handles group functionalities
@@ -172,8 +191,18 @@ class GroupController {
     }
   };
 
-  // TO.DO :remove groupId from all group members
+  // TO.DO :check for a better alternative to this looping
   deleteGroup = async (req: Request, res: Response) => {
+    const members = await groupModel
+      .findById(req.params.id)
+      .select(["members", "_id"]);
+    //@ts-ignore
+    for (var i; i <= members.length; i++) {
+      //@ts-ignore
+      await Users.findByIdAndUpdate(members[i], {
+        $pull: { groups: members?._id },
+      });
+    }
     await groupModel.findByIdAndDelete(req.params.id);
     try {
       AppResponse.success(res, "success");
@@ -321,7 +350,7 @@ class GroupController {
       AppResponse.success(res, message);
     }
   };
-
+  // Tested and working perfectly
   replyMessage = async (req: Request, res: Response) => {
     let audio: object = {};
     let image: object = {};
@@ -331,45 +360,50 @@ class GroupController {
     const audioMimeType = ["audio/mp3", "audio/wmp", "audio/mpeg"];
     const imageMimeType = ["image/jpeg", "image/pdf", "image/gif"];
 
-    if (req.file) {
-      if (audioMimeType.includes(req.file.mimetype)) {
-        audio = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
-        msgFormat = "audio";
-      } else if (imageMimeType.includes(req.file.mimetype)) {
-        image = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
-        msgFormat = "image";
+    try {
+      if (req.file) {
+        const { secure_url, public_id } = await uploadToCloud(req.file.path);
+        const upload = { publicId: public_id, url: secure_url };
+        if (audioMimeType.includes(req.file.mimetype)) {
+          audio = {
+            upload,
+          };
+          msgFormat = "audio";
+        } else if (imageMimeType.includes(req.file.mimetype)) {
+          image = {
+            upload,
+          };
+          msgFormat = "image";
+        } else {
+          AppResponse.fail(res, "fail");
+        }
       } else {
-        AppResponse.fail(res, "fail");
+        if (req.body) {
+          text = req.body.text;
+          msgFormat = "text";
+        }
       }
-    } else {
-      if (req.body) {
-        text = req.body.text;
-        msgFormat = "text";
-      }
+
+      const message = await groupMsgModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          $push: {
+            reply: {
+              image,
+              audio,
+              text,
+              messageFormat: msgFormat,
+              from: req.body.from,
+            },
+          },
+        },
+        { new: true }
+      );
+
+      AppResponse.success(res, message);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
-    let message = await groupMsgModel.findById(req.params.id);
-
-    // @ts-ignore
-    message?.reply.audio = audio;
-    // @ts-ignore
-    message?.reply.image = image;
-    // @ts-ignore
-    message?.reply.text = text;
-    // @ts-ignore
-    message?.reply.from = req.body.from;
-    // @ts-ignore
-    message?.reply.messageFormat = msgFormat;
-    // @ts-ignore
-    message = await message?.save();
-    if (!message) return AppResponse.notFound(res, "message not found");
-
-    AppResponse.created(res, message);
   };
 }
 

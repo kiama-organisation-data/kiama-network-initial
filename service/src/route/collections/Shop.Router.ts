@@ -26,7 +26,22 @@ class ShopRouter {
     this.router.route("/get-all/users-shops").get(shopController.getUsersShop);
     this.router.route("/login").post(shopController.loginToShop);
 
-    // products
+    // cart
+    this.router.route("/product/get-cart").get(ProductController.getCart);
+
+    this.router
+      .route("/product/remove-from-cart/:productId")
+      .patch(ProductController.removeFromCart);
+
+    this.router
+      .route("/product/add-to-cart/:productId")
+      .post(ProductController.addToCart);
+
+    this.router.route("/make-order").post(ProductController.makeOrder);
+
+    this.router.route("/charge-user").post(ProductController.chargeCard);
+
+    // product
     this.router
       .route("/product/:shopId")
       .post(validateShop, messageUploads, ProductController.createProduct)

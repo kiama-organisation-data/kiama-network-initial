@@ -1,0 +1,1559 @@
+{
+	"info": {
+		"_postman_id": "1670ebd0-0f85-45a3-8e72-654354ad541f",
+		"name": "collections",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "shops",
+			"item": [
+				{
+					"name": "Create Shop",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTHS}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Jumia Online",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "jumia@online.org",
+									"type": "default"
+								},
+								{
+									"key": "country",
+									"value": "Nigeria",
+									"type": "default"
+								},
+								{
+									"key": "city",
+									"value": "Abuja",
+									"type": "default"
+								},
+								{
+									"key": "mobile",
+									"value": "+2347019107553",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Shop",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Jumia Online",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "jumia@online.org",
+											"type": "default"
+										},
+										{
+											"key": "country",
+											"value": "Nigeria",
+											"type": "default"
+										},
+										{
+											"key": "city",
+											"value": "Abuja",
+											"type": "default"
+										},
+										{
+											"key": "mobile",
+											"value": "+2347019107553",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Shop",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTHS}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/one?shopId=62e5216c0398e1d0205b4172",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"one"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e5216c0398e1d0205b4172"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Shop",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Jumia Online",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "jumia@online.org",
+											"type": "default"
+										},
+										{
+											"key": "country",
+											"value": "Nigeria",
+											"type": "default"
+										},
+										{
+											"key": "city",
+											"value": "Abuja",
+											"type": "default"
+										},
+										{
+											"key": "mobile",
+											"value": "+2347019107553",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit Shop Details",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTHS}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/one",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"one"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Shop",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Jumia Online",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "jumia@online.org",
+											"type": "default"
+										},
+										{
+											"key": "country",
+											"value": "Nigeria",
+											"type": "default"
+										},
+										{
+											"key": "city",
+											"value": "Abuja",
+											"type": "default"
+										},
+										{
+											"key": "mobile",
+											"value": "+2347019107553",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all customers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTHS}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/customers?shopId=62e5216c0398e1d0205b4172",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"customers"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e5216c0398e1d0205b4172"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/products?shopId=62e58b992cd8e659d59850fb",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"products"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e58b992cd8e659d59850fb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Customer",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTHS}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/add-customer?shopId=62e5216c0398e1d0205b4172",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"add-customer"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e5216c0398e1d0205b4172"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get shop token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzMTIzMTcsImV4cCI6MTY1OTM5ODcxN30.xBNWNuqH0yt-ELJ3JMK-jcjkpU4AIIa1IbaLW2Xp2g0",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/generate-token?shopId=62e71a55c766d93fc304186b&secretKey=l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"generate-token"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e71a55c766d93fc304186b"
+								},
+								{
+									"key": "secretKey",
+									"value": "l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get shop token",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"generate-token"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb"
+										},
+										{
+											"key": "secretKey",
+											"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "267"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10b-a0wtKBcSau3ado4xj2DHI6KKNA8\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 19:53:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wSWQiOiI2MmU1OGI5OTJjZDhlNjU5ZDU5ODUwZmIiLCJpYXQiOjE2NTkyMTA4MDgsImV4cCI6MTY1OTI5NzIwOH0.Z_fZgYJ6p6CDGe0GDcAGQVD-hbD26shm_3yvd0T9ncQ\",\n        \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Login to shop",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"generate-token"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e58b992cd8e659d59850fb"
+								},
+								{
+									"key": "secretKey",
+									"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Login to shop",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"generate-token"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb"
+										},
+										{
+											"key": "secretKey",
+											"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "301"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"12d-k/WVnarb8lm8dVvu08OILr2JNxQ\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 01 Aug 2022 17:57:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wSWQiOiI2MmU1OGI5OTJjZDhlNjU5ZDU5ODUwZmIiLCJpYXQiOjE2NTkzNzY2MzUsImV4cCI6MTY1OTQ2MzAzNX0.TKqvKqyZx8jqbNY32svgPvt1upZipC2PfeC-ciEcetk\",\n        \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\",\n        \"msg\": \"token expires in 24 hours\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all users shops",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/get-all/users-shops",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"get-all",
+								"users-shops"
+							],
+							"query": [
+								{
+									"key": "shopId",
+									"value": "62e58b992cd8e659d59850fb",
+									"disabled": true
+								},
+								{
+									"key": "secretKey",
+									"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all users shops",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{KIAMA_URL}}/collections/shop/get-all/users-shops",
+									"host": [
+										"{{KIAMA_URL}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"get-all",
+										"users-shops"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb",
+											"disabled": true
+										},
+										{
+											"key": "secretKey",
+											"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5d1-lkNm/Vk5FuV0N4Scj8Nl2yhjlkM\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 01 Aug 2022 18:00:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": [\n        {\n            \"_id\": \"62e71a55c766d93fc304186b\",\n            \"name\": \"Kiama Org\",\n            \"email\": \"kiama@msg.info\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Kenya\",\n            \"city\": \"Nairobi\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659312597/ly3rkuniiho7bsufathp.jpg\",\n                \"publicId\": \"ly3rkuniiho7bsufathp\"\n            },\n            \"credentials\": {\n                \"secretKey\": \"l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y\"\n            },\n            \"customers\": [],\n            \"products\": [],\n            \"createdAt\": \"2022-08-01T00:12:05.940Z\",\n            \"updatedAt\": \"2022-08-01T00:12:05.940Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62e58b992cd8e659d59850fb\",\n            \"name\": \"Kamou Nation\",\n            \"email\": \"kamou@nation.org\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Nigeria\",\n            \"city\": \"Abuja\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659210520/a6ipt6ey0z1h7ylrr9uo.jpg\",\n                \"publicId\": \"a6ipt6ey0z1h7ylrr9uo\"\n            },\n            \"credentials\": {\n                \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\"\n            },\n            \"customers\": [],\n            \"products\": [],\n            \"createdAt\": \"2022-07-30T19:50:49.457Z\",\n            \"updatedAt\": \"2022-07-30T19:50:49.457Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62e5216c0398e1d0205b4172\",\n            \"name\": \"Jumia Online Shops\",\n            \"email\": \"jumia@stores.shop\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Nigeria\",\n            \"city\": \"Abuja\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n                \"publicId\": \"wowyggjtmp5lon9jymnt\"\n            },\n            \"customers\": [\n                \"62e3a00608aea09d83c87c74\"\n            ],\n            \"products\": [],\n            \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n            \"updatedAt\": \"2022-07-30T18:43:22.398Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "products",
+			"item": [
+				{
+					"name": "Add product to shop",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+								"type": "default"
+							},
+							{
+								"key": "x-secret-key",
+								"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Dell Precision 3x",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "This is a new branded product from the dell company at California",
+									"type": "default"
+								},
+								{
+									"key": "initPrice",
+									"value": "300",
+									"type": "default"
+								},
+								{
+									"key": "discount",
+									"value": "4",
+									"type": "default"
+								},
+								{
+									"key": "color",
+									"value": "white",
+									"type": "text"
+								},
+								{
+									"key": "extraInfo",
+									"value": "22 hours lasting battery, 18gb RAM and 2terabyte SSD card",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/Wallpapers/Firefox_wallpaper.png"
+								},
+								{
+									"key": "currency",
+									"value": "Naira",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/62e58b992cd8e659d59850fb",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"62e58b992cd8e659d59850fb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one product",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"type": "default"
+							},
+							{
+								"key": "x-secret-key",
+								"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product?productId=62e83c40da10dbb7862d07a9",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "62e83c40da10dbb7862d07a9"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit product",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"type": "default"
+							},
+							{
+								"key": "x-secret-key",
+								"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Dell Precision XII\",\n    \"color\": \"Greyish white\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/62e58b992cd8e659d59850fb",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"62e58b992cd8e659d59850fb"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{auth}}",
+								"type": "default"
+							},
+							{
+								"key": "x-secret-key",
+								"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/62e58b992cd8e659d59850fb",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"62e58b992cd8e659d59850fb"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cart",
+			"item": [
+				{
+					"name": "Add to cart",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							},
+							{
+								"key": "",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/add-to-cart/62e83c40da10dbb7862d07a9",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"add-to-cart",
+								"62e83c40da10dbb7862d07a9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user cart",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							},
+							{
+								"key": "",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/get-cart",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"get-cart"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from cart",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}",
+								"type": "default"
+							},
+							{
+								"key": "",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+								"type": "default",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/collections/shop/product/remove-from-cart/62e83c40da10dbb7862d07a9",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"collections",
+								"shop",
+								"product",
+								"remove-from-cart",
+								"62e83c40da10dbb7862d07a9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "TEMP_AUTHS",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkxODM0MTMsImV4cCI6MTY1OTI2OTgxM30.2jGjJbA1Jvln7i8TVMMhvlX1TyeOWA6h2l8IoO8go9s"
+		}
+	]
+}

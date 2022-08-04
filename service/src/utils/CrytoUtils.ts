@@ -35,6 +35,7 @@ class ApiCryptoUtils {
     return decryptedHash;
   };
 
+  // combines shop's id and secretKey to develope a refresh token
   developShopToken = async (
     shopId: string,
     secretKey: string,
@@ -46,6 +47,7 @@ class ApiCryptoUtils {
     return token;
   };
 
+  // validates if refresh token equals the shop secretkey
   compareShopToken = async (token: string, secretKey: string) => {
     const compareToken = verify(token, secretKey);
     return compareToken;

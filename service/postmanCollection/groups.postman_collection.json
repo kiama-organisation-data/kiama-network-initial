@@ -1,0 +1,632 @@
+{
+	"info": {
+		"_postman_id": "ea9a737d-32d3-4bf2-a89a-8164a4106a8a",
+		"name": "groups",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a group",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Ex heritage students",
+							"type": "default"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Pictures/code.png"
+						},
+						{
+							"key": "description",
+							"value": "created for the purpose of keeping im check all heritage ex students",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a group",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Ex heritage students",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/code.png"
+								},
+								{
+									"key": "description",
+									"value": "created for the purpose of keeping im check all heritage ex students",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/msg/group",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"msg",
+								"group"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "499"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1f3-UYMLB5MAztniDLgb2VQzIVnPxYY\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Jul 2022 05:17:56 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Ex heritage students\",\n        \"description\": \"created for the purpose of keeping im check all heritage ex students\",\n        \"image\": {\n            \"publicId\": \"ztnuu3i2gxd8fxnpgkxr\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659158145/ztnuu3i2gxd8fxnpgkxr.png\"\n        },\n        \"members\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"isImage\": true,\n        \"size\": 1,\n        \"_id\": \"62e4bf04a89927246d1e0a1e\",\n        \"createdAt\": \"2022-07-30T05:17:56.634Z\",\n        \"updatedAt\": \"2022-07-30T05:17:56.634Z\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit group info",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"name\": \"outgoing heritage students\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create a group",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Ex heritage students",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/code.png"
+								},
+								{
+									"key": "description",
+									"value": "created for the purpose of keeping im check all heritage ex students",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/msg/group",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"msg",
+								"group"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "499"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"1f3-UYMLB5MAztniDLgb2VQzIVnPxYY\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Jul 2022 05:17:56 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Ex heritage students\",\n        \"description\": \"created for the purpose of keeping im check all heritage ex students\",\n        \"image\": {\n            \"publicId\": \"ztnuu3i2gxd8fxnpgkxr\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659158145/ztnuu3i2gxd8fxnpgkxr.png\"\n        },\n        \"members\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"isImage\": true,\n        \"size\": 1,\n        \"_id\": \"62e4bf04a89927246d1e0a1e\",\n        \"createdAt\": \"2022-07-30T05:17:56.634Z\",\n        \"updatedAt\": \"2022-07-30T05:17:56.634Z\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit group info Copy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "groupId",
+							"value": "62e4bf04a89927246d1e0a1e",
+							"type": "default"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Pictures/04.07.2022_20.57.04_REC.png"
+						}
+					],
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new group member",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"userId\": \"62e3a8bae5be6cf775e6998f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/add",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"add"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "62e4bf04a89927246d1e0a1e",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove member",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"userId\": \"62e3a8bae5be6cf775e6998f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/remove",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"remove"
+					],
+					"query": [
+						{
+							"key": "groupId",
+							"value": "62e4bf04a89927246d1e0a1e",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send Group Message",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"text\": \"Hello guys\",\n    \"from\": \"62e3a8bae5be6cf775e6998f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/msg",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"msg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Group Messages",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"text\": \"Hello guys\",\n    \"from\": \"62e3a8bae5be6cf775e6998f\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/msg/62e4bf04a89927246d1e0a1e?device=mobile&tab=1",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"msg",
+						"62e4bf04a89927246d1e0a1e"
+					],
+					"query": [
+						{
+							"key": "device",
+							"value": "mobile"
+						},
+						{
+							"key": "tab",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make reaction to message",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/msg/add-reaction/62e4de7f5037a38119edef7f?reaction=clap",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"msg",
+						"add-reaction",
+						"62e4de7f5037a38119edef7f"
+					],
+					"query": [
+						{
+							"key": "reaction",
+							"value": "clap"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark message as seen Copy",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/msg/group/msg/mark-seen/62e4d54db1ebc7909f3123a2",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"msg",
+						"group",
+						"msg",
+						"mark-seen",
+						"62e4d54db1ebc7909f3123a2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

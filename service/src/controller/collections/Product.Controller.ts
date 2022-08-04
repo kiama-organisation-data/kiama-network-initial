@@ -3,10 +3,28 @@ import { deleteFromCloud, uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import productModel, { IProduct } from "../../model/collections/Product.Model";
 import shopModel from "../../model/collections/Shop.Model";
+import Users, { IUser } from "../../model/UsersAuth.Model";
+import ProductServices from "../../services/collections/Product.Services";
 import AppResponse from "../../services/index";
 
+/**
+ *
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * @function getCart /shop/product/get-cart                                         -- get request
+ * @function removeFromCart /shop/product/remove-from-cart/:productId               -- patch request
+ * @function addToCart /shop/product/add-to-cart/:productId                         -- post request
+ * @function makeOrder /shop/make-order                                             -- post request
+ * @function chargeCard /shop/charge-user                                           -- post request
+ * @function createProduct /shop/product/:shopId                                    -- post request
+ * @function getProducts /shop/product/:shopId                                      -- get request
+ * @function editProducts /shop/product/:shopId                                     -- patch request
+ * @function deleteProduct /shop/product/:shopId                                    -- delete request
+ *
+ * totalRequest: 9
+ */
+
 class ProductCntrl {
-  constructor() { }
+  constructor() {}
 
   async createProduct(req: Request, res: Response) {
     const shopId = req.get("x-shop-id");
@@ -21,7 +39,11 @@ class ProductCntrl {
       const { public_id, secure_url } = await uploadToCloud(req.file.path);
 
       let newPrice: String;
-
+      /**
+       * block below comment checks if there is a discount
+       * if there is, it subtracts the discount percentage from the initailPrice
+       * and sets a newPrice
+       */
       if (body.discount > 0) {
         const p = Math.floor((+body.initPrice * body.discount) / 100);
         newPrice = (+body.initPrice - p).toString();
@@ -52,6 +74,15 @@ class ProductCntrl {
     }
   }
 
+  /**
+   *
+   * @param req.query will contain the page, sortBy and search fields
+   * the page field carries a number to donate what page user is on
+   * the sortBy field will contain the method for sorting i.e by newest, oldest
+   * the search field provides how the user wants to get products
+   * i.e by name or category
+   * @returns
+   */
   async getProducts(req: Request, res: Response) {
     const { shopId } = req.params;
     const { page, sortBy, search } = req.query;
@@ -88,7 +119,7 @@ class ProductCntrl {
 
       if (!products) return AppResponse.notFound(res);
 
-      AppResponse.success(res, products);
+      AppResponse.success(res, { products, totalProducts });
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -107,7 +138,11 @@ class ProductCntrl {
       AppResponse.fail(res, e);
     }
   }
-
+  /**
+   *
+   * it first deletes the products image from cloud storage
+   * then deletes the product from model
+   */
   async deleteProduct(req: Request, res: Response) {
     const { producId } = req.query;
 
@@ -115,7 +150,7 @@ class ProductCntrl {
       const product = await productModel.findById(producId).select(["image"]);
       if (!product) return AppResponse.notFound(res);
 
-      // @ts-ignore
+      //@ts-ignore
       await deleteFromCloud(product.image.url);
       await productModel.deleteOne({ _id: producId });
       AppResponse.success(res, "deleted successfully");
@@ -124,11 +159,12 @@ class ProductCntrl {
     }
   }
 
+  // gets a single product from the productModel
   async getOneProduct(req: Request, res: Response) {
-    const { producId } = req.query;
+    const { productId } = req.query;
 
     try {
-      const product = await productModel.findById(producId).lean();
+      const product = await productModel.findById(productId).lean();
 
       AppResponse.success(res, product);
     } catch (e) {
@@ -136,15 +172,132 @@ class ProductCntrl {
     }
   }
 
-  async addToCart(req: Request, res: Response) { }
+  // method will add a product to user's cart
+  async addToCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { user } = req;
+    const { productId } = req.params;
 
-  async removeFromCart(req: Request, res: Response) { }
+    try {
+      const product = await productModel.findById(productId);
 
-  async getCart(req: Request, res: Response) { }
+      if (!product) return AppResponse.notFound(res);
 
-  async makeOrder(req: Request, res: Response) { }
+      const fetchUser = await Users.findById(user);
 
-  async chargeCard(req: Request, res: Response) { }
+      await fetchUser?.addToCart(product);
+
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  /**
+   *
+   * method removes a single product from the cart
+   * the product's id is passed to the @param req.param
+   */
+  async removeFromCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { details } = req;
+    const { productId } = req.params;
+
+    try {
+      await details.removeFromCart(productId);
+
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  // this method will get a users cart with the product populated
+  async getCart(req: Request, res: Response) {
+    //@ts-ignore
+    const { user } = req;
+
+    try {
+      const userCart = await Users.findById(user).populate(
+        "cart.items.productId",
+        "Product"
+      );
+
+      if (!userCart) return AppResponse.notFound(res);
+
+      //@ts-ignore
+      AppResponse.success(res, { data: userCart.cart.items });
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  /**
+   * method creates a new order in the OrderModel collection
+   * it populates data and makes all neccessary calculations
+   */
+  async makeOrder(req: Request, res: Response) {
+    //@ts-ignore
+    const { user } = req;
+
+    try {
+      const userM: IUser | null = await Users.findById(user)
+        .select(["cart", "email", "_id"])
+        .populate("cart.items.productId");
+
+      if (!userM) AppResponse.notFound(res);
+
+      // @ts-ignore
+      const products = userM.cart.items.map((i) => {
+        return { quantity: i.quantity, product: { ...i.productId._doc } };
+      });
+
+      // @ts-ignore
+      const userDetails = { email: userM.email, userId: userM._id };
+      await ProductServices.createOrder(userDetails, products);
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
+
+  /**
+   *
+   * @param req.body carries card data as well as the orderId
+   * @param res will send an email but now return an object
+   */
+  async chargeCard(req: Request, res: Response) {
+    //@ts-ignore
+    const { details } = req;
+
+    try {
+      const token = await ProductServices.createUserToken(req.body);
+
+      if (token) {
+        return AppResponse.fail(res, "couldn't create card token");
+      }
+
+      const order = await ProductServices.chargeCard(req.body);
+      //@ts-ignore
+      const products = order.products.map((prod) => prod.name);
+      const email = order.user.email;
+      const orderObj = {
+        //@ts-ignore
+        status: order.payment.status,
+        //@ts-ignore
+        totalCost: order.payment.totalCost,
+        //@ts-ignore
+        date: order.payment.date,
+        products,
+      };
+
+      await details.clearCart();
+      // in the future an email will be sent here rather than return object to user
+      AppResponse.success(res, orderObj);
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  }
 }
 
 export default new ProductCntrl();

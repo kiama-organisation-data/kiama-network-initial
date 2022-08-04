@@ -12,6 +12,7 @@ const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 class RedisConfig {
   constructor() {}
   async connect() {
+    // connects to the redis database
     const client = createClient({
       url: REDIS_URL,
     });
@@ -20,6 +21,7 @@ class RedisConfig {
     });
     return client;
   }
+  // adds key value pairs to redis database
   async addToRedis(key: string, value: any, expiresIn: any = 60 * 60 * 24) {
     const redisClient = await this.connect();
     try {
@@ -29,6 +31,7 @@ class RedisConfig {
     }
   }
 
+  // deletes a key value pair by querying with the key
   async removeFromRedis(key: string) {
     const redisClient = await this.connect();
     try {
@@ -39,6 +42,7 @@ class RedisConfig {
     }
   }
 
+  // gets a value from redis by querying with the key
   async getValueFromRedis(key: string) {
     const redisClient = await this.connect();
     try {
