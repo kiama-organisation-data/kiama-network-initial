@@ -25,6 +25,7 @@ class PassportsRouter {
             passport.authenticate('facebook', {
                 session: false,
                 failureRedirect: 'kiama-network/api/v1/user/login',
+                successRedirect: '/'
             }), (req, res) => {
                 // @ts-ignore
                 res.header('Authorization', req.user.token).status(200).json({
@@ -42,6 +43,7 @@ class PassportsRouter {
             passport.authenticate('google', {
                 session: false,
                 failureRedirect: 'kiama-network/api/v1/user/login',
+                successRedirect: '/'
             }), (req, res) => {
                 // @ts-ignore
                 res.header('Authorization', req.user.token).status(200).json({
