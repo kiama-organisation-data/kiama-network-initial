@@ -10,7 +10,7 @@ class generateToken {
     }
     // generate token with user id
     public generateJWT(userId: string): string {
-        return jwt.sign({ userId }, process.env.JWT_SECRET || 'defaultToken', { expiresIn: '1h' });
+        return jwt.sign({ userId }, process.env.JWT_SECRET || 'defaultToken', { expiresIn: '1h', algorithm: "HS512", });
     }
 }
 

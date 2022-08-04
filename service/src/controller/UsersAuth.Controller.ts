@@ -107,6 +107,7 @@ class UserController {
       process.env.JWT_SECRET || "defaultToken",
       {
         expiresIn: 60 * 60 * 24,
+        algorithm: "HS512",
       }
     );
 
@@ -116,6 +117,7 @@ class UserController {
       process.env.JWT_SECRET || "defaultRefreshToken",
       {
         expiresIn: 60 * 60 * 24 * 7,
+        algorithm: "HS512",
       }
     );
 
@@ -174,7 +176,10 @@ class UserController {
       const tokena = token.split(" ")[1];
       payload = jwt.verify(
         tokena,
-        process.env.JWT_SECRET || "defaultRefreshToken"
+        process.env.JWT_SECRET || "defaultRefreshToken",
+        {
+          algorithms: ["HS512", "HS256"],
+        }
       );
     } catch (e) {
       return res.status(401).json({ message: "token is not valid" });
@@ -189,6 +194,7 @@ class UserController {
       process.env.JWT_SECRET || "defaultRefreshToken",
       {
         expiresIn: 60 * 60 * 24 * 7,
+        algorithm: "HS512",
       }
     );
 

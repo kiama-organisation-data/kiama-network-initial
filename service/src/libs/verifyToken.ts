@@ -23,7 +23,10 @@ class ValidationToken {
       if (!bearerToken) return res.status(401).json("Access Denied");
       const payload = jwt.verify(
         bearerToken,
-        process.env.JWT_SECRET || "defaultToken"
+        process.env.JWT_SECRET || "defaultToken",
+        {
+          algorithms: ["HS512", "HS256"],
+        }
       ) as IPayload;
 
       const user = await Users.findById(payload._id).select([
