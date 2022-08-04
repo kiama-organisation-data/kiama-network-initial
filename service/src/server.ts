@@ -82,6 +82,7 @@ class Server {
 
     passportLibs.init();
     passportLibs.facebook();
+    passportLibs.google();
 
 
 
