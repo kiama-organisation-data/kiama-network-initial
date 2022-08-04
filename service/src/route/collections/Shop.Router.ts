@@ -37,6 +37,10 @@ class ShopRouter {
       .route("/product/add-to-cart/:productId")
       .post(ProductController.addToCart);
 
+    this.router.route("/make-order").post(ProductController.makeOrder);
+
+    this.router.route("/charge-user").post(ProductController.chargeCard);
+
     // product
     this.router
       .route("/product/:shopId")

@@ -14,6 +14,7 @@ const stripeConfig = new stripe(STRIPE_SECRET_KEY, {
 class PaymentService {
   constructor() {}
 
+  // generates a stripe card token
   async genCardToken(
     data: object | any // data = req.body;
   ) {
@@ -28,6 +29,7 @@ class PaymentService {
     return token.id;
   }
 
+  // actual charge of card with the token id returned from the method above
   async chargeCard(
     data: object | any // data = { orderObject, tokenId }
   ) {
@@ -41,6 +43,7 @@ class PaymentService {
     return chargeCard;
   }
 
+  // validates if charge was successful
   async validateCharge(chargeId: string) {
     const details = await stripeConfig.charges.retrieve(chargeId);
 
@@ -49,6 +52,11 @@ class PaymentService {
     return details;
   }
 }
+
+/**
+ * Since stripe doesn't support all countries especially African countries,
+ * We will add other payment methods as we continue build and see need fit we use best
+ */
 
 const stripePayment = new PaymentService();
 

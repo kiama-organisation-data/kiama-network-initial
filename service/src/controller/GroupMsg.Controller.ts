@@ -26,7 +26,7 @@ import AppResponse from "../services/index";
  */
 
 class GroupController {
-  constructor() { }
+  constructor() {}
 
   /**
    * Up until next comment at line 200+, here only handles group functionalities
@@ -331,45 +331,44 @@ class GroupController {
     const audioMimeType = ["audio/mp3", "audio/wmp", "audio/mpeg"];
     const imageMimeType = ["image/jpeg", "image/pdf", "image/gif"];
 
-    if (req.file) {
-      if (audioMimeType.includes(req.file.mimetype)) {
-        audio = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
-        msgFormat = "audio";
-      } else if (imageMimeType.includes(req.file.mimetype)) {
-        image = {
-          publicId: "nothing yet", //Note: would be implemented later with cloudinary
-          url: req.file.path,
-        };
-        msgFormat = "image";
+    try {
+      if (req.file) {
+        if (audioMimeType.includes(req.file.mimetype)) {
+          audio = {
+            publicId: "nothing yet", //Note: would be implemented later with cloudinary
+            url: req.file.path,
+          };
+          msgFormat = "audio";
+        } else if (imageMimeType.includes(req.file.mimetype)) {
+          image = {
+            publicId: "nothing yet", //Note: would be implemented later with cloudinary
+            url: req.file.path,
+          };
+          msgFormat = "image";
+        } else {
+          AppResponse.fail(res, "fail");
+        }
       } else {
-        AppResponse.fail(res, "fail");
+        if (req.body) {
+          text = req.body.text;
+          msgFormat = "text";
+        }
       }
-    } else {
-      if (req.body) {
-        text = req.body.text;
-        msgFormat = "text";
-      }
+
+      const message = await groupMsgModel.findByIdAndUpdate(req.params.id, {
+        $push: {
+          "reply.audio": audio,
+          "reply.image": image,
+          "reply.text": text,
+          "reply.from": req.body.from,
+          "reply.messageFormat": msgFormat,
+        },
+      });
+
+      AppResponse.created(res, message);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
-    let message = await groupMsgModel.findById(req.params.id);
-
-    // @ts-ignore
-    message?.reply.audio = audio;
-    // @ts-ignore
-    message?.reply.image = image;
-    // @ts-ignore
-    message?.reply.text = text;
-    // @ts-ignore
-    message?.reply.from = req.body.from;
-    // @ts-ignore
-    message?.reply.messageFormat = msgFormat;
-    // @ts-ignore
-    message = await message?.save();
-    if (!message) return AppResponse.notFound(res, "message not found");
-
-    AppResponse.created(res, message);
   };
 }
 
