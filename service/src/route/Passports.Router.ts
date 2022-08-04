@@ -21,11 +21,21 @@ class PassportsRouter {
     routes() {
 
         this.router.get('/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-        this.router.get('/facebook/callback', passport.authenticate('facebook', { session: false, failureRedirect: '/' }), (req, res) => {
-            // @ts-ignore
-            req.session.user = req.user;
-            res.redirect('/');
-        });
+        this.router.get('/facebook/callback',
+            passport.authenticate('facebook', {
+                session: false,
+                failureRedirect: 'kiama-network/api/v1/user/login',
+            }), (req, res) => {
+                // @ts-ignore
+                res.header('Authorization', req.user.token).status(200).json({
+                    success: true,
+                    message: "Login success",
+                    // @ts-ignore
+                    userData: req.user.user,
+                    // @ts-ignore
+                    token: req.user.token,
+                }).end();
+            });
     }
 }
 
