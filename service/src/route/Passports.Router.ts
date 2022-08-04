@@ -36,6 +36,23 @@ class PassportsRouter {
                     token: req.user.token,
                 }).end();
             });
+
+        this.router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
+        this.router.get('/google/callback',
+            passport.authenticate('google', {
+                session: false,
+                failureRedirect: 'kiama-network/api/v1/user/login',
+            }), (req, res) => {
+                // @ts-ignore
+                res.header('Authorization', req.user.token).status(200).json({
+                    success: true,
+                    message: "Login success",
+                    // @ts-ignore
+                    userData: req.user.user,
+                    // @ts-ignore
+                    token: req.user.token,
+                }).end();
+            });
     }
 }
 
