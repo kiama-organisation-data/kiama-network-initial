@@ -15,6 +15,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   role: string;
+  isAdmin: boolean;
   personalAbility: Array<any>;
   status: string;
   birthday: Date;
