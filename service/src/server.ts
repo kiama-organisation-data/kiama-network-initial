@@ -65,7 +65,7 @@ class Server {
     // call session
     this.app.use(
       session({
-        secret: "secret",
+        secret: process.env.SESSION_SECRET || "defaultSecret",
         resave: false,
         saveUninitialized: false,
         cookie: {
