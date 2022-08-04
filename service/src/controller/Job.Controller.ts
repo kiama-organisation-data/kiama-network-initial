@@ -5,6 +5,23 @@ import { IJobPortal, jobModel, jobPortalModel } from "../model/Job.Model";
 import Users from "../model/UsersAuth.Model";
 import AppResponse from "../services/index";
 
+/**
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * @function getAllJobPortals /job/portal                               -- get request
+ * @function createPortal /job/portal                                   -- post request
+ * @function editPortal /job/portal                                     -- patch request
+ * @function getAJobPortal /job/portal/:portalId                        -- get request
+ * @function updatePortalCoverPhoto /job/portal/:portalId               -- patch request
+ * @function deletePortal /job/portal/:portalId                         -- delete request
+ * @function addAdmin /job/portal/:portalId                             -- put request
+ * @function getAllJobPost /job                                         -- get request
+ * @function createJobPosting /job                                      -- post request
+ * @function getJobPost /job/:postId                                    -- get request
+ * @function deleteJobPost /job/:postId                                 -- delete request
+ *
+ * totalRequest: 11
+ */
+
 class JobCntrl {
   constructor() {}
 

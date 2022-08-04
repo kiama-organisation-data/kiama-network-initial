@@ -7,6 +7,8 @@ import shopModel from "../../model/collections/Shop.Model";
 import redisConfig from "../../libs/redis";
 import Users from "../../model/UsersAuth.Model";
 
+// important comments to pay attention to
+
 /**
  * User requests for a shop
  * This request is submitted to the technical team which then views user profile
@@ -16,6 +18,24 @@ import Users from "../../model/UsersAuth.Model";
  * It creates a new shop as well as pass the id of the shop to the users model
  * And sets the users accountType to business
  * This setting helps for integrations later
+ */
+
+// routes for this controller
+
+/**
+ *
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * @function createShop /shop                                      -- post request
+ * @function getSingleShop /shop/one                               -- get request
+ * @function updateShopDetails /shop/one                           -- patch request
+ * @function addCustomer /shop/add-customer                        -- patch request
+ * @function getShopsProducts /shop/products                       -- get request
+ * @function getShopCustomers /shop/customers                      -- get request
+ * @function getShopToken /shop/generate-token                     -- get request
+ * @function getUsersShop /shop/get-all/users-shops                -- get request
+ * @function loginToShop /shop/login                               -- post request
+ *
+ * totalRequest: 9
  */
 
 class ShopCntl {

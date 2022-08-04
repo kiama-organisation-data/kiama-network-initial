@@ -21,5 +21,5 @@
 ---
 
 **TO.DO**
-
-\*\*Create the technical team space in which users can apply for a shop
+\*\* The only functionality behind updates is the pages funcionality: implement this
+\*\* Create the technical team space in which users can apply for a shop

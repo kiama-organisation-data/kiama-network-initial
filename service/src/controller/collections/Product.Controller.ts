@@ -7,6 +7,22 @@ import Users, { IUser } from "../../model/UsersAuth.Model";
 import ProductServices from "../../services/collections/Product.Services";
 import AppResponse from "../../services/index";
 
+/**
+ *
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * @function getCart /shop/product/get-cart                                         -- get request
+ * @function removeFromCart /shop/product/remove-from-cart/:productId               -- patch request
+ * @function addToCart /shop/product/add-to-cart/:productId                         -- post request
+ * @function makeOrder /shop/make-order                                             -- post request
+ * @function chargeCard /shop/charge-user                                           -- post request
+ * @function createProduct /shop/product/:shopId                                    -- post request
+ * @function getProducts /shop/product/:shopId                                      -- get request
+ * @function editProducts /shop/product/:shopId                                     -- patch request
+ * @function deleteProduct /shop/product/:shopId                                    -- delete request
+ *
+ * totalRequest: 9
+ */
+
 class ProductCntrl {
   constructor() {}
 
