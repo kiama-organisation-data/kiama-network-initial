@@ -3,6 +3,7 @@ import passport from "passport";
 import passeportFacebook from "passport-facebook";
 import passeportGoogle from "passport-google-oauth20";
 import Profiles, { IProfile } from "../model/Profiles.Model";
+import generateTokene from "./generateToken";
 
 import * as dotenv from "dotenv";
 import path from "path";
@@ -36,7 +37,8 @@ class passportConfig {
             async (accessToken, refreshToken, profile, done) => {
                 const user = await Users.findOne({ email: profile.emails[0].value });
                 if (user) {
-                    return done(null, user);
+                    const token = generateTokene.generateJWT(user._id);
+                    return done(null, { user: user, token });
                 } else {
                     const newUser = new Users({
                         email: profile.emails[0].value,
@@ -55,8 +57,11 @@ class passportConfig {
                             user: newUser._id,
                         });
                         profile.save();
+
+                        // generate token with user id
+                        const token = generateTokene.generateJWT(newUser._id);
+                        return done(null, { user: newUser, token });
                     });
-                    return done(null, newUser);
                 }
             }
         );
