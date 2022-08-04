@@ -25,4 +25,7 @@
 * -c : concurrency, number of multiple requests to perform at a time 
 * -n : requests, number of requests to perform for the benchmarking session
 
+## npm install -g local-ssl-proxy 
+* local-ssl-proxy --config proxy.json
+
 

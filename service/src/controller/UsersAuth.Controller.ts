@@ -104,7 +104,7 @@ class UserController {
     // create a Token
     const token: string = jwt.sign(
       { _id: user._id },
-      process.env.SECRET_TOKEN || "defaultToken",
+      process.env.JWT_SECRET || "defaultToken",
       {
         expiresIn: 60 * 60 * 24,
       }
@@ -113,7 +113,7 @@ class UserController {
     // create a refreshToken
     const refreshToken: string = jwt.sign(
       { _id: user._id },
-      process.env.SECRET_TOKEN || "defaultRefreshToken",
+      process.env.JWT_SECRET || "defaultRefreshToken",
       {
         expiresIn: 60 * 60 * 24 * 7,
       }
@@ -174,7 +174,7 @@ class UserController {
       const tokena = token.split(" ")[1];
       payload = jwt.verify(
         tokena,
-        process.env.SECRET_TOKEN || "defaultRefreshToken"
+        process.env.JWT_SECRET || "defaultRefreshToken"
       );
     } catch (e) {
       return res.status(401).json({ message: "token is not valid" });
@@ -186,7 +186,7 @@ class UserController {
 
     const tokenRefresh = jwt.sign(
       { _id: userData._id },
-      process.env.SECRET_TOKEN || "defaultRefreshToken",
+      process.env.JWT_SECRET || "defaultRefreshToken",
       {
         expiresIn: 60 * 60 * 24 * 7,
       }
@@ -246,7 +246,7 @@ class UserController {
           .json({ message: "No token, authorization denied" });
 
       const tokena = token.split(" ")[1];
-      jwt.verify(tokena, process.env.SECRET_TOKEN || "defaultToken");
+      jwt.verify(tokena, process.env.JWT_SECRET || "defaultToken");
       AppResponse.success(res, "Logout success");
     } catch (error) {
       AppResponse.fail(res, error);

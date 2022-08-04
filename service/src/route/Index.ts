@@ -43,6 +43,8 @@ import UsersStatsRouter from "./stats/Users.Router";
 
 import shopRouter from "./collections/Shop.Router";
 
+// Passports
+import PassportsRouter from "./Passports.Router";
 
 const router: Router = Router();
 
@@ -106,6 +108,8 @@ function rootRouter() {
   // stats
   router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);
 
+  // Passports
+  router.use("/passport", PassportsRouter);
   return router;
 }
 
