@@ -7,8 +7,7 @@
 
 ## GroupMessaging
 
-** I am not done reformatting the file
-** I have two functionalities half implemented
+\*\* I have two functionalities half implemented
 
 ## ChatRoom
 

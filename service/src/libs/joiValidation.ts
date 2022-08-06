@@ -117,11 +117,12 @@ class JoiValidate {
 
   shopCreationValidation = (data: IShop) => {
     const postSchema = Joi.object({
-      name: Joi.string(),
-      email: Joi.string(),
-      mobile: Joi.string(),
-      country: Joi.string(),
-      city: Joi.string(),
+      name: Joi.string().required(),
+      email: Joi.string().trim().required(),
+      mobile: Joi.string().required(),
+      country: Joi.string().required(),
+      city: Joi.string().required(),
+      purpose: Joi.string().required().min(40),
     });
     return postSchema.validate(data);
   };

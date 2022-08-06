@@ -42,7 +42,7 @@ import UsersStatsRouter from "./stats/Users.Router";
 // collections
 
 import shopRouter from "./collections/Shop.Router";
-
+import CentreRouter from "./collections/Centre.Router";
 
 const router: Router = Router();
 
@@ -92,6 +92,7 @@ function rootRouter() {
 
   // collections
   router.use("/collections/shop", validationToken.TokenValidation, shopRouter);
+  router.use("/centre", CentreRouter);
 
   // category
   router.use("/news/cat", validationToken.TokenValidation, NewsCatRouter);
@@ -101,7 +102,6 @@ function rootRouter() {
     ChallengesCatRouter
   );
   router.use("/event/cat", validationToken.TokenValidation, EventsCatRouter);
-
 
   // stats
   router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);

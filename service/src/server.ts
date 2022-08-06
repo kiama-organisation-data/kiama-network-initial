@@ -69,20 +69,6 @@ class Server {
     this.app.use("/kiama-network/api/v1", rootRouter());
 
     // Routes for upload file
-    this.app.use(
-      "/assets/videos",
-      express.static(path.resolve(process.cwd(), "assets", "videos"))
-    );
-
-    this.app.use(
-      "/assets/images",
-      express.static(path.resolve(process.cwd(), "assets", "images"))
-    );
-
-    this.app.use(
-      "/assets/audio",
-      express.static(path.resolve(process.cwd(), "assets", "audio"))
-    );
 
     this.app.use(
       "/uploads",
