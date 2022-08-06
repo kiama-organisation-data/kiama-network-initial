@@ -11,6 +11,8 @@ export interface IShop extends Document {
   credentials: object;
   customers: Array<any>;
   products: Array<any>;
+  activity: string;
+  approved: boolean;
 }
 
 const shopSchema = new Schema(
@@ -27,6 +29,16 @@ const shopSchema = new Schema(
     mobile: { type: String, required: true, trim: true },
     country: { type: String, required: true },
     city: { type: String, required: true },
+    activity: {
+      type: String,
+      default: "active",
+      enum: ["active", "blocked", "suspended", "de-activated"],
+    },
+    approved: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     brand: {
       url: {
         type: String,

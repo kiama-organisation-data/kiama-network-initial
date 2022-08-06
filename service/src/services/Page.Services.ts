@@ -4,13 +4,13 @@ import { pagePostModel } from "../model/Posts.Model";
 import AppResponse from "./index";
 
 class PageServices {
-  constructor() { }
+  constructor() {}
 
   checkFile = (req: Request, res: Response) => {
     if (req.file) {
       return true;
     } else {
-      AppResponse.fail(res, "provide an image");
+      throw new Error("Please provide image");
     }
   };
 
