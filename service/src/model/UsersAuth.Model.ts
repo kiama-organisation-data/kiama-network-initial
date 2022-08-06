@@ -8,11 +8,14 @@ export interface IUser extends mongoose.Document {
     first: string;
     last: string;
   };
+  provider: string;
+  providerId: string;
   username: string;
   avatar: string;
   email: string;
   password: string;
   role: string;
+  isAdmin: boolean;
   personalAbility: Array<any>;
   status: string;
   birthday: Date;
@@ -49,6 +52,16 @@ const usersShema = new shema(
         trim: true,
         lowercase: true,
       },
+    },
+    provider: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
+    providerId: {
+      type: String,
+      trim: true,
+      lowercase: true,
     },
     username: {
       type: String,

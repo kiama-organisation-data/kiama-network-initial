@@ -1,0 +1,6 @@
+{
+  "My proxy": {
+    "source": 8282,
+    "target": 8181
+  }
+}

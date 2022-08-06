@@ -44,6 +44,9 @@ import UsersStatsRouter from "./stats/Users.Router";
 import shopRouter from "./collections/Shop.Router";
 import CentreRouter from "./collections/Centre.Router";
 
+// Passports
+import PassportsRouter from "./Passports.Router";
+
 const router: Router = Router();
 
 function rootRouter() {
@@ -106,6 +109,8 @@ function rootRouter() {
   // stats
   router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);
 
+  // Passports
+  router.use("/passport", PassportsRouter);
   return router;
 }
 
