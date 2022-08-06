@@ -3,44 +3,45 @@ import pageModel from "../model/Pages.Model";
 import PageServices from "../services/Page.Services";
 import AppResponse from "../services/index";
 import Users from "../model/UsersAuth.Model";
+import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
 /**
- * @function deletePage in the future remember to make it as to remove the page id
- * from all the users page in Users model
+ * While testing, remeber to comment routes and resolve all paginations
  */
 
 class PagesController {
-  constructor() { }
+  constructor() {}
 
   create = async (req: Request, res: Response) => {
-    const isFile = PageServices.checkFile(req, res);
+    try {
+      const isFile = PageServices.checkFile(req, res);
+      let image: object = {};
+      //@ts-ignore
+      const { secure_url, public_id } = await uploadToCloud(req.file?.path);
+      image = { url: secure_url, publicId: public_id };
+      if (isFile) {
+        const page = await pageModel.create({
+          ...req.body,
+          moderators: [req.params.id],
+          creator: req.params.id,
+          image,
+        });
 
-    if (isFile) {
-      const page = await pageModel.create({
-        ...req.body,
-        moderators: [req.params.id],
-        creator: req.params.id,
-        image: {
-          publicId: "dummy", // will be implemnted with cloudinary
-          url: req.file?.path,
-        },
-      });
-
-      let user = await Users.findById(req.params.id);
-      user?.pages.push(page._id);
-      // @ts-ignore
-      user = await user?.save();
-      try {
+        await Users.findByIdAndUpdate(req.params.id, {
+          $push: { pages: page._id },
+        });
         AppResponse.created(res, page);
-      } catch (e) {
-        AppResponse.fail(res, e);
       }
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   edit = async (req: Request, res: Response) => {
-    const isModerator = await PageServices.isModerator(req, res);
-    if (isModerator.success) {
+    try {
+      const isModerator = await PageServices.isModerator(req, res);
+      if (!isModerator)
+        return AppResponse.notPermitted(res, "user is not a user");
       const page = await pageModel.findByIdAndUpdate(
         req.body.pageId,
         req.body,
@@ -48,39 +49,40 @@ class PagesController {
           new: true,
         }
       );
-      try {
-        AppResponse.success(res, page);
-      } catch (e) {
-        AppResponse.fail(res, e);
-      }
-    } else {
-      AppResponse.fail(res, "an error occured");
+      AppResponse.success(res, page);
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   changePhoto = async (req: Request, res: Response) => {
     const isFile = PageServices.checkFile(req, res);
-    if (isFile) {
-      let page = await pageModel.findById(req.params.id);
-      // @ts-ignore
-      page?.image.publicId = "dummy"; // to be implemented in cloudinary
-      // @ts-ignore
-      page?.image.url = req.file?.path;
-      // @ts-ignore
-      page = await page?.save();
-      try {
-        AppResponse.success(res, page);
-      } catch (e) {
-        AppResponse.fail(res, e);
+    try {
+      if (isFile) {
+        //@ts-ignore
+        const { secure_url, public_id } = await uploadToCloud(req.file?.path);
+        const image = { publicId: public_id, url: secure_url };
+        await pageModel.findById(req.params.id, { image });
+        AppResponse.updated(res, "updated");
       }
+    } catch (e) {
+      AppResponse.fail(res, e);
     }
   };
 
   deletePage = async (req: Request, res: Response) => {
     const isCreator = await PageServices.isCreator(req, res);
     if (isCreator.success) {
-      await pageModel.findByIdAndDelete(req.body.pageId);
       try {
+        const page = await pageModel.findById(req.body.pageId);
+        //@ts-ignore
+        await deleteFromCloud(page?.image.url);
+
+        await Users.findByIdAndUpdate(page?._id, {
+          $pull: { page: page?._id },
+        });
+        pageModel.findByIdAndDelete(page?._id);
+
         AppResponse.success(res, "deleted");
       } catch (e) {
         AppResponse.fail(res, e);
@@ -93,15 +95,17 @@ class PagesController {
   addModerator = async (req: Request, res: Response) => {
     const isModerator = await PageServices.isModerator(req, res);
     if (isModerator.success) {
-      isModerator.page?.moderators.push(req.body.moderator);
-      // @ts-ignore
-      isModerator.page = await isModerator.page.save();
-      let user = await Users.findOne({ _id: req.body.moderator });
-      user?.pages.push(isModerator.page._id);
-      // @ts-ignore
-      user = await user.save();
       try {
-        AppResponse.success(res, isModerator.page);
+        isModerator.page?.moderators.push(req.body.moderator);
+        // @ts-ignore
+        isModerator.page = await isModerator.page.save();
+
+        await Users.findOneAndUpdate(
+          { _id: req.body.moderator },
+          { $push: { pages: isModerator.page._id } }
+        );
+
+        AppResponse.updated(res, "updated");
       } catch (e) {
         AppResponse.fail(res, e);
       }
@@ -115,12 +119,16 @@ class PagesController {
 
     if (isCreator.success) {
       const { moderatorId } = req.body;
-      const result = await isCreator.page?.removeModerator(moderatorId);
 
-      if (result) {
-        AppResponse.success(res, isCreator.page);
-      } else {
-        AppResponse.fail(res, "couldn't  remove moderator");
+      try {
+        await pageModel.findOneAndUpdate(
+          { creator: req.params.id },
+          { $pull: { moderators: moderatorId } }
+        );
+
+        AppResponse.updated(res, "updated");
+      } catch (e) {
+        AppResponse.fail(res, e);
       }
     } else {
       AppResponse.notPermitted(res, "");
@@ -128,48 +136,50 @@ class PagesController {
   };
 
   addVisitor = async (req: Request, res: Response) => {
-    let page = await pageModel.findById(req.params.id);
-    const user = await Users.findById(req.body.id);
+    //@ts-ignore
+    const { user } = req;
     try {
-      if (user && page) {
-        const userId = user._id;
-        const username = user.username;
-        page?.visitors.push({ userId, username });
-        page = await page.save();
-        AppResponse.success(res, "updated");
-      }
+      const userId = user;
+
+      await pageModel.findByIdAndUpdate(req.params.id, {
+        $push: { visitors: userId },
+      });
+
+      AppResponse.success(res, "updated");
+      //   }
     } catch (error) {
       AppResponse.fail(res, error);
     }
   };
 
   getPage = async (req: Request, res: Response) => {
-    const page = await pageModel.findById(req.params.id);
     try {
-      if (page) {
-        AppResponse.success(res, page);
-      }
+      const page = await pageModel.findById(req.params.id);
+
+      AppResponse.success(res, page);
     } catch (e) {
       AppResponse.notFound(res, "not found");
     }
   };
 
+  // remember to paginate
   getPages = async (req: Request, res: Response) => {
-    const pages = await pageModel.find().sort({ createdAt: 1 });
     try {
-      if (pages) {
-        AppResponse.success(res, pages);
-      }
+      const pages = await pageModel.find().sort({ createdAt: 1 });
+
+      AppResponse.success(res, pages);
     } catch (e) {
       AppResponse.notFound(res, "not found");
     }
   };
 
+  // remeber to paginate
   getAllVisitors = async (req: Request, res: Response) => {
-    const visitors = await pageModel
-      .findOne({ pageId: req.params.pageId })
-      .select(["visitors"]);
     try {
+      const visitors = await pageModel
+        .findOne({ pageId: req.params.pageId })
+        .select(["visitors"]);
+
       // @ts-ignore
       if (visitors?.visitors?.length > 1) {
         AppResponse.success(res, visitors);

@@ -22,6 +22,7 @@
     "@types/node-cron": "^3.0.2",
     "@types/redis": "^4.0.11",
     "@types/stripe": "^8.0.417",
+    "@types/uuid": "^8.3.4",
     "@types/webrtc": "^0.0.32",
     "bcrypt": "^4.0.1",
     "bcryptjs": "^2.4.3",
