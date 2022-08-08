@@ -6,6 +6,7 @@ import joiValidation from "../../libs/joiValidation";
 import shopModel from "../../model/collections/Shop.Model";
 import redisConfig from "../../libs/redis";
 import Users from "../../model/UsersAuth.Model";
+import CentreModel from "../../model/collections/Centre.Model";
 
 // important comments to pay attention to
 
@@ -24,7 +25,7 @@ import Users from "../../model/UsersAuth.Model";
 
 /**
  *
- * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+ * Note: all routes are appended to http://localhost:port/kiama-network/api/v1/collections/
  * @function createShop /shop                                      -- post request
  * @function getSingleShop /shop/one                               -- get request
  * @function updateShopDetails /shop/one                           -- patch request
@@ -40,7 +41,10 @@ import Users from "../../model/UsersAuth.Model";
 
 class ShopCntl {
   constructor() {}
-
+  /**
+   * @function createShop is going to be available only to the workers at the centre room
+   * an email would be sent with user shops credentials
+   */
   async createShop(req: Request, res: Response) {
     const { body, user, file } = req;
     if (!file) return AppResponse.noFile(res);
@@ -56,9 +60,19 @@ class ShopCntl {
         url: upload.secure_url,
       };
 
-      const shop = await shopServices.createNew({ brand, body, owner: user });
+      const shop = await shopServices.createNew({
+        brand,
+        body,
+        owner: user,
+      });
       await Users.findByIdAndUpdate(user, {
         $push: { "collections.shop": shop._id, accountType: "business" },
+      });
+      await CentreModel.create({
+        user,
+        collectionId: shop._id,
+        category: "shop",
+        purpose: body.purpose,
       });
       AppResponse.created(res, shop);
     } catch (e) {
@@ -79,6 +93,11 @@ class ShopCntl {
         .lean();
 
       if (!shop) return AppResponse.notFound(res);
+      if (!shop.approved)
+        return AppResponse.notPermitted(
+          res,
+          "this site hasn\t been approved yet"
+        );
 
       AppResponse.success(res, shop);
     } catch (e) {
@@ -257,6 +276,13 @@ class ShopCntl {
         .lean()
         .sort({ createdAt: -1 });
       if (!shops) return AppResponse.notFound(res, "no shops for user");
+      shops.map((shop) => {
+        if (!shop.approved)
+          return AppResponse.notPermitted(
+            res,
+            "this site hasn't been approved yet"
+          );
+      });
       AppResponse.success(res, shops);
     } catch (e) {
       AppResponse.fail(res, e);

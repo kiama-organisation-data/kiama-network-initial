@@ -7,12 +7,11 @@
 
 ## GroupMessaging
 
-** I am not done reformatting the file
-** I have two functionalities half implemented
+\*\* I have two functionalities half implemented
 
 ## ChatRoom
 
-** Video chat func _conferencing feature_
+** Video chat func _conferencing feature_ // half implemented
 ** Voice call func _peer-to-peer chat_
 \*\* Redis would be used as database for these features
 
@@ -26,3 +25,4 @@
 
 
 \*\* get timeline posts, follow a post
+\*\* I have updated pages but not tested it yet.
