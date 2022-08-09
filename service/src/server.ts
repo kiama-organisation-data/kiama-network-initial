@@ -6,6 +6,7 @@ import cors from "cors";
 import passport from "passport";
 import passportLibs from "./libs/passport";
 import session from "express-session";
+import cookieParser from 'cookie-parser';
 
 
 // security
@@ -75,6 +76,8 @@ class Server {
         },
       })
     );
+
+    this.app.use(cookieParser());
 
     // call passport
     this.app.use(passport.initialize());// call passport libs
