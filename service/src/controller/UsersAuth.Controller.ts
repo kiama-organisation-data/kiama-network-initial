@@ -119,14 +119,6 @@ class UserController {
       avatar: user.avatar,
     };
 
-    // return token and user data
-    // res.cookie("token", cookie, { httpOnly: true }).json({
-    //   success: true,
-    //   message: "user logged in",
-    //   token,
-    //   user: userData,
-    // });
-
     res.setHeader('Set-Cookie', [cookie]);
     res.json({
       success: true,
@@ -226,6 +218,23 @@ class UserController {
     await user.save();
     res.json({ success: true, message: "Password changed successfully" });
   };
+
+  // =========================================================================
+  // logout user
+  // =========================================================================
+  // @desc    : logout user
+  // @route   : PUT /api/v1/user/logout
+  // @access  : Private
+  // @param   : id
+
+  Logout = async (req: Request, res: Response) => {
+    try {
+      res.setHeader('Set-Cookie', [AuthService.createCookie("")]);
+      AppResponse.success(res, ` Logout successfully`);
+    } catch (error) {
+      AppResponse.fail(res, error);
+    }
+  }
 }
 
 const userController = new UserController();
