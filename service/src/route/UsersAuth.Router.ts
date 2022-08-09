@@ -19,7 +19,7 @@ class usersRouter {
     // Route auth user
     this.router.post("/", multerMiddleware, userAuthController.AddUser); //Create
     this.router.post("/login", userAuthController.Login); //Route login
-    this.router.post("/logout", userAuthController.Logout); //Route logout
+    this.router.post("/logout", validationToken.TokenValidation, userAuthController.Logout); //Route logout
     this.router.get(
       "/me",
       validationToken.TokenValidation,
