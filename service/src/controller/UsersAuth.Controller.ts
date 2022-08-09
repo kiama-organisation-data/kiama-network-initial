@@ -5,6 +5,7 @@ import Profiles, { IProfile } from "../model/Profiles.Model";
 import mongoose from "mongoose";
 import userServices from "../services/User.Services";
 import AppResponse from "../services/index";
+import AuthService from "../services/Auth.Services";
 
 import joiValidation from "../libs/joiValidation";
 
@@ -101,25 +102,9 @@ class UserController {
         message: "Password is incorrect",
       });
 
-    // create a Token
-    const token: string = jwt.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET || "defaultToken",
-      {
-        expiresIn: 60 * 60 * 24,
-        algorithm: "HS512",
-      }
-    );
-
-    // create a refreshToken
-    const refreshToken: string = jwt.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET || "defaultRefreshToken",
-      {
-        expiresIn: 60 * 60 * 24 * 7,
-        algorithm: "HS512",
-      }
-    );
+    // generate token
+    const token = AuthService.generateJWT(user._id);
+    const cookie = AuthService.createCookie(token);
 
     // populate user roleId
     const userRole = await Roles.findById(user.role);
@@ -134,12 +119,19 @@ class UserController {
       avatar: user.avatar,
     };
 
-    res.header("Authorization", token).status(200).json({
+    // return token and user data
+    // res.cookie("token", cookie, { httpOnly: true }).json({
+    //   success: true,
+    //   message: "user logged in",
+    //   token,
+    //   user: userData,
+    // });
+
+    res.setHeader('Set-Cookie', [cookie]);
+    res.json({
       success: true,
-      message: "Login success",
-      userData,
-      token,
-      refreshToken,
+      message: "user logged in",
+      user: userData,
     });
   };
 
@@ -234,30 +226,6 @@ class UserController {
     await user.save();
     res.json({ success: true, message: "Password changed successfully" });
   };
-
-  // =========================================================================
-  // logout user
-  // =========================================================================
-  // @desc    : logout user
-  // @route   : PUT /api/v1/user/logout
-  // @access  : Private
-  // @param   : id
-
-  Logout = async (req: Request, res: Response) => {
-    try {
-      const token = req.header("Authorization");
-      if (!token)
-        return res
-          .status(401)
-          .json({ message: "No token, authorization denied" });
-
-      const tokena = token.split(" ")[1];
-      jwt.verify(tokena, process.env.JWT_SECRET || "defaultToken");
-      AppResponse.success(res, "Logout success");
-    } catch (error) {
-      AppResponse.fail(res, error);
-    }
-  }
 }
 
 const userController = new UserController();
