@@ -1,19 +1,17 @@
 import { Request, Response } from "express";
 import { uploadToCloud } from "../libs/cloudinary";
-import joiValidation from "../libs/joiValidation";
+// import joiValidation from "../libs/joiValidation";
 import { IPrmsg, privateMsgModel } from "../model/Messages.Model";
 import AppResponse from "../services/index";
 
 //remeber to add try catch to all functions
 class PrivateMsgController {
-  constructor() { }
+  constructor() {}
 
   /**
    * remember to implement functionality to restrict how users messages can be forwarded
-   * @function sendMsg handles creation of a new message, also remeber to passa check for
+   * @function sendMsg handles creation of a new message, also remeber to passes check for
    * body or file
-   * @constant newMsg, the 'to' property is the id of the user this message is sent to while
-   * the 'from' is the id of the sender
    * @constant audioMimeType will be updated in the future to support only a single file type
    * @constant imageMimeType will be updated in the future to support only 4 file mimeTypes
    * @function deleteMessage on the front-office, only the last two messages can be deleted
@@ -22,6 +20,22 @@ class PrivateMsgController {
    * @function addReply in the future, remeber to make replies accept audio and images.
    * @function setMsgAsFowarded this method together with sendMsg will be modified in the future
    * to depend on each other for better performance
+   */
+
+  // All routes for this controller
+
+  /**
+   *
+   * Note: all routes are appended to http://localhost:port/kiama-network/v1/api
+   * @function sendMsg  /msg                                                        -- post request
+   * @function getMessages /msg                                                     -- get request
+   * @function deleteMessage /msg/:id                                               -- delete request
+   * @function addReply /msg/reply/:id                                              -- post request
+   * @function markSeen /msg/mark-seen/:id                                          -- put request
+   * @function addReaction /msg/add-reaction/:id                                    --put request
+   * @function setMsgAsFowarded /msg/set-forwarded/:id
+   *
+   * totalRoutes: 7
    */
 
   sendMsg = async (req: Request, res: Response) => {
@@ -88,6 +102,7 @@ class PrivateMsgController {
     }
   };
 
+  // remeber to add pagination
   getMessages = async (req: Request, res: Response) => {
     const { from, to } = req.query;
 

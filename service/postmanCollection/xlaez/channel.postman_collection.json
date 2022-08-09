@@ -1,0 +1,1976 @@
+{
+	"info": {
+		"_postman_id": "33340d39-a7c0-475c-bc45-c2b61a4de8f8",
+		"name": "channel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all channels",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all channels",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "407"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"197-GB40xCR50WFRA8zlhqa2YVDnK7g\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:29:16 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": [\n        {\n            \"_id\": \"62e3a676abce8e3588c0ae6b\",\n            \"name\": \"AkwaIbom Techies\",\n            \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n            \"followers\": [],\n            \"requests\": [],\n            \"category\": \"tech\",\n            \"stars\": 1,\n            \"size\": 1,\n            \"email\": \"techies@ak.tech\",\n            \"locked\": \"de-activated\",\n            \"periodOfDeactivation\": \"none\",\n            \"reports\": [],\n            \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n            \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Add admin",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b?newAdminId=62e3a8bae5be6cf775e6998f",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"62e3a676abce8e3588c0ae6b"
+					],
+					"query": [
+						{
+							"key": "newAdminId",
+							"value": "62e3a8bae5be6cf775e6998f"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Add admin",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b?newAdminId=62e3a8bae5be6cf775e6998f",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "newAdminId",
+									"value": "62e3a8bae5be6cf775e6998f"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"444-r9IyUAwDWRsokWZoF6FK4H8hit8\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:58:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\",\n            \"62e3a8bae5be6cf775e6998f\",\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:58:48.416Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get One Channel",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get One Channel",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "405"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"195-7ejryj26mAxMOBmCqzvuS6nusoA\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:33:03 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"AkwaIbom Techies\",\n        \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Edit Channel",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"This channel is now open to all techies in the world\",\n    \"name\": \"World Tech Association\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Edit Channel",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"This channel is now open to all techies in the world\",\n    \"name\": \"World Tech Association\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "406"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"196-wPdSBWBdX1v/4822DTka98XUDD0\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:41:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:41:09.450Z\",\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Channel",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"AkwaIbom Techies\",\n    \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n    \"email\": \"techies@ak.tech\",\n    \"category\": \"tech\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create Channel",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AkwaIbom Techies\",\n    \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n    \"email\": \"techies@ak.tech\",\n    \"category\": \"tech\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "895"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"37f-cMWsuclGSSUMlV2HKTyN/VIxNPE\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:20:55 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"AkwaIbom Techies\",\n        \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Upload Cover Image",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Pictures/Wallpapers/hack4.jpeg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/change-photo/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"change-photo",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Upload Cover Image",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/Wallpapers/hack4.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/change-photo/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"change-photo",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "580"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"244-ZNtM//1hcUm+YV7LYsqBVC9Bo8I\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 09:48:16 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:48:16.545Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Request to be a follower",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/requests/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"requests",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Request to be a follower",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/followers/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "55"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"37-LeMg7fCIgOfboOmykmCM28B/I7I\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 10:19:29 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": \"your request was successful\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Accept User's Follow",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/followers/62e3a676abce8e3588c0ae6b?followerId=62e3a8bae5be6cf775e6998f",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"followers",
+						"62e3a676abce8e3588c0ae6b"
+					],
+					"query": [
+						{
+							"key": "followerId",
+							"value": "62e3a8bae5be6cf775e6998f"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Accept User's Follow",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/62e3a676abce8e3588c0ae6b?followerId=62e3a8bae5be6cf775e6998f",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "followerId",
+									"value": "62e3a8bae5be6cf775e6998f"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"45e-PIHW2kfvckLku14mh3EadXA7mLY\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 10:23:10 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\",\n            \"62e3a8bae5be6cf775e6998f\",\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"followers\": [],\n        \"requests\": [\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T10:23:10.573Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Unfollow",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/followers/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"followers",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Unfollow",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/followers/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "56"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"38-GN7gx0XuTvuePrFDZjSEGX0Z+yU\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 11:10:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": \"user successfully unfollowed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Lock Channel",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/utils/lock/62e3a676abce8e3588c0ae6b?period=three-weeks",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"utils",
+						"lock",
+						"62e3a676abce8e3588c0ae6b"
+					],
+					"query": [
+						{
+							"key": "period",
+							"value": "three-weeks"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unlock Channel",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/utils/unlock/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"utils",
+						"unlock",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Admins of a channel",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/utils/admins/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"utils",
+						"admins",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Admins of a channel",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/utils/admins/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"admins",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "362"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"16a-OkZ71zjQlXQ3pqEB3XjV/WUDcSw\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 11:51:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"admins\": [\n            {\n                \"_id\": \"62e3a00608aea09d83c87c74\",\n                \"name\": {\n                    \"first\": \"utibeabasi\",\n                    \"last\": \"ekong\"\n                },\n                \"username\": \"xlaez\"\n            },\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\"\n            },\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get All Requests",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/utils/requests/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"utils",
+						"requests",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Followers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/utils/followers/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"utils",
+						"followers",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Followers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/utils/followers/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "192"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"c0-wgVj6Q0KXmSYdgIeYg+C/owYPBg\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 29 Jul 2022 11:54:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"followers\": [\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\",\n                \"avatar\": \"avatar.jpg\"\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Create Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/post/62e3a676abce8e3588c0ae6b",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"post",
+						"62e3a676abce8e3588c0ae6b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/post/62e3a676abce8e3588c0ae6b?sortBy=latest&page=1&device=mobile",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"post",
+						"62e3a676abce8e3588c0ae6b"
+					],
+					"query": [
+						{
+							"key": "sortBy",
+							"value": "latest"
+						},
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "device",
+							"value": "mobile"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all posts Copy",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{TEMP_AUTH}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "{{KIAMA_URL}}/channel/post/single/62e4a1a27302d9c411f145d9",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"channel",
+						"post",
+						"single",
+						"62e4a1a27302d9c411f145d9"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get all posts Copy",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{KIAMA_URL}}/channel/post/single/62e4a1a27302d9c411f145d9",
+							"host": [
+								"{{KIAMA_URL}}"
+							],
+							"path": [
+								"channel",
+								"post",
+								"single",
+								"62e4a1a27302d9c411f145d9"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+						},
+						{
+							"key": "Cross-Origin-Embedder-Policy",
+							"value": "require-corp"
+						},
+						{
+							"key": "Cross-Origin-Opener-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "Cross-Origin-Resource-Policy",
+							"value": "same-origin"
+						},
+						{
+							"key": "X-DNS-Prefetch-Control",
+							"value": "off"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=0"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "SAMEORIGIN"
+						},
+						{
+							"key": "Strict-Transport-Security",
+							"value": "max-age=15552000; includeSubDomains"
+						},
+						{
+							"key": "X-Download-Options",
+							"value": "noopen"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "Origin-Agent-Cluster",
+							"value": "?1"
+						},
+						{
+							"key": "X-Permitted-Cross-Domain-Policies",
+							"value": "none"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "0"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "577"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"241-Z3iUSxE9z+fG6V210vAJz+HsYZ8\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 30 Jul 2022 03:31:16 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e4a1a27302d9c411f145d9\",\n        \"channelId\": \"62e3a676abce8e3588c0ae6b\",\n        \"uniqueKey\": \"l67birq8xgnuna81gfn\",\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"video\": {\n            \"tags\": []\n        },\n        \"image\": {\n            \"description\": \"This image am sharing with you all is some proof thats in life hardowrk pays well\",\n            \"publicId\": \"ahqaejgckeiawoctgl2a\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659150624/ahqaejgckeiawoctgl2a.jpg\",\n            \"tags\": []\n        },\n        \"category\": \"tech\",\n        \"views\": 0,\n        \"creator\": \"62e3a00608aea09d83c87c74\",\n        \"comments\": [],\n        \"commentCount\": 0,\n        \"__v\": 0\n    }\n}"
+				}
+			]
+		}
+	]
+}

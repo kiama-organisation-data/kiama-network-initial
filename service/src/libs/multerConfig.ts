@@ -47,6 +47,7 @@ class MulterOptions {
         throw new Error("File not permitted");
       }
       // setting destination
+      // will be removed and left blank when production ready
     },
 
     filename: (

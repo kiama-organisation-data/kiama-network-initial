@@ -6,7 +6,7 @@ export interface IPage extends Document {
   name: string;
   description: string;
   moderators: Array<any>;
-  visitors: Array<object>;
+  visitors: Array<any>;
   likes: object;
   email: string;
   mobile: string;
@@ -53,13 +53,18 @@ const pagesSchema = new Schema(
       type: Schema.Types.ObjectId,
       required: true,
     },
-    visitors: {
-      type: Array,
-    },
-    likes: {
-      userId: {
-        type: Array,
+    visitors: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
       },
+    ],
+    likes: {
+      userId: [
+        {
+          type: Schema.Types.ObjectId,
+        },
+      ],
       count: {
         type: Number,
         default: 0,

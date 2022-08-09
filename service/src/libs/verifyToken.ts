@@ -23,7 +23,10 @@ class ValidationToken {
       if (!bearerToken) return res.status(401).json("Access Denied");
       const payload = jwt.verify(
         bearerToken,
-        process.env.JWT_SECRET || "defaultToken"
+        process.env.JWT_SECRET || "defaultToken",
+        {
+          algorithms: ["HS512", "HS256"],
+        }
       ) as IPayload;
 
       const user = await Users.findById(payload._id).select([
@@ -44,9 +47,6 @@ class ValidationToken {
   // Grant access to specific roles and allow them to access the route if they have the role or have the ability
   GrantAccess = (req: Request, res: Response, next: NextFunction) => {
     // get the role from payload._id
-
-
-
     const userId = req.user;
     console.log("azaz", userId);
 
@@ -69,6 +69,22 @@ class ValidationToken {
       }
     });
   };
+
+  // grant if user isAdmin = true
+  accessAdmin = (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.user;
+    Users.findById(userId, (err: any, user: IUser) => {
+      if (err) {
+        res.status(400).send("Invalid Token");
+      } else {
+        if (user.isAdmin) {
+          next();
+        } else {
+          res.status(403).send("Access Denied");
+        }
+      }
+    });
+  }
 }
 
 const validationToken = new ValidationToken();

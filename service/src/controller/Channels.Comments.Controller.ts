@@ -4,7 +4,20 @@ import channelPostModel from "../model/Posts.Channels";
 import AppResponse from "../services/index";
 
 class channelCommentCntrl {
-  constructor() { }
+  constructor() {}
+
+  /**
+   * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+   * @function createComment /channel/comment                                                 -- post request
+   * @function getOneComment /channel/comment/:commentId                                      -- get request
+   * @function deleteComment /channel/comment/:commentId                                      -- delete request
+   * @function editComment /channel/comment/:commentId                                        -- edit request
+   * @function addReaction /channel/comment/reaction/:commentId                               -- put request
+   * @function removeReaction /channel/comment/reaction/:commentId                            -- delete request
+   * @function getAllCommentsForAPost /channel/comment/all/:postId                            --get request
+   *
+   * totalRequest: 7
+   */
 
   createComment = async (req: Request, res: Response) => {
     const { user } = req;
@@ -138,7 +151,6 @@ class channelCommentCntrl {
 
       if (!comments.length && commentCount < 1) {
         return AppResponse.fail(res, "no comments");
-
       } else if (creator.toString() !== req.user) {
         return AppResponse.notPermitted(res, "not permitted");
       }

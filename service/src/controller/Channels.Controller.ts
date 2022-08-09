@@ -8,9 +8,36 @@ import channelPostModel, { IPchannel } from "../model/Posts.Channels";
 import unique from "../libs/randomGen";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
-// remeber to update current line 240above to using pull and push
 class ChannelCntrl {
-  constructor() { }
+  constructor() {}
+
+  /**
+   * Note: all routes are appended to http://localhost:port/kiama-network/api/v1
+   * @function create /channel                                                      -- post request
+   * @function getAll /channel                                                      -- get request
+   * @function getByCategory /channel/category                                      -- get request
+   * @function getByPublicKey /channel/public-key                                   -- get request
+   * @function getOne /channel/:channelId                                           -- get request
+   * @function edit /channel/:channelId                                             -- patch request
+   * @function delete /channel/:channelId                                           -- delete request
+   * @function addAdmin /channel/:channelId                                         -- put request
+   * @function uploadCoverPhoto /channel/change-photo/:channelId                    -- patch request
+   * @function addFollowers /channel/followers/:channelId                           -- put request
+   * @function unFollow /channel/followers/:channelId                               -- delete request
+   * @function requestToBeFollower /channel/requests/:channelId                     -- put request
+   * @function getAdmins /channel/utils/admins/:channelId                           -- get request
+   * @function getRequest /channel/utils/requests/:channelId                        -- get request
+   * @function getFollowers /channel/utils/followers/:channelId                     -- get request
+   * @function lockChannel /channel/utils/lock/:channelId                           -- put request
+   * @function deActivateChannel /channel/utils/unlock/:channelId                   -- put request
+   * @function createPost /channel/post/:channelId                                  -- post request
+   * @function editPost /channel/post/:channelId                                    -- put request
+   * @function getAllPost /channel/post/:channelId                                  -- get request
+   * @function getPost /channel/post/single/:postId                                 -- get request
+   * @function deletePost /channel/post/single/:postId                              -- delete request
+   *
+   * totalRequest: 22
+   */
 
   create = async (req: Request, res: Response) => {
     //@ts-ignore
@@ -234,7 +261,6 @@ class ChannelCntrl {
   };
 
   requestToBeFollower = async (req: Request, res: Response) => {
-
     const { user } = req;
     const { channelId } = req.params;
     try {
@@ -278,7 +304,6 @@ class ChannelCntrl {
 
   // remember to make scheduling of lock and unlock
   lockChannel = async (req: Request, res: Response) => {
-
     const { user } = req;
     try {
       const channel = await channelModel.findById(req.params.channelId);
@@ -302,7 +327,6 @@ class ChannelCntrl {
   };
 
   deActivateChannel = async (req: Request, res: Response) => {
-
     const { user } = req;
     try {
       const channel = await channelModel.findById(req.params.channelId);

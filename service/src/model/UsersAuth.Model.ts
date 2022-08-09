@@ -15,6 +15,7 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   role: string;
+  isAdmin: boolean;
   personalAbility: Array<any>;
   status: string;
   birthday: Date;
@@ -29,6 +30,7 @@ export interface IUser extends mongoose.Document {
     shop: Array<any>;
   };
   cart: object;
+  accountType: string;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
   addToCart(product: object): Promise<string | boolean>;
@@ -119,6 +121,11 @@ const usersShema = new shema(
         ref: "User",
       },
     ],
+    accountType: {
+      type: String,
+      enum: ["normal", "business", "organisation"],
+      default: "normal",
+    },
     collections: {
       shop: [
         {
