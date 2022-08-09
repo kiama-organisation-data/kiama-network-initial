@@ -12,7 +12,7 @@ class ValidationToken {
   constructor() { }
   TokenValidation = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = req.header("Authorization");
+      const token = req.cookies['Authorization'] || (req.header('Authorization') as string);
       const bearer: any = token?.split(" ");
       let bearerToken: any = [];
       if (bearer.length != 2) {
