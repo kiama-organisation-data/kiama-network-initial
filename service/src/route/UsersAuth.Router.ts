@@ -62,6 +62,7 @@ class usersRouter {
     );
     this.router.put("/:id", userController.UpdateUser);
     this.router.put("/:id/inactive", userController.InactiveUser);
+    this.router.post("/blocked/:id", validationToken.TokenValidation, userController.blockUser);
     this.router.delete("/:id", userController.DeleteUser);
   }
 }

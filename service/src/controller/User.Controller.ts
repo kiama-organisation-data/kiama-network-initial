@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Users, { IUser } from "../model/UsersAuth.Model";
 import mongoose from "mongoose";
+import AppResponse from "../services/index";
+import userServices from "../services/User.Services";
 
 import sortData from "../middleware/utils";
 
@@ -129,6 +131,35 @@ class UserController {
         res.json({ success: false, message: err });
       });
   }
+
+  // =========================================================================
+  // blocked user by id
+  // =========================================================================
+  // @desc    : blocked user by id
+  // @route   : POST /api/v1/user/blocked/:id
+  // @access  : Private
+  // @param   : id
+  blockUser(req: any, res: Response): void {
+    const userId = req.user
+    const userToBlock = req.params.id
+    userServices.userFindOne(userId)
+      .then((user) => {
+        if (user?.blockedUsers.includes(userToBlock)) {
+          AppResponse.fail(res, "User already blocked")
+        } else {
+          Users.findOneAndUpdate({ _id: userId }, { $push: { blockedUsers: userToBlock } }, { new: true })
+            .then((user) => {
+              AppResponse.success(res, `User ${userToBlock} blocked !`)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        }
+      })
+      .catch((err) => {
+        AppResponse.fail(res, err)
+      });
+  }
+
 }
 
 const userController = new UserController();
