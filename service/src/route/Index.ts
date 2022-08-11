@@ -30,6 +30,7 @@ import StatisticsRouter from "./Statistics.Router";
 import TasksRouter from "./Tasks.Router";
 import VotesRouter from "./Votes.Router";
 import JobRouter from "./Job.Router";
+import SearchRouter from "./Search.Router";
 
 // category
 import NewsCatRouter from "./category/News.Router";
@@ -115,6 +116,9 @@ function rootRouter() {
 
   // Passports
   router.use("/passport", PassportsRouter);
+
+  // Search
+  router.use("/search", SearchRouter);
   return router;
 }
 
