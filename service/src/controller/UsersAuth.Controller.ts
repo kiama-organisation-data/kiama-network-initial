@@ -5,6 +5,7 @@ import Profiles, { IProfile } from "../model/Profiles.Model";
 import mongoose from "mongoose";
 import userServices from "../services/User.Services";
 import AppResponse from "../services/index";
+import AuthService from "../services/Auth.Services";
 
 import joiValidation from "../libs/joiValidation";
 
@@ -101,25 +102,9 @@ class UserController {
         message: "Password is incorrect",
       });
 
-    // create a Token
-    const token: string = jwt.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET || "defaultToken",
-      {
-        expiresIn: 60 * 60 * 24,
-        algorithm: "HS512",
-      }
-    );
-
-    // create a refreshToken
-    const refreshToken: string = jwt.sign(
-      { _id: user._id },
-      process.env.JWT_SECRET || "defaultRefreshToken",
-      {
-        expiresIn: 60 * 60 * 24 * 7,
-        algorithm: "HS512",
-      }
-    );
+    // generate token
+    const token = AuthService.generateJWT(user._id);
+    const cookie = AuthService.createCookie(token);
 
     // populate user roleId
     const userRole = await Roles.findById(user.role);
@@ -134,12 +119,11 @@ class UserController {
       avatar: user.avatar,
     };
 
-    res.header("Authorization", token).status(200).json({
+    res.setHeader('Set-Cookie', [cookie]);
+    res.json({
       success: true,
-      message: "Login success",
-      userData,
-      token,
-      refreshToken,
+      message: "user logged in",
+      user: userData,
     });
   };
 
@@ -166,51 +150,23 @@ class UserController {
   // =========================================================================
   refreshToken = async (req: Request, res: Response) => {
     const token = req.header("Authorization");
-    if (!token)
-      return res
-        .status(401)
-        .json({ message: "No token, authorization denied" });
+    if (!token) return res.status(401).json("No token provided");
 
-    let payload: any;
-    try {
-      const tokena = token.split(" ")[1];
-      payload = jwt.verify(
-        tokena,
-        process.env.JWT_SECRET || "defaultRefreshToken",
-        {
-          algorithms: ["HS512", "HS256"],
-        }
-      );
-    } catch (e) {
-      return res.status(401).json({ message: "token is not valid" });
-    }
+    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'defaultToken');
+    if (!decoded) return res.status(401).json("Invalid token");
 
-    const userData = await Users.findById(payload._id);
-    if (!userData)
-      return res.status(404).json({ message: "No userData found" });
+    // @ts-ignore
+    const user = await Users.findById(decoded._id);
+    if (!user) return res.status(404).json("No user found");
 
-    const tokenRefresh = jwt.sign(
-      { _id: userData._id },
-      process.env.JWT_SECRET || "defaultRefreshToken",
-      {
-        expiresIn: 60 * 60 * 24 * 7,
-        algorithm: "HS512",
-      }
-    );
+    const newToken = AuthService.generateJWT(user._id);
+    const cookie = AuthService.createCookie(newToken);
 
-    // populate user roleId
-    const userRole = await Roles.findById(userData.role);
-
+    res.setHeader('Set-Cookie', [cookie]);
     res.json({
-      token: tokenRefresh,
-      refreshToken: tokenRefresh,
-      userData: {
-        _id: userData._id,
-        firstName: userData.name.first,
-        lastName: userData.name.last,
-        role: userRole?.name,
-        ability: userRole?.ability.concat(userData.personalAbility),
-      },
+      success: true,
+      message: "token refreshed",
+      token: newToken,
     });
   };
 
@@ -245,15 +201,8 @@ class UserController {
 
   Logout = async (req: Request, res: Response) => {
     try {
-      const token = req.header("Authorization");
-      if (!token)
-        return res
-          .status(401)
-          .json({ message: "No token, authorization denied" });
-
-      const tokena = token.split(" ")[1];
-      jwt.verify(tokena, process.env.JWT_SECRET || "defaultToken");
-      AppResponse.success(res, "Logout success");
+      res.setHeader('Set-Cookie', [AuthService.createCookie("")]);
+      AppResponse.success(res, ` Logout successfully`);
     } catch (error) {
       AppResponse.fail(res, error);
     }

@@ -3,7 +3,7 @@ import passport from "passport";
 import passeportFacebook from "passport-facebook";
 import passeportGoogle from "passport-google-oauth20";
 import Profiles, { IProfile } from "../model/Profiles.Model";
-import generateTokene from "./generateToken";
+import AuthService from "../services/Auth.Services";
 import userServices from "../services/User.Services";
 
 import * as dotenv from "dotenv";
@@ -38,8 +38,9 @@ class passportConfig {
             async (accessToken, refreshToken, profile, done) => {
                 const user = await Users.findOne({ email: profile.emails[0].value });
                 if (user) {
-                    const token = generateTokene.generateJWT(user._id);
-                    return done(null, { user: user, token });
+                    const token = AuthService.generateJWT(user._id);
+                    const cookie = AuthService.createCookie(token);
+                    return done(null, { user: user, token, cookie });
                 } else {
                     const newUser = new Users({
                         email: profile.emails[0].value,
@@ -66,8 +67,9 @@ class passportConfig {
                                 profile.save();
 
                                 // generate token with user id
-                                const token = generateTokene.generateJWT(newUser._id);
-                                return done(null, { user: newUser, token });
+                                const token = AuthService.generateJWT(newUser._id);
+                                const cookie = AuthService.createCookie(token);
+                                return done(null, { user: newUser, token, cookie });
                             });
                         })
                 }
@@ -91,8 +93,9 @@ class passportConfig {
             async (accessToken, refreshToken, profile, done) => {
                 const user = await Users.findOne({ email: profile.emails[0].value });
                 if (user) {
-                    const token = generateTokene.generateJWT(user._id);
-                    return done(null, { user: user, token });
+                    const token = AuthService.generateJWT(user._id);
+                    const cookie = AuthService.createCookie(token);
+                    return done(null, { user: user, token, cookie });
                 } else {
                     const newUser = new Users({
                         email: profile.emails[0].value,
@@ -118,8 +121,9 @@ class passportConfig {
                                 profile.save();
 
                                 // generate token with user id
-                                const token = generateTokene.generateJWT(newUser._id);
-                                return done(null, { user: newUser, token });
+                                const token = AuthService.generateJWT(newUser._id);
+                                const cookie = AuthService.createCookie(token);
+                                return done(null, { user: newUser, token, cookie });
                             });
                         })
                 }

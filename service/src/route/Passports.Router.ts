@@ -28,14 +28,13 @@ class PassportsRouter {
                 successRedirect: '/'
             }), (req, res) => {
                 // @ts-ignore
-                res.header('Authorization', req.user.token).status(200).json({
+                res.setHeader('Set-Cookie', [req.user.cookie]);
+                res.json({
                     success: true,
-                    message: "Login success",
+                    message: "user logged in",
                     // @ts-ignore
-                    userData: req.user.user,
-                    // @ts-ignore
-                    token: req.user.token,
-                }).end();
+                    user: req.user.user,
+                });
             });
 
         this.router.get('/google', passport.authenticate('google', { scope: ['email', 'profile'] }));
@@ -46,14 +45,13 @@ class PassportsRouter {
                 successRedirect: '/'
             }), (req, res) => {
                 // @ts-ignore
-                res.header('Authorization', req.user.token).status(200).json({
+                res.setHeader('Set-Cookie', [req.user.cookie]);
+                res.json({
                     success: true,
-                    message: "Login success",
+                    message: "user logged in",
                     // @ts-ignore
-                    userData: req.user.user,
-                    // @ts-ignore
-                    token: req.user.token,
-                }).end();
+                    user: req.user.user,
+                });
             });
     }
 }
