@@ -1,4 +1,5 @@
 import os from 'os';
+import geoip from 'geoip-lite';
 
 class IpUtils {
     constructor() {
@@ -49,6 +50,20 @@ class IpUtils {
                 }
             }
         }
+    }
+
+    // to verify if it is a valid ipv4 address or not
+    getLocation() {
+        geoip.reloadDataSync();
+
+        //Asynchronously
+        geoip.reloadData(function () {
+            console.log("Done");
+        });
+        var ip = this.getIpAdress();
+        // @ts-ignore
+        var geo = geoip.lookup(ip);
+        return geo;
     }
 }
 
