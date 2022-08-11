@@ -64,6 +64,7 @@ class usersRouter {
     this.router.put("/:id/inactive", userController.InactiveUser);
     this.router.post("/blocked/:id", validationToken.TokenValidation, userController.blockUser);
     this.router.post("/unblocked/:id", validationToken.TokenValidation, userController.unblockUser);
+    this.router.get("/blocked/user", validationToken.TokenValidation, userController.getBlockedUsers);
     this.router.delete("/:id", userController.DeleteUser);
   }
 }

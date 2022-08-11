@@ -187,6 +187,40 @@ class UserController {
       })
   }
 
+  // =========================================================================
+  // get blocked users
+  // =========================================================================
+  // @desc    : get blocked users
+  // @route   : GET /api/v1/user/blocked
+  // @access  : Private
+  getBlockedUsers(req: any, res: Response): void {
+    const userId = req.user
+    userServices.userFindOne(userId)
+      .then((user: any) => {
+        if (user?.blockedUsers.length > 0) {
+          Users.find({ _id: { $in: user.blockedUsers } })
+            .then((users) => {
+              const data = users.map((user) => {
+                return {
+                  _id: user._id,
+                  lastname: user.name.last,
+                  firstname: user.name.first,
+                  email: user.email,
+                }
+              }).sort((a, b) => {
+                return a._id.localeCompare(b._id)
+              })
+              AppResponse.success(res, data, users.length)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        } else {
+          AppResponse.fail(res, "No blocked users")
+        }
+      }).catch((err) => {
+        AppResponse.fail(res, err)
+      })
+  }
 
 }
 
