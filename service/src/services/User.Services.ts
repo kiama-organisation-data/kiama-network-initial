@@ -18,6 +18,10 @@ class userServices {
         }
         return newUsername;
     }
+
+    userFindOne(id: string) {
+        return Users.findById(id);
+    }
 }
 
 export default new userServices();
