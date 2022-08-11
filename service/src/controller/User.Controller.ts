@@ -160,6 +160,34 @@ class UserController {
       });
   }
 
+  // =========================================================================
+  // unblocked user by id
+  // =========================================================================
+  // @desc    : unblocked user by id
+  // @route   : POST /api/v1/user/unblocked/:id
+  // @access  : Private
+  // @param   : id
+  unblockUser(req: any, res: Response): void {
+    const userId = req.user
+    const userToBlock = req.params.id
+    userServices.userFindOne(userId)
+      .then((user) => {
+        if (user?.blockedUsers.includes(userToBlock)) {
+          Users.findOneAndUpdate({ _id: userId }, { $pull: { blockedUsers: userToBlock } }, { new: true })
+            .then((user) => {
+              AppResponse.success(res, `User ${userToBlock} unblocked !`)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        } else {
+          AppResponse.fail(res, "User not blocked")
+        }
+      }).catch((err) => {
+        AppResponse.fail(res, err)
+      })
+  }
+
+
 }
 
 const userController = new UserController();
