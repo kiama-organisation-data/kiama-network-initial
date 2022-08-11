@@ -7,7 +7,6 @@ import passport from "passport";
 import passportLibs from "./libs/passport";
 import session from "express-session";
 
-
 // security
 import helmet from "helmet";
 import mongoSanitize from "express-mongo-sanitize";
@@ -15,6 +14,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import compression from "compression";
 
 import rootRouter from "./route/Index";
+import redisConfig from "./libs/redis";
 class Server {
   public app: Application;
 
@@ -41,7 +41,8 @@ class Server {
       .connect(url, option)
       .then(() => console.log("Dabatase connected."))
       .catch((err) => console.log("Error connection db.", err));
-
+    // initiaize redis db connection
+    redisConfig.connect();
     // mongoose.set('useFindAndModify', false);
     // config
     this.app.use(express.json({ limit: "25mb" }));
@@ -77,14 +78,12 @@ class Server {
     );
 
     // call passport
-    this.app.use(passport.initialize());// call passport libs
-    this.app.use(passport.session())
+    this.app.use(passport.initialize()); // call passport libs
+    this.app.use(passport.session());
 
     passportLibs.init();
     passportLibs.facebook();
     passportLibs.google();
-
-
 
     this.app.use(express.static(path.join(__dirname, "public")));
     this.app.use(express.static(path.join(__dirname, "uploads")));
