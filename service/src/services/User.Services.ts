@@ -1,4 +1,4 @@
-import Users from "../model/UsersAuth.Model";
+import Users, { IUser } from "../model/UsersAuth.Model";
 
 class userServices {
     constructor() { }
@@ -20,7 +20,14 @@ class userServices {
     }
 
     userFindOne(id: string) {
-        return Users.findById(id);
+        return Users.findById(id)
+    }
+
+    // get user _id blocked
+    getUserBlocked(id: string) {
+        const users = Users.findById(id).select("blockedUsers");
+        // @ts-ignore
+        return users.blockedUsers
     }
 }
 
