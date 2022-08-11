@@ -47,6 +47,7 @@ import CentreRouter from "./collections/Centre.Router";
 // Passports
 import PassportsRouter from "./Passports.Router";
 import ChatRoomRouter from "./ChatRoom.Router";
+import WalletRouter from "./Wallet.Router";
 
 const router: Router = Router();
 
@@ -94,6 +95,7 @@ function rootRouter() {
   router.use("/task", validationToken.TokenValidation, TasksRouter);
   router.use("/vote", validationToken.TokenValidation, VotesRouter);
   router.use("/job", validationToken.TokenValidation, JobRouter);
+  router.use("/wallet", validationToken.TokenValidation, WalletRouter);
 
   // collections
   router.use("/collections/shop", validationToken.TokenValidation, shopRouter);
