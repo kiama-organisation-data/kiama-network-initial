@@ -6,12 +6,23 @@ import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
 import { IUser } from "../model/UsersAuth.Model";
+import { IWallet } from "../model/Wallet.Model";
 export interface Iparam {
   page: string;
   sortBy: string;
   device: string;
 }
 
+export interface IAddOrRemoveWallet {
+  userId: string;
+  unit: number;
+  coinOrPoints: string;
+  details: {
+    sender: string;
+    reason: string;
+    date: Date;
+  };
+}
 class JoiValidate {
   constructor() {}
 
@@ -150,6 +161,35 @@ class JoiValidate {
       color: Joi.string(),
       extraInfo: Joi.string().min(10),
       //   }),
+    });
+    return postSchema.validate(data);
+  };
+
+  walletCreationValidation = (data: IWallet) => {
+    const postSchema = Joi.object({
+      password: Joi.string().min(6).trim().required(),
+    });
+    return postSchema.validate(data);
+  };
+
+  walletUpdatePassValidation = (data: IWallet) => {
+    const postSchema = Joi.object({
+      newPassword: Joi.string().min(6).trim().required(),
+      oldPassword: Joi.string().min(6).trim().required(),
+    });
+    return postSchema.validate(data);
+  };
+
+  walletAddOrRemoveAmountValidation = (data: IAddOrRemoveWallet) => {
+    const postSchema = Joi.object({
+      userId: Joi.string().trim().required(),
+      coinOrPoints: Joi.string().trim().required(),
+      unit: Joi.number().min(1).required(),
+      details: Joi.object({
+        reason: Joi.string().required(),
+        sender: Joi.string().trim().required(),
+        date: Joi.date(),
+      }),
     });
     return postSchema.validate(data);
   };

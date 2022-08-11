@@ -20,6 +20,7 @@ export interface IUser extends mongoose.Document {
   status: string;
   birthday: Date;
   gender: string;
+  walletId: Schema.Types.ObjectId;
   groups: Array<any>;
   pages: Array<any>;
   channels: Array<any>;
@@ -107,6 +108,10 @@ const usersShema = new shema(
     },
     birthday: {
       type: Date,
+    },
+    walletId: {
+      type: Schema.Types.ObjectId,
+      ref: "Wallet",
     },
     gender: {
       type: String,

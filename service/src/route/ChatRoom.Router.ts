@@ -12,7 +12,14 @@ class ChatRoomRoute {
     this.router
       .route("/")
       .post(ChatRoomController.createChatRoom)
-      .get(ChatRoomController.getRoom);
+      .get(ChatRoomController.getRoom)
+      .patch(ChatRoomController.joinRoom);
+
+    this.router.route("/members").get(ChatRoomController.getMembers);
+    this.router
+      .route("/msg")
+      .post(ChatRoomController.sendMsg)
+      .get(ChatRoomController.getMsgs);
   }
 }
 
