@@ -14,7 +14,7 @@ class authService {
     }
 
     public createCookie(token: string): string {
-        return `Authorization=${token}; Path=/; HttpOnly; Max-Age=${60 * 60}`;
+        return `Authorization=${token}; Path=/; HttpOnly; Max-Age=${60 * 60 * 24 * 7}`;
     }
 }
 
