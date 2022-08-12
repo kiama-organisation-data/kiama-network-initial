@@ -24,10 +24,9 @@ class userServices {
     }
 
     // get user _id blocked
-    getUserBlocked(id: string) {
-        const users = Users.findById(id).select("blockedUsers");
-        // @ts-ignore
-        return users.blockedUsers
+    getUserBlocked = async (id: string) => {
+        const user = await Users.findById(id).select('blockedUsers');
+        return user?.blockedUsers;
     }
 }
 
