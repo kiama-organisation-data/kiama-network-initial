@@ -195,6 +195,35 @@ class ProfileController {
             }
         }
     }
+
+    // =========================================================================
+    // Get all following
+    // =========================================================================
+    // @desc    : Get all following for user by everyone
+    // @route   : GET /api/v1/profile/:id/following
+    // @access  : Private
+    // @param   : id
+    getFollowing = async (req: any, res: Response, next: any): Promise<void> => {
+        const user: any = await Profiles.findOne({ user: req.params.id }).select("following followingType");
+        if (!user) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            if (user.followingType === "public") {
+                const following = await Profiles.find({ _id: { $in: user.following } })
+                    .select("user")
+                    .populate(
+                        {
+                            path: "user",
+                            select: "name avatar",
+                        }
+                    );
+
+                AppResponse.success(res, following);
+            } else {
+                AppResponse.fail(res, "You can't see following");
+            }
+        }
+    }
 }
 
 const profilesController = new ProfileController()
