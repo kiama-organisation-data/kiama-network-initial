@@ -59,6 +59,11 @@ class usersRouter {
       validationToken.TokenValidation,
       UserUtilityController.getFollowers
     );
+    this.router.get(
+      "/following",
+      validationToken.TokenValidation,
+      UserUtilityController.getFollowing
+    );
 
     this.router.get("/:id", userController.GetUser);
     this.router.get(

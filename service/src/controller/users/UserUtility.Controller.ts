@@ -122,6 +122,31 @@ class UserUtilCntrl {
       AppResponse.success(res, followers);
     }
   }
+
+  // =========================================================================
+  // Get all following
+  // =========================================================================
+  // @desc    : Get all following for user by user
+  // @route   : GET /api/v1/user/following
+  // @access  : Private
+  // @param   : id
+  getFollowing = async (req: any, res: Response, next: any): Promise<void> => {
+    const user: any = await Profiles.findOne({ user: req.user }).select("following followingType");
+    if (!user) {
+      AppResponse.fail(res, "User not found");
+    } else {
+      const following = await Profiles.find({ _id: { $in: user.following } })
+        .select("user")
+        .populate(
+          {
+            path: "user",
+            select: "name avatar",
+          }
+        );
+
+      AppResponse.success(res, following);
+    }
+  }
 }
 
 export default new UserUtilCntrl();
