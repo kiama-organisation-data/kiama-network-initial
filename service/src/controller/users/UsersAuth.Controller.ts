@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import Users, { IUser } from "../../model/users/UsersAuth.Model";
 import Roles, { IRole } from "../../model/Role.Model";
 import Profiles, { IProfile } from "../../model/users/Profiles.Model";
+import Sessions, { ISession } from "../../model/users/Sessions.Model";
 import mongoose from "mongoose";
 import userServices from "../../services/users/User.Services";
 import AppResponse from "../../services/index";
@@ -58,6 +59,10 @@ class UserController {
             user: user._id,
           });
           profile.save();
+          const session: ISession = new Sessions({
+            user: user._id,
+          });
+          session.save();
           res
             .status(201)
             .json({
