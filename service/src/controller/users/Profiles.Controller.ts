@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import Profiles, { IProfile } from '../../model/users/Profiles.Model'
+import Users, { IUser } from '../../model/users/UsersAuth.Model';
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
 
@@ -164,6 +165,35 @@ class ProfileController {
             }
         }
 
+    }
+
+    // =========================================================================
+    // Get all followers
+    // =========================================================================
+    // @desc    : Get all followers for user by everyone
+    // @route   : GET /api/v1/profile/:id/followers
+    // @access  : Private
+    // @param   : id
+    getFollowers = async (req: any, res: Response, next: any): Promise<void> => {
+        const user: any = await Profiles.findOne({ user: req.params.id }).select("followers followersType");
+        if (!user) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            if (user.followersType === "public") {
+                const followers = await Profiles.find({ _id: { $in: user.followers } })
+                    .select("user")
+                    .populate(
+                        {
+                            path: "user",
+                            select: "name avatar",
+                        }
+                    );
+
+                AppResponse.success(res, followers);
+            } else {
+                AppResponse.fail(res, "You can't see followers");
+            }
+        }
     }
 }
 

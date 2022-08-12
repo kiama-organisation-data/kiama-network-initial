@@ -26,6 +26,7 @@ class ProfilesRouter {
             .patch(profilesController.update);
 
         this.router.route("/:id/follow").post(profilesController.followUser);
+        this.router.route("/:id/followers").get(profilesController.getFollowers);
     }
 }
 
