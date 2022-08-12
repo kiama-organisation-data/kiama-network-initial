@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Users from "../../model/users/UsersAuth.Model";
+import Profiles, { IProfile } from '../../model/users/Profiles.Model'
 import AppResponse from "../../services/index";
 
 class UserUtilCntrl {
@@ -96,6 +97,31 @@ class UserUtilCntrl {
       AppResponse.fail(res, e);
     }
   };
+
+  // =========================================================================
+  // Get all followers
+  // =========================================================================
+  // @desc    : Get all followers for user by user
+  // @route   : GET /api/v1/user/followers
+  // @access  : Private
+  // @param   : id
+  getFollowers = async (req: any, res: Response, next: any): Promise<void> => {
+    const user: any = await Profiles.findOne({ user: req.user }).select("followers followersType");
+    if (!user) {
+      AppResponse.fail(res, "User not found");
+    } else {
+      const followers = await Profiles.find({ _id: { $in: user.followers } })
+        .select("user")
+        .populate(
+          {
+            path: "user",
+            select: "name avatar",
+          }
+        );
+
+      AppResponse.success(res, followers);
+    }
+  }
 }
 
 export default new UserUtilCntrl();
