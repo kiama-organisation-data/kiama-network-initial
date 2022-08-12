@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import Users from "./UsersAuth.Model"
+import Users from "./users/UsersAuth.Model"
 
 const shema: any = mongoose.Schema
 

@@ -1,10 +1,10 @@
-import Users, { IUser } from './../model/UsersAuth.Model';
+import Users, { IUser } from '../model/users/UsersAuth.Model';
 import passport from "passport";
 import passeportFacebook from "passport-facebook";
 import passeportGoogle from "passport-google-oauth20";
-import Profiles, { IProfile } from "../model/Profiles.Model";
-import AuthService from "../services/Auth.Services";
-import userServices from "../services/User.Services";
+import Profiles, { IProfile } from "../model/users/Profiles.Model";
+import AuthService from "../services/users/Auth.Services";
+import userServices from "../services/users/User.Services";
 
 import * as dotenv from "dotenv";
 import path from "path";

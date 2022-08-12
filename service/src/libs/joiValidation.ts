@@ -5,7 +5,7 @@ import { IShop } from "../model/collections/Shop.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
-import { IUser } from "../model/UsersAuth.Model";
+import { IUser } from "../model/users/UsersAuth.Model";
 import { IWallet } from "../model/Wallet.Model";
 export interface Iparam {
   page: string;
