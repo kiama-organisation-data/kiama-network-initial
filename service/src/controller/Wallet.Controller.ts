@@ -15,8 +15,8 @@ import { apiCrypto } from "../utils/CrytoUtils";
  * @function verifyOwnerOfAccount      /wallet/verify            -- post request
  * @function updateKiamaPointOrCoin    /wallet/update-amount     -- patch request
  * @function deductKiamaPointOrCoin    /wallet/deduct-amount     -- patch request
- *
- * totalRoutes: 6
+ * @function suspendOrUnsuspendWallet  /wallet/toggle-suspension -- patch request
+ * totalRoutes: 7
  */
 
 class WalletController {
@@ -161,6 +161,21 @@ class WalletController {
       );
       console.log(value);
       if (value !== "success") return AppResponse.fail(res, value);
+
+      AppResponse.updated(res, "updated");
+    } catch (e) {
+      AppResponse.fail(res, e);
+    }
+  };
+
+  suspendOrUnsuspendWallet = async (req: Request, res: Response) => {
+    const { userId } = req.query;
+
+    try {
+      const wallet = await WalletModel.findOne({ userId });
+      //@ts-ignore
+      wallet?.suspended = !wallet?.suspended;
+      await wallet?.save();
 
       AppResponse.updated(res, "updated");
     } catch (e) {

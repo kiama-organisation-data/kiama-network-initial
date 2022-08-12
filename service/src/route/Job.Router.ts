@@ -1,5 +1,6 @@
 import { Router } from "express";
 import JobController from "../controller/Job.Controller";
+import JobApplicationController from "../controller/JobApplication.Controller";
 import { messageUploads } from "../libs/multerConfig";
 
 class JobRoute {
@@ -22,6 +23,17 @@ class JobRoute {
       .patch(messageUploads, JobController.updatePortalCoverPhoto)
       .delete(JobController.deletePortal)
       .put(JobController.addAdmin);
+
+    // application
+    this.router
+      .route("/apply")
+      .get(JobApplicationController.getAnApplication)
+      .post(messageUploads, JobApplicationController.submitApplication)
+      .delete(JobApplicationController.deleteApplication);
+
+    this.router
+      .route("/applications")
+      .get(JobApplicationController.getApplications);
     // portal
     this.router
       .route("/")
@@ -31,8 +43,6 @@ class JobRoute {
       .route("/:postId")
       .get(JobController.getJobPost)
       .delete(messageUploads, JobController.deleteJobPost);
-
-    // portal
   }
 }
 

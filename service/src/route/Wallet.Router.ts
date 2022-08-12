@@ -12,6 +12,9 @@ class WalletRoute {
     this.router.route("/create").post(WalletController.createUserWallet);
     this.router.route("/").get(WalletController.getUserWallet);
     this.router.route("/verify").post(WalletController.verifyOwnerOfAccount);
+    this.router
+      .route("/toggle-suspension")
+      .patch(WalletController.suspendOrUnsuspendWallet);
 
     this.router
       .route("/update-password")

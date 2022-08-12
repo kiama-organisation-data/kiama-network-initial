@@ -6,7 +6,7 @@ import cors from "cors";
 import passport from "passport";
 import passportLibs from "./libs/passport";
 import session from "express-session";
-import cookieParser from 'cookie-parser';
+import cookieParser from "cookie-parser";
 
 // security
 import helmet from "helmet";
@@ -43,7 +43,7 @@ class Server {
       .then(() => console.log("Dabatase connected."))
       .catch((err) => console.log("Error connection db.", err));
     // initiaize redis db connection
-    redisConfig.connect();
+    // redisConfig.connect();
     // mongoose.set('useFindAndModify', false);
     // config
     this.app.use(express.json({ limit: "25mb" }));

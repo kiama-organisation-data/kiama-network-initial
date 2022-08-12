@@ -3,7 +3,9 @@ import { Request, Response } from "express";
 import CentreModel from "../../model/collections/Centre.Model";
 import shopModel from "../../model/collections/Shop.Model";
 import Notifications from "../../model/Notifications.Model";
+import Users from "../../model/UsersAuth.Model";
 import AppResponse from "../../services";
+import sendMail from "../../utils/email";
 
 // Every thing in this file and concerning this file is working perfectly
 
@@ -95,7 +97,11 @@ class CentreRoomCntrl {
     const { shopId, user, requestId } = req.query;
 
     try {
-      await shopModel.findByIdAndUpdate(shopId, { approved: true });
+      const shop = await shopModel.findByIdAndUpdate(
+        shopId,
+        { approved: true },
+        { new: true }
+      );
       await CentreModel.findByIdAndDelete(requestId);
       // send a notification to let user know shop has been approved
       const content = "Your request for a shop has been approved";
@@ -108,8 +114,19 @@ class CentreRoomCntrl {
         link,
         notification: "Request accepted",
       });
+      const email = await Users.findById(user);
       // send an email too
-      AppResponse.updated(res, "updated");
+      //@ts-ignore
+
+      const mail = await sendMail(email?.email, "Shop Approved", {
+        //@ts-ignore
+        firstname: email.fullName,
+        //@ts-ignore
+
+        secretKey: shop?.credentials.secretKey,
+        link,
+      });
+      AppResponse.success(res, { mail, msg: "updated" });
     } catch (e) {
       AppResponse.fail(res, e);
     }
@@ -127,10 +144,18 @@ class CentreRoomCntrl {
         content: reason,
         icon: "shop icon",
         type: "collections",
-        link: "", // link to learn more
+        link: "link", // link to learn more
         notification: "Request rejected",
       });
       // send an email
+      const email = await Users.findById(user);
+      //@ts-ignore
+      const mail = await sendMail(email?.email, "Shop Rejected", {
+        //@ts-ignore
+        firstname: email.fullName,
+        reason,
+      });
+      AppResponse.success(res, { mail, msg: "updated" });
     } catch (e) {
       AppResponse.fail(res, e);
     }

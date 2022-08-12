@@ -39,7 +39,6 @@ class JobCntrl {
       const job = await jobModel.create({
         ...body,
         poster: user,
-        portal: req.query.portal,
         file: { ...doc, fileType: file?.mimetype },
       });
 
@@ -160,10 +159,7 @@ class JobCntrl {
   editPortal = async (req: Request, res: Response) => {
     const { body, user } = req;
 
-    const portal = await jobPortalModel.findByIdAndUpdate(
-      req.query.portal,
-      body
-    );
+    const portal = await jobPortalModel.findByIdAndUpdate(body.portal, body);
 
     if (!portal) {
       return AppResponse.notFound(res, "portal not found");

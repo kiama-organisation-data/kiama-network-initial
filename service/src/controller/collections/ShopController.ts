@@ -47,6 +47,7 @@ class ShopCntl {
    */
   async createShop(req: Request, res: Response) {
     const { body, user, file } = req;
+    console.log(user);
     if (!file) return AppResponse.noFile(res);
 
     const { error } = joiValidation.shopCreationValidation(body);
@@ -65,15 +66,23 @@ class ShopCntl {
         body,
         owner: user,
       });
-      await Users.findByIdAndUpdate(user, {
-        $push: { "collections.shop": shop._id, accountType: "business" },
-      });
       await CentreModel.create({
         user,
         collectionId: shop._id,
         category: "shop",
         purpose: body.purpose,
       });
+      //     await Users.findOneAndUpdate(
+      //       { _id: user },
+      //       {
+      //         $push: { "collections.shop": shop._id, accountType: "business" },
+      //       }
+      //     );
+      let shopOwner = await Users.findById(user);
+      shopOwner?.collections.shop.push(shop._id);
+      //@ts-ignore
+      shopOwner?.accountType = "business";
+      shopOwner?.save();
       AppResponse.created(res, shop);
     } catch (e) {
       AppResponse.fail(res, e);
