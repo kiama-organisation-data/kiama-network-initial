@@ -1,4 +1,4 @@
-import Users, { IUser } from "../model/UsersAuth.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
 
 class userServices {
     constructor() { }

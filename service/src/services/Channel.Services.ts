@@ -1,5 +1,5 @@
 import { Schema } from "mongoose";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import * as cron from "node-cron";
 class ChannelServices {
   constructor() {}
