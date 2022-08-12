@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
-import Users, { IUser } from "../model/UsersAuth.Model";
-import Roles, { IRole } from "../model/Role.Model";
-import Profiles, { IProfile } from "../model/Profiles.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
+import Roles, { IRole } from "../../model/Role.Model";
+import Profiles, { IProfile } from "../../model/users/Profiles.Model";
 import mongoose from "mongoose";
-import userServices from "../services/User.Services";
-import AppResponse from "../services/index";
-import AuthService from "../services/Auth.Services";
+import userServices from "../../services/users/User.Services";
+import AppResponse from "../../services/index";
+import AuthService from "../../services/users/Auth.Services";
 
-import joiValidation from "../libs/joiValidation";
+import joiValidation from "../../libs/joiValidation";
 
 import jwt from "jsonwebtoken";
 

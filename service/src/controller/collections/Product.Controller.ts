@@ -3,7 +3,7 @@ import { deleteFromCloud, uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import productModel, { IProduct } from "../../model/collections/Product.Model";
 import shopModel from "../../model/collections/Shop.Model";
-import Users, { IUser } from "../../model/UsersAuth.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
 import ProductServices from "../../services/collections/Product.Services";
 import AppResponse from "../../services/index";
 

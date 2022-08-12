@@ -11,6 +11,7 @@ export interface IUser extends mongoose.Document {
   provider: string;
   providerId: string;
   username: string;
+  isEmailVerified: boolean;
   avatar: string;
   email: string;
   password: string;
@@ -32,6 +33,7 @@ export interface IUser extends mongoose.Document {
   };
   cart: object;
   accountType: string;
+  blockedUsers: Array<IUser>;
   encryptPassword(password: string): Promise<string>;
   validatePassword(password: string): Promise<boolean>;
   addToCart(product: object): Promise<string | boolean>;
@@ -76,6 +78,10 @@ const usersShema = new shema(
       ],
       minlength: [3, "Username is too short"],
       maxlength: [20, "Username is too long"],
+    },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
     },
     avatar: {
       type: String,
@@ -158,6 +164,7 @@ const usersShema = new shema(
     channels: [{ type: Schema.Types.ObjectId, ref: "Channel" }],
     jobPortals: [{ type: Schema.Types.ObjectId, ref: "Jobportal" }],
     shops: [{ type: Schema.Types.ObjectId, ref: "Shop" }],
+    blockedUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
   {
     toJSON: { virtuals: true },

@@ -1,4 +1,4 @@
-import Users from "../model/UsersAuth.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
 
 class userServices {
     constructor() { }
@@ -17,6 +17,16 @@ class userServices {
             usernameExist = await Users.findOne({ username: newUsername });
         }
         return newUsername;
+    }
+
+    userFindOne(id: string) {
+        return Users.findById(id)
+    }
+
+    // get user _id blocked
+    getUserBlocked = async (id: string) => {
+        const user = await Users.findById(id).select('blockedUsers');
+        return user?.blockedUsers;
     }
 }
 

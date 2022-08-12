@@ -6,7 +6,7 @@ import PagesRouter from "./Pages.Router";
 import PostsPagesRouter from "./Posts.Pages.Router";
 import PostsRouter from "./Posts.Router";
 import RoleRouter from "./Role.Router";
-import UsersAuthRouter from "./UsersAuth.Router";
+import UsersAuthRouter from "./users/UsersAuth.Router";
 import BugsRouter from "./BugsReport.Router";
 import ChallengesRouter from "./Challenges.Router";
 import EventsRouter from "./Events.Router";
@@ -14,22 +14,23 @@ import CollaboratorsRouter from "./Collaborators.Router";
 import CommentsRouter from "./Comments.Router";
 import CountriesRouter from "./Countries.Router";
 import FavoritesRouter from "./Favorites.Router";
-import FriendReqsRouter from "./FriendReqs.Router";
+import FriendReqsRouter from "./users/FriendReqs.Router";
 import HistorysRouter from "./Historys.Router";
 import NotificationsRouter from "./Notifications.Router";
 import LanguagesRouter from "./Languages.Router";
 import MedalsRouter from "./Medals.Router";
 import NewsRouter from "./News.Router";
 import OrientationsRouter from "./Orientations.Router";
-import ProfilesRouter from "./Profiles.Router";
+import ProfilesRouter from "./users/Profiles.Router";
 import ProjectsRouter from "./Projects.Router";
 import ReportsRouter from "./Reports.Router";
-import SessionsRouter from "./Sessions.Router";
+import SessionsRouter from "./users/Sessions.Router";
 import SettingsRouter from "./Settings.Router";
 import StatisticsRouter from "./Statistics.Router";
 import TasksRouter from "./Tasks.Router";
 import VotesRouter from "./Votes.Router";
 import JobRouter from "./Job.Router";
+import SearchRouter from "./Search.Router";
 
 // category
 import NewsCatRouter from "./category/News.Router";
@@ -115,6 +116,9 @@ function rootRouter() {
 
   // Passports
   router.use("/passport", PassportsRouter);
+
+  // Search
+  router.use("/search", SearchRouter);
   return router;
 }
 

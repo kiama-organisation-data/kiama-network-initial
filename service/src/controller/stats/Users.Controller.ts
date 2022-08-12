@@ -1,4 +1,4 @@
-import Users, { IUser } from './../../model/UsersAuth.Model';
+import Users, { IUser } from '../../model/users/UsersAuth.Model';
 import { Request, Response } from 'express'
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";

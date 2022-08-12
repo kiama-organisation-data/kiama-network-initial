@@ -6,7 +6,7 @@ import {
   IGrmsg,
   IGroup,
 } from "../model/Messages.Model";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 // Some valuable information on the methods

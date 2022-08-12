@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
-import Users, { IUser } from "../model/UsersAuth.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
 import mongoose from "mongoose";
+import AppResponse from "../../services/index";
+import userServices from "../../services/users/User.Services";
 
-import sortData from "../middleware/utils";
+import sortData from "../../middleware/utils";
 
 class UserController {
   // initialisation constructor
@@ -129,6 +131,97 @@ class UserController {
         res.json({ success: false, message: err });
       });
   }
+
+  // =========================================================================
+  // blocked user by id
+  // =========================================================================
+  // @desc    : blocked user by id
+  // @route   : POST /api/v1/user/blocked/:id
+  // @access  : Private
+  // @param   : id
+  blockUser(req: any, res: Response): void {
+    const userId = req.user
+    const userToBlock = req.params.id
+    userServices.userFindOne(userId)
+      .then((user) => {
+        if (user?.blockedUsers.includes(userToBlock)) {
+          AppResponse.fail(res, "User already blocked")
+        } else {
+          Users.findOneAndUpdate({ _id: userId }, { $push: { blockedUsers: userToBlock } }, { new: true })
+            .then((user) => {
+              AppResponse.success(res, `User ${userToBlock} blocked !`)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        }
+      })
+      .catch((err) => {
+        AppResponse.fail(res, err)
+      });
+  }
+
+  // =========================================================================
+  // unblocked user by id
+  // =========================================================================
+  // @desc    : unblocked user by id
+  // @route   : POST /api/v1/user/unblocked/:id
+  // @access  : Private
+  // @param   : id
+  unblockUser(req: any, res: Response): void {
+    const userId = req.user
+    const userToBlock = req.params.id
+    userServices.userFindOne(userId)
+      .then((user) => {
+        if (user?.blockedUsers.includes(userToBlock)) {
+          Users.findOneAndUpdate({ _id: userId }, { $pull: { blockedUsers: userToBlock } }, { new: true })
+            .then((user) => {
+              AppResponse.success(res, `User ${userToBlock} unblocked !`)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        } else {
+          AppResponse.fail(res, "User not blocked")
+        }
+      }).catch((err) => {
+        AppResponse.fail(res, err)
+      })
+  }
+
+  // =========================================================================
+  // get blocked users
+  // =========================================================================
+  // @desc    : get blocked users
+  // @route   : GET /api/v1/user/blocked
+  // @access  : Private
+  getBlockedUsers(req: any, res: Response): void {
+    const userId = req.user
+    userServices.userFindOne(userId)
+      .then((user: any) => {
+        if (user?.blockedUsers.length > 0) {
+          Users.find({ _id: { $in: user.blockedUsers } })
+            .then((users) => {
+              const data = users.map((user) => {
+                return {
+                  _id: user._id,
+                  lastname: user.name.last,
+                  firstname: user.name.first,
+                  email: user.email,
+                }
+              }).sort((a, b) => {
+                return a._id.localeCompare(b._id)
+              })
+              AppResponse.success(res, data, users.length)
+            }).catch((err) => {
+              AppResponse.fail(res, err)
+            })
+        } else {
+          AppResponse.fail(res, "No blocked users")
+        }
+      }).catch((err) => {
+        AppResponse.fail(res, err)
+      })
+  }
+
 }
 
 const userController = new UserController();

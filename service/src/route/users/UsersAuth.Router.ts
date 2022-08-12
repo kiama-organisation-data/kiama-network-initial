@@ -1,11 +1,11 @@
 import { Router } from "express";
-import userAuthController from "../controller/UsersAuth.Controller";
-import userController from "../controller/User.Controller";
+import userAuthController from "../../controller/users/UsersAuth.Controller";
+import userController from "../../controller/users/User.Controller";
 
-import validationToken from "../libs/verifyToken";
+import validationToken from "../../libs/verifyToken";
 
-import multerMiddleware from "../middleware/fileUpload";
-import UserUtilityController from "../controller/UserUtility.Controller";
+import multerMiddleware from "../../middleware/fileUpload";
+import UserUtilityController from "../../controller/users/UserUtility.Controller";
 
 class usersRouter {
   router: Router;
@@ -62,6 +62,9 @@ class usersRouter {
     );
     this.router.put("/:id", userController.UpdateUser);
     this.router.put("/:id/inactive", userController.InactiveUser);
+    this.router.post("/blocked/:id", validationToken.TokenValidation, userController.blockUser);
+    this.router.post("/unblocked/:id", validationToken.TokenValidation, userController.unblockUser);
+    this.router.get("/blocked/user", validationToken.TokenValidation, userController.getBlockedUsers);
     this.router.delete("/:id", userController.DeleteUser);
   }
 }

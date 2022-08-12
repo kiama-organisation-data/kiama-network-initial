@@ -1,6 +1,6 @@
 import { Router } from "express";
-import friendreqsController from "../controller/FriendReqs.Controller";
-import validationToken from "../libs/verifyToken";
+import friendreqsController from "../../controller/users/FriendReqs.Controller";
+import validationToken from "../../libs/verifyToken";
 
 class FriendReqsRouter {
     router: Router;
@@ -35,6 +35,7 @@ class FriendReqsRouter {
         this.router.route("/friend/:userID").get(friendreqsController.getAllFriends);
         this.router.route("/cancel/:fromUserID").post(friendreqsController.cancelFriendReq);
         this.router.route("/new-friend/get").get(friendreqsController.getNewPeople);
+        this.router.route("/search/:search").get(friendreqsController.searchPeople);
         this.router.route("/unfriend/:userID").post(friendreqsController.unfriend);
     }
 }
