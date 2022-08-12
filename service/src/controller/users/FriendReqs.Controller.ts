@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
-import FriendReqs, { IFriendReq } from '../model/FriendReqs.Model'
-import Users, { IUser } from '../model/UsersAuth.Model'
-import AppResponse from "../services/index";
-import sortData from "../middleware/utils";
+import FriendReqs, { IFriendReq } from '../../model/users/FriendReqs.Model'
+import Users, { IUser } from '../../model/users/UsersAuth.Model'
+import AppResponse from "../../services/index";
+import sortData from "../../middleware/utils";
 
-import userServices from "../services/User.Services";
+import userServices from "../../services/users/User.Services";
 
 class FriendReqController {
 

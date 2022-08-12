@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import pageModel from "../model/Pages.Model";
 import PageServices from "../services/Page.Services";
 import AppResponse from "../services/index";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
 /**

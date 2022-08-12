@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import Users, { IUser } from "../model/UsersAuth.Model";
+import Users, { IUser } from "../../model/users/UsersAuth.Model";
 import mongoose from "mongoose";
-import AppResponse from "../services/index";
-import userServices from "../services/User.Services";
+import AppResponse from "../../services/index";
+import userServices from "../../services/users/User.Services";
 
-import sortData from "../middleware/utils";
+import sortData from "../../middleware/utils";
 
 class UserController {
   // initialisation constructor
