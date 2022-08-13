@@ -20,168 +20,168 @@ import { apiCrypto } from "../utils/CrytoUtils";
  */
 
 class WalletController {
-  constructor() { }
+	constructor() {}
 
-  createUserWallet = async (req: Request, res: Response) => {
-    const { body, user } = req;
-    const { error } = joiValidation.walletCreationValidation(body);
+	createUserWallet = async (req: Request, res: Response) => {
+		const { body, user } = req;
+		const { error } = joiValidation.walletCreationValidation(body);
 
-    if (error) return AppResponse.fail(res, error.message);
+		if (error) return AppResponse.fail(res, error.message);
 
-    try {
-      const details: IUser | null = await Users.findById(user);
-      if (!details) return AppResponse.notFound(res);
-      const secretKey = await apiCrypto.hashParamJwt(
-        details._id.toString(),
-        //@ts-ignore
-        details.fullName
-      );
-      const count = await WalletModel.find().count();
-      let serialKey: string = "";
+		try {
+			const details: IUser | null = await Users.findById(user);
+			if (!details) return AppResponse.notFound(res);
+			const secretKey = await apiCrypto.hashParamJwt(
+				details._id.toString(),
+				//@ts-ignore
+				details.fullName
+			);
+			const count = await WalletModel.find().count();
+			let serialKey: string = "";
 
-      if (count === 0) {
-        serialKey = "kw-00x-000001";
-      } else if (count < 10) {
-        serialKey = "kw-000x-00000" + (count + 1);
-      } else if (count > 10 && count < 100) {
-        serialKey = "kw-00x-0000" + (count + 1);
-      } else if (count > 1000 && count < 10000) {
-        serialKey = "kw-00x-000" + (count + 1);
-      } else if (count > 10000) {
-        serialKey = "kw-00x-00" + (count + 1);
-      }
-      const wallet: IWallet = await WalletModel.create({
-        // @ts-ignore
-        name: details.fullName,
-        secretKey,
-        valid: true,
-        userId: user,
-        password: await hash(body.password, 12),
-        serialNumber: serialKey,
-      });
+			if (count === 0) {
+				serialKey = "kw-00x-000001";
+			} else if (count < 10) {
+				serialKey = "kw-000x-00000" + (count + 1);
+			} else if (count > 10 && count < 100) {
+				serialKey = "kw-00x-0000" + (count + 1);
+			} else if (count > 1000 && count < 10000) {
+				serialKey = "kw-00x-000" + (count + 1);
+			} else if (count > 10000) {
+				serialKey = "kw-00x-00" + (count + 1);
+			}
+			const wallet: IWallet = await WalletModel.create({
+				// @ts-ignore
+				name: details.fullName,
+				secretKey,
+				valid: true,
+				userId: user,
+				password: await hash(body.password, 12),
+				serialNumber: serialKey,
+			});
 
-      details.walletId = wallet._id;
-      details.save();
-      //@ts-ignore
-      delete wallet.password;
-      AppResponse.success(res, wallet);
-    } catch (err) {
-      AppResponse.fail(res, err);
-    }
-  };
+			details.walletId = wallet._id;
+			details.save();
+			//@ts-ignore
+			delete wallet.password;
+			AppResponse.success(res, wallet);
+		} catch (err) {
+			AppResponse.fail(res, err);
+		}
+	};
 
-  getUserWallet = async (req: Request, res: Response) => {
-    const { user: userId } = req;
+	getUserWallet = async (req: Request, res: Response) => {
+		const { user: userId } = req;
 
-    try {
-      const wallet = await WalletModel.findOne({ userId }).lean();
-      if (!wallet) return AppResponse.notFound(res);
-      //@ts-ignore
-      delete wallet.password;
-      AppResponse.success(res, wallet);
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+		try {
+			const wallet = await WalletModel.findOne({ userId }).lean();
+			if (!wallet) return AppResponse.notFound(res);
+			//@ts-ignore
+			delete wallet.password;
+			AppResponse.success(res, wallet);
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 
-  updatePassword = async (req: Request, res: Response) => {
-    const { user: userId, body } = req;
+	updatePassword = async (req: Request, res: Response) => {
+		const { user: userId, body } = req;
 
-    const { error } = joiValidation.walletUpdatePassValidation(body);
-    if (error) AppResponse.fail(res, error.message);
-    try {
-      const wallet: IWallet | null = await WalletModel.findOne({ userId });
-      const validatePassword = await wallet?.validatePassword(body.oldPassword);
+		const { error } = joiValidation.walletUpdatePassValidation(body);
+		if (error) AppResponse.fail(res, error.message);
+		try {
+			const wallet: IWallet | null = await WalletModel.findOne({ userId });
+			const validatePassword = await wallet?.validatePassword(body.oldPassword);
 
-      if (!validatePassword)
-        return AppResponse.fail(res, "you don't have access to this account");
-      //@ts-ignore
-      wallet?.password = await hash(body.newPassword, 12);
-      wallet?.save();
-      AppResponse.updated(res, "updated");
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+			if (!validatePassword)
+				return AppResponse.fail(res, "you don't have access to this account");
+			//@ts-ignore
+			wallet?.password = await hash(body.newPassword, 12);
+			wallet?.save();
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 
-  verifyOwnerOfAccount = async (req: Request, res: Response) => {
-    const { user: userId, body } = req;
+	verifyOwnerOfAccount = async (req: Request, res: Response) => {
+		const { user: userId, body } = req;
 
-    const { error } = joiValidation.walletCreationValidation(body);
+		const { error } = joiValidation.walletCreationValidation(body);
 
-    if (error) return AppResponse.fail(res, error.message);
+		if (error) return AppResponse.fail(res, error.message);
 
-    try {
-      const user = await WalletModel.findOne({ userId });
+		try {
+			const user = await WalletModel.findOne({ userId });
 
-      const validate = await user?.validatePassword(body.password);
+			const validate = await user?.validatePassword(body.password);
 
-      if (!validate) {
-        AppResponse.fail(res, "not account owner");
-      } else {
-        AppResponse.success(res, "Is user");
-      }
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+			if (!validate) {
+				AppResponse.fail(res, "not account owner");
+			} else {
+				AppResponse.success(res, "Is user");
+			}
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 
-  updateKiamaPointOrCoin = async (req: Request, res: Response) => {
-    const { error } = joiValidation.walletAddOrRemoveAmountValidation(req.body);
-    const { userId, details, coinOrPoints, unit } = req.body;
+	updateKiamaPointOrCoin = async (req: Request, res: Response) => {
+		const { error } = joiValidation.walletAddOrRemoveAmountValidation(req.body);
+		const { userId, details, coinOrPoints, unit } = req.body;
 
-    if (error) return AppResponse.fail(res, error.message);
-    try {
-      const wallet: IWallet | null = await WalletModel.findOne({ userId });
-      const value: any | undefined = await wallet?.addTokmpOrKmc(
-        coinOrPoints,
-        unit,
-        details
-      );
-      if (value !== "success") return AppResponse.fail(res, value);
+		if (error) return AppResponse.fail(res, error.message);
+		try {
+			const wallet: IWallet | null = await WalletModel.findOne({ userId });
+			const value: any | undefined = await wallet?.addTokmpOrKmc(
+				coinOrPoints,
+				unit,
+				details
+			);
+			if (value !== "success") return AppResponse.fail(res, value);
 
-      AppResponse.updated(res, "updated");
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 
-  deductKiamaPointOrCoin = async (req: Request, res: Response) => {
-    const { error } = joiValidation.walletAddOrRemoveAmountValidation(req.body);
+	deductKiamaPointOrCoin = async (req: Request, res: Response) => {
+		const { error } = joiValidation.walletAddOrRemoveAmountValidation(req.body);
 
-    const { userId, details, coinOrPoints, unit } = req.body;
+		const { userId, details, coinOrPoints, unit } = req.body;
 
-    if (error) return AppResponse.fail(res, error.message);
-    try {
-      const wallet: IWallet | null = await WalletModel.findOne({ userId });
-      const value: any | undefined = await wallet?.deductKmcOrKmp(
-        coinOrPoints,
-        unit,
-        details
-      );
-      console.log(value);
-      if (value !== "success") return AppResponse.fail(res, value);
+		if (error) return AppResponse.fail(res, error.message);
+		try {
+			const wallet: IWallet | null = await WalletModel.findOne({ userId });
+			const value: any | undefined = await wallet?.deductKmcOrKmp(
+				coinOrPoints,
+				unit,
+				details
+			);
+			console.log(value);
+			if (value !== "success") return AppResponse.fail(res, value);
 
-      AppResponse.updated(res, "updated");
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 
-  suspendOrUnsuspendWallet = async (req: Request, res: Response) => {
-    const { userId } = req.query;
+	suspendOrUnsuspendWallet = async (req: Request, res: Response) => {
+		const { userId } = req.query;
 
-    try {
-      const wallet = await WalletModel.findOne({ userId });
-      //@ts-ignore
-      wallet?.suspended = !wallet?.suspended;
-      await wallet?.save();
+		try {
+			const wallet = await WalletModel.findOne({ userId });
+			//@ts-ignore
+			wallet?.suspended = !wallet?.suspended;
+			await wallet?.save();
 
-      AppResponse.updated(res, "updated");
-    } catch (e) {
-      AppResponse.fail(res, e);
-    }
-  };
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 }
 
 export default new WalletController();

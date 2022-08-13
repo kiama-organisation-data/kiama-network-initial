@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import pageModel from "../model/Pages.Model";
-import { pagePostModel } from "../model/Posts.Model";
-import AppResponse from "./index";
+import pageModel from "../../model/Pages.Model";
+import { pagePostModel } from "../../model/Posts.Model";
+import AppResponse from "../index";
 
 class PageServices {
   constructor() {}
