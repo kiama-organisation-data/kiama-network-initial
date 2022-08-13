@@ -7,6 +7,7 @@ export interface IJob extends Document {
   file: object;
   category: Array<string>;
   validityPeriod: string;
+  submissions: Array<Schema.Types.ObjectId>;
   poster: Schema.Types.ObjectId;
   portal: Schema.Types.ObjectId;
 }
@@ -90,6 +91,13 @@ const jobSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
   },
+
+  submissions: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "JobApp",
+    },
+  ],
 });
 
 export const jobModel = model<IJob>("Job", jobSchema);

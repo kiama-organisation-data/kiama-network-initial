@@ -3,8 +3,16 @@ import {
   shopApprovedTemplate,
   shopRejectedTemplate,
 } from "../../views/convertToHtml";
+import * as dotenv from "dotenv";
+import * as path from "path";
 
-function sendMail(to: string, subject: string, payload: object | any) {
+dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+
+export default function sendMail(
+  to: string,
+  subject: string,
+  payload: object | any
+) {
   const { firstname, reason, secretKey, link } = payload;
   let html;
 
@@ -23,20 +31,21 @@ function sendMail(to: string, subject: string, payload: object | any) {
       //@ts-ignore
       service: "gmail",
       auth: {
-        type: "OAuth2",
+        type: "Login",
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-        clientId: process.env.OAUTH_CLIENT_ID,
-        clientSecret: process.env.OAUTH_CLIENT_SECRET,
-        refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+        pass: process.env.APP_PASS,
+        // clientId: process.env.OAUTH_CLIENT_ID,
+        // clientSecret: process.env.OAUTH_CLIENT_SECRET,
+        // refreshToken: process.env.OAUTH_REFRESH_TOKEN,
       },
     });
 
-    const dataObj = { from: "Kiama Network", to, subject, html };
+    const dataObj = { from: "workspace@kiama.com", to, subject, html };
 
     const mail = transporter.sendMail(dataObj);
     return mail;
-  } catch (e: any) {
+  } catch (e) {
+    //@ts-ignore
     throw new Error(e);
   }
 }
