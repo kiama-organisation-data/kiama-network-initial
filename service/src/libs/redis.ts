@@ -10,48 +10,48 @@ dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 const REDIS_URL = process.env.REDIS_URL || "redis://localhost:6379";
 
 class RedisConfig {
-  constructor() {}
-  async connect() {
-    // connects to the redis database
-    const client = createClient({
-      url: REDIS_URL,
-    });
-    await client.connect().catch((err) => {
-      console.error(`redis error ====> ${err}`);
-    });
-    return client;
-  }
-  // adds key value pairs to redis database
-  async addToRedis(key: string, value: any, expiresIn: any = 60 * 60 * 24) {
-    const redisClient = await this.connect();
-    try {
-      return await redisClient.set(key, value, expiresIn);
-    } catch (e) {
-      throw new Error("error");
-    }
-  }
+	constructor() {}
+	async connect() {
+		// connects to the redis database
+		const client = createClient({
+			url: REDIS_URL,
+		});
+		await client.connect().catch((err) => {
+			console.error(`redis error ====> ${err}`);
+		});
+		return client;
+	}
+	// adds key value pairs to redis database
+	async addToRedis(key: string, value: any, expiresIn: any = 60 * 60 * 24) {
+		const redisClient = await this.connect();
+		try {
+			return await redisClient.set(key, value, expiresIn);
+		} catch (e) {
+			throw new Error("error");
+		}
+	}
 
-  // deletes a key value pair by querying with the key
-  async removeFromRedis(key: string) {
-    const redisClient = await this.connect();
-    try {
-      await redisClient.del(key);
-      return true;
-    } catch (e) {
-      throw new Error("error");
-    }
-  }
+	// deletes a key value pair by querying with the key
+	async removeFromRedis(key: string) {
+		const redisClient = await this.connect();
+		try {
+			await redisClient.del(key);
+			return true;
+		} catch (e) {
+			throw new Error("error");
+		}
+	}
 
-  // gets a value from redis by querying with the key
-  async getValueFromRedis(key: string) {
-    const redisClient = await this.connect();
-    try {
-      const data = await redisClient.get(key);
-      return data;
-    } catch (e) {
-      throw new Error("error");
-    }
-  }
+	// gets a value from redis by querying with the key
+	async getValueFromRedis(key: string) {
+		const redisClient = await this.connect();
+		try {
+			const data = await redisClient.get(key);
+			return data;
+		} catch (e) {
+			throw new Error("error");
+		}
+	}
 }
 
 const redisConfig = new RedisConfig();

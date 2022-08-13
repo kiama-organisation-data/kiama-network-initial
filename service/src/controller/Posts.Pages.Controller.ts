@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { IPagepost, pagePostModel } from "../model/Posts.Model";
-import PageServices from "../services/Page.Services";
+import PageServices from "../services/pages/Page.Services";
 import AppResponse from "../services/index";
 
 /**
@@ -9,7 +9,7 @@ import AppResponse from "../services/index";
  */
 
 class PostPgtrl {
-  constructor() { }
+  constructor() {}
 
   create = async (req: Request, res: Response) => {
     let post: IPagepost | null = null;

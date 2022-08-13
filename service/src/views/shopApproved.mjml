@@ -1,0 +1,101 @@
+<mjml>
+  <mj-head>
+    <mj-font
+      name="Montserrat"
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700"
+    />
+
+    <mj-attributes>
+      <mj-all font-family="Montserrat" />
+    </mj-attributes>
+  </mj-head>
+
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-text
+          font-size="30px"
+          font-weight="700"
+          color="#404180"
+          padding-bottom="30px"
+        >
+          Your Shop Has Been Approved
+        </mj-text>
+
+        <mj-text
+          font-size="18px"
+          color="#002"
+          font-weight="500"
+          line-height="27px"
+          padding-bottom="25px"
+        >
+          Hello {{firstname}} 👋🏾👋🏾
+        </mj-text>
+
+        <mj-text
+          font-size="17px"
+          color="#002"
+          font-weight="400"
+          line-height="27px"
+          padding-bottom="20px"
+        >
+          You recently applied for a shop marketplace on KIAMA NETWORK.
+          Goodnews, your request was successful ! ☺️☺️
+        </mj-text>
+
+        <mj-text
+          font-size="18px"
+          color="#002"
+          font-weight="400"
+          line-height="27px"
+          padding-bottom="60px"
+        >
+          Your secret key is
+          <mj-text font-size="18px" color="#70393f" font-weight="400"
+            >{{secretKey}}
+          </mj-text>
+          don't let anyone but you have access to this key
+        </mj-text>
+
+        <mj-button
+          href={{link}}
+          width="100%"
+          inner-padding="25px"
+          border-radius="90px"
+          background-color="#404180"
+          font-size="21px"
+          font-weight="500"
+          color="#ffffff"
+        >
+          Go to shop
+        </mj-button>
+
+        <mj-text
+          font-size="18px"
+          color="#002"
+          font-weight="400"
+          line-height="27px"
+          padding-bottom="60px"
+        >
+          If you received this mail without requesting for a
+          shop please visit
+          <a
+            href="http://localhost:8181/kiama-supportlink"
+            style="color: #404180"
+          >
+            support@kiama.com
+          </a>
+        </mj-text>
+
+        <mj-text
+          font-size="17px"
+          color="#002"
+          font-weight="600"
+          padding-bottom="20px"
+        >
+          Thank You! @kiam technical team
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

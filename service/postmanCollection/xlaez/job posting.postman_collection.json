@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "ee61ae6a-2f70-4330-b7ac-03b26274b477",
+		"name": "job posting",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create job portal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "Basil Recruiters",
+							"type": "default"
+						},
+						{
+							"key": "mode",
+							"value": "long-term",
+							"type": "default"
+						},
+						{
+							"key": "duration",
+							"value": "long-term",
+							"type": "default"
+						},
+						{
+							"key": "description",
+							"value": "We offer continuous updates on job opportunities here as we act as agents",
+							"type": "default"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Pictures/Screenshot from 2022-07-16 08-45-39.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/portal",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"portal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create job post",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Junior software developer\",\n    \"description\": \"This Job post are for software developers with 6 months to 2 years of expereince\",\n    \"content\": \"Must have skilss in the following: Javascript, Typescript, Angular.js, flutter, ember nest.js and postgressDB\",\n    \"portal\": \"62f6416787bb0e665db14405\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/job",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "submit job application",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "jobPostId",
+							"value": "62f64a871d175709935a27b5",
+							"type": "default"
+						},
+						{
+							"key": "text",
+							"value": "I am a senior developer sir/madam but  i need this job",
+							"type": "default"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Downloads/wp5258032-laptop-hd-anime-wallpapers.jpg"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/apply",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"apply"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all job portals",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/portal",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"portal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get job portal",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/portal/62f6416787bb0e665db14405",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"portal",
+						"62f6416787bb0e665db14405"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all job posts",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/job",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get an application",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/apply?jobPostId=62f64a871d175709935a27b5&userId=62f31a210b88a481772449d3",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"apply"
+					],
+					"query": [
+						{
+							"key": "jobPostId",
+							"value": "62f64a871d175709935a27b5"
+						},
+						{
+							"key": "userId",
+							"value": "62f31a210b88a481772449d3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get all applications",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/job/applications?jobPostId=62f64a871d175709935a27b5",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"job",
+						"applications"
+					],
+					"query": [
+						{
+							"key": "jobPostId",
+							"value": "62f64a871d175709935a27b5"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
