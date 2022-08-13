@@ -179,7 +179,7 @@ class ProfileController {
         if (!user) {
             AppResponse.fail(res, "User not found");
         } else {
-            if (user.followersType === "public") {
+            if (user._id === req.user) {
                 const followers = await Profiles.find({ _id: { $in: user.followers } })
                     .select("user")
                     .populate(
@@ -191,7 +191,20 @@ class ProfileController {
 
                 AppResponse.success(res, followers);
             } else {
-                AppResponse.fail(res, "You can't see followers");
+                if (user.followersType === "public") {
+                    const followers = await Profiles.find({ _id: { $in: user.followers } })
+                        .select("user")
+                        .populate(
+                            {
+                                path: "user",
+                                select: "name avatar",
+                            }
+                        );
+
+                    AppResponse.success(res, followers);
+                } else {
+                    AppResponse.fail(res, "You can't see followers");
+                }
             }
         }
     }
@@ -205,10 +218,11 @@ class ProfileController {
     // @param   : id
     getFollowing = async (req: any, res: Response, next: any): Promise<void> => {
         const user: any = await Profiles.findOne({ user: req.params.id }).select("following followingType");
+
         if (!user) {
             AppResponse.fail(res, "User not found");
         } else {
-            if (user.followingType === "public") {
+            if (req.user === req.params.id) {
                 const following = await Profiles.find({ _id: { $in: user.following } })
                     .select("user")
                     .populate(
@@ -217,10 +231,22 @@ class ProfileController {
                             select: "name avatar",
                         }
                     );
-
                 AppResponse.success(res, following);
             } else {
-                AppResponse.fail(res, "You can't see following");
+                if (user.followingType === "public") {
+                    const following = await Profiles.find({ _id: { $in: user.following } })
+                        .select("user")
+                        .populate(
+                            {
+                                path: "user",
+                                select: "name avatar",
+                            }
+                        );
+
+                    AppResponse.success(res, following);
+                } else {
+                    AppResponse.fail(res, "You can't see following");
+                }
             }
         }
     }
