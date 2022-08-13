@@ -28,4 +28,6 @@
 ## npm install -g local-ssl-proxy 
 * local-ssl-proxy --config proxy.json
 
-
+## npm install geoip-lite and type
+* create compte into https://www.maxmind.com/
+* update data and type node ./node_modules/geoip-lite/scripts/updatedb.js license_key=YOUR_LICENSE_KEY

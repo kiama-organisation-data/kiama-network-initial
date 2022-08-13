@@ -10,11 +10,11 @@ class authService {
     }
     // generate token with user id
     public generateJWT(_id: string): string {
-        return jwt.sign({ _id }, process.env.JWT_SECRET || 'defaultToken', { expiresIn: '1h', algorithm: "HS512", });
+        return jwt.sign({ _id }, process.env.JWT_SECRET || 'defaultToken', { expiresIn: process.env.JWT_EXPIRE_HOURS || '1h', algorithm: "HS512", });
     }
 
     public createCookie(token: string): string {
-        return `Authorization=${token}; Path=/; HttpOnly; Max-Age=${60 * 60}`;
+        return `Authorization=${token}; Path=/; HttpOnly; Max-Age=${process.env.COOKIE_EXPIRE || 60 * 60 * 24 * 7}`;
     }
 }
 

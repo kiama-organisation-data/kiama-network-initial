@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 import sortData from "../middleware/utils";
 import { IJobPortal, jobModel, jobPortalModel } from "../model/Job.Model";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 /**

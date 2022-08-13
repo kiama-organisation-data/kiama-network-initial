@@ -5,7 +5,7 @@ import { uploadToCloud } from "../../libs/cloudinary";
 import joiValidation from "../../libs/joiValidation";
 import shopModel from "../../model/collections/Shop.Model";
 import redisConfig from "../../libs/redis";
-import Users from "../../model/UsersAuth.Model";
+import Users from "../../model/users/UsersAuth.Model";
 import CentreModel from "../../model/collections/Centre.Model";
 
 // important comments to pay attention to
@@ -40,7 +40,7 @@ import CentreModel from "../../model/collections/Centre.Model";
  */
 
 class ShopCntl {
-  constructor() {}
+  constructor() { }
   /**
    * @function createShop is going to be available only to the workers at the centre room
    * an email would be sent with user shops credentials

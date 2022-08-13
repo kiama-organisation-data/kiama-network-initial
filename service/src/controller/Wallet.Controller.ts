@@ -1,7 +1,7 @@
 import { hash } from "bcrypt";
 import { Request, Response } from "express";
 import joiValidation from "../libs/joiValidation";
-import Users, { IUser } from "../model/UsersAuth.Model";
+import Users, { IUser } from "../model/users/UsersAuth.Model";
 import WalletModel, { IWallet } from "../model/Wallet.Model";
 import AppResponse from "../services";
 import { apiCrypto } from "../utils/CrytoUtils";
@@ -20,7 +20,7 @@ import { apiCrypto } from "../utils/CrytoUtils";
  */
 
 class WalletController {
-  constructor() {}
+  constructor() { }
 
   createUserWallet = async (req: Request, res: Response) => {
     const { body, user } = req;

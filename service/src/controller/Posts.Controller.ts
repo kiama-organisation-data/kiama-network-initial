@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import postModel, { IPost } from "../model/Posts.Model";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import AppResponse from "../services/index";
 
 class PostsController {

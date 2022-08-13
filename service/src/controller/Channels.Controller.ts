@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import joiValidation from "../libs/joiValidation";
 import { channelModel, createApiKeys, IChannel } from "../model/Channels.Model";
-import Users from "../model/UsersAuth.Model";
+import Users from "../model/users/UsersAuth.Model";
 import ChannelServices from "../services/Channel.Services";
 import AppResponse from "../services/index";
 import channelPostModel, { IPchannel } from "../model/Posts.Channels";

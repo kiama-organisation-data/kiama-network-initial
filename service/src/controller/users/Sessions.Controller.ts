@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import Sessions, { ISession } from '../model/Sessions.Model'
-import AppResponse from "../services/index";
-import sortData from "../middleware/utils";
+import Sessions, { ISession } from '../../model/users/Sessions.Model'
+import AppResponse from "../../services/index";
+import sortData from "../../middleware/utils";
 
 class SessionController {
 

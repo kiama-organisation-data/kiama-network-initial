@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import CentreModel from "../../model/collections/Centre.Model";
 import shopModel from "../../model/collections/Shop.Model";
 import Notifications from "../../model/Notifications.Model";
-import Users from "../../model/UsersAuth.Model";
+import Users from "../../model/users/UsersAuth.Model";
 import AppResponse from "../../services";
 import sendMail from "../../utils/email";
 

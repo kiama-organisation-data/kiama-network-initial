@@ -1,9 +1,9 @@
 import shopModel, { IShop } from "../../model/collections/Shop.Model";
-import Users from "../../model/UsersAuth.Model";
+import Users from "../../model/users/UsersAuth.Model";
 import { apiCrypto } from "../../utils/CrytoUtils";
 
 class ShopServices {
-  constructor() {}
+  constructor() { }
 
   async createNew(data: any) {
     const { brand, body, owner } = data;

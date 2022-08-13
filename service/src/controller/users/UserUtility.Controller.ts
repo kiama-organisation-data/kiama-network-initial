@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import Users from "../model/UsersAuth.Model";
-import AppResponse from "../services/index";
+import Users from "../../model/users/UsersAuth.Model";
+import AppResponse from "../../services/index";
 
 class UserUtilCntrl {
   constructor() { }

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import Profiles, { IProfile } from '../model/Profiles.Model'
-import AppResponse from "../services/index";
-import sortData from "../middleware/utils";
+import Profiles, { IProfile } from '../../model/users/Profiles.Model'
+import AppResponse from "../../services/index";
+import sortData from "../../middleware/utils";
 
 class ProfileController {
 
