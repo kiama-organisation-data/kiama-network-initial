@@ -4,6 +4,7 @@ import Users, { IUser } from '../../model/users/UsersAuth.Model';
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
 import checkObjectId from '../../middleware/checkObjectId';
+import JoiValidate from '../../libs/joiValidation';
 
 class ProfileController {
 
@@ -270,7 +271,39 @@ class ProfileController {
         } else {
             AppResponse.success(res, profile);
         }
+    }
 
+
+    // =========================================================================
+    // Funtion for education into the profile
+    // =========================================================================
+    // @desc    : Funtion for education into the profile
+    // @route   : POST /api/v1/profile/education
+    // @access  : Private
+    // @param   : id
+    addEducation = async (req: any, res: Response, next: any): Promise<void> => {
+        const { errors } = JoiValidate.educationValidation(req.body);
+        if (errors) {
+            AppResponse.fail(res, errors);
+        } else {
+            const profile = await Profiles.findOne({ user: req.user });
+            if (!profile) {
+                AppResponse.fail(res, "User not found");
+            } else {
+                const newEducation = {
+                    school: req.body.school,
+                    degree: req.body.degree,
+                    fieldofstudy: req.body.fieldofstudy,
+                    from: req.body.from,
+                    to: req.body.to,
+                    current: req.body.current,
+                    description: req.body.description
+                }
+                profile.education.unshift(newEducation);
+                await profile.save();
+                AppResponse.success(res, profile);
+            }
+        }
     }
 }
 

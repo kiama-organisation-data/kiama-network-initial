@@ -30,6 +30,8 @@ class ProfilesRouter {
         this.router.route("/:id/followers").get(profilesController.getFollowers);
         this.router.route("/:id/following").get(profilesController.getFollowing);
         this.router.route("/user/:id").get(checkObjectId.isValidMiddleware('id'), profilesController.getProfileByUserId);
+        // route for eductaion 
+        this.router.route("/education").post(profilesController.addEducation);
 
     }
 }
