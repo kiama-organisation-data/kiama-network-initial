@@ -6,6 +6,7 @@ export interface ICentreRoom extends Document {
 	user: Schema.Types.ObjectId;
 	collectionId: Schema.Types.ObjectId;
 	purpose: string;
+	blogId: Schema.Types.ObjectId;
 }
 
 const centreSchema = new Schema(
@@ -16,13 +17,19 @@ const centreSchema = new Schema(
 			required: [true, "User's id must be provided"],
 		},
 		collectionId: {
+			// suppose to be shopId but we will overlook this
 			type: Schema.Types.ObjectId,
 			ref: "Shop",
 			required: [true, "Collection's id must be provided"], // referencing shop for now
 		},
+		blogId: {
+			type: Schema.Types.ObjectId,
+			ref: "Blog",
+			required: [true, "Collection's id must be provided"],
+		},
 		category: {
 			type: String,
-			enum: ["shop"], // others will be added later example: blog
+			enum: ["shop", "blog"], // others will be added later in future versions
 			required: true,
 		},
 		purpose: {
