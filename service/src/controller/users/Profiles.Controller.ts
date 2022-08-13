@@ -3,6 +3,7 @@ import Profiles, { IProfile } from '../../model/users/Profiles.Model'
 import Users, { IUser } from '../../model/users/UsersAuth.Model';
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
+import checkObjectId from '../../middleware/checkObjectId';
 
 class ProfileController {
 
@@ -249,6 +250,27 @@ class ProfileController {
                 }
             }
         }
+    }
+
+    // =========================================================================
+    // Get profile by userId
+    // =========================================================================
+    // @desc    : Get profile by userId
+    // @route   : GET /api/v1/profile/user/:id
+    // @access  : Private
+    // @param   : id
+    getProfileByUserId = async (req: any, res: Response, next: any): Promise<void> => {
+        if (!checkObjectId.isValid(res, req.params.id)) {
+            return next();
+        }
+
+        const profile = await Profiles.findOne({ user: req.params.id });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            AppResponse.success(res, profile);
+        }
+
     }
 }
 

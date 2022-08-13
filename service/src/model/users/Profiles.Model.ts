@@ -131,7 +131,7 @@ const profilesShema = new shema(
         relationship_status: {
             type: String,
             enum: relationship,
-            default: relationship.none
+            default: relationship["none"]
         },
         religion: { type: String, enum: religions },
         followers: [
