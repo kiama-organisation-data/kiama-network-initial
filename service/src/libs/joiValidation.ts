@@ -5,6 +5,7 @@ import { IShop } from "../model/collections/Shop.Model";
 import { IPrmsg } from "../model/Messages.Model";
 import { IPchannel } from "../model/Posts.Channels";
 import { IPost } from "../model/Posts.Model";
+import { IProfile } from "../model/users/Profiles.Model";
 import { IUser } from "../model/users/UsersAuth.Model";
 import { IWallet } from "../model/Wallet.Model";
 export interface Iparam {
@@ -24,7 +25,7 @@ export interface IAddOrRemoveWallet {
 	};
 }
 class JoiValidate {
-	constructor() {}
+	constructor() { }
 
 	// signup verification
 	signupValidation = (data: IUser) => {
@@ -195,5 +196,26 @@ class JoiValidate {
 	};
 }
 
-const joiValidation = new JoiValidate();
+// create new validation class and call it into 
+class profileValidation extends JoiValidate {
+	constructor() {
+		super();
+	}
+
+	// profile eduction validation
+	educationValidation = (data: IProfile) => {
+		const postSchema = Joi.object({
+			school: Joi.string().required(),
+			degree: Joi.string().required(),
+			fieldOfStudy: Joi.string().required(),
+			from: Joi.date().required(),
+			to: Joi.date().required(),
+			current: Joi.boolean().required(),
+			description: Joi.string(),
+		});
+		return postSchema.validate(data);
+	}
+}
+
+const joiValidation = new profileValidation();
 export default joiValidation;
