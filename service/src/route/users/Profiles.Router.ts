@@ -39,6 +39,9 @@ class ProfilesRouter {
             .get(profilesController.getEducation);
         // route for experience
         this.router.route("/experience").post(profilesController.addExperience);
+        this.router
+            .route("/experience/:exp_id")
+            .delete(profilesController.deleteExperience)
     }
 }
 

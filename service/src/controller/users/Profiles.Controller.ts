@@ -405,6 +405,25 @@ class ProfileController {
         }
     }
 
+    /**
+     * @desc    : delete experience from the profile
+     * @route   : DELETE /api/v1/profile/experience/:exp_id
+     * @access  : Private
+     * @param: exp_id
+     * @return  : experience
+     */
+    deleteExperience = async (req: any, res: Response, next: any): Promise<void> => {
+        const profile = await Profiles.findOne({ user: req.user });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            const removeIndex = profile.experience.map((item: any) => item._id).indexOf(req.params.exp_id);
+            profile.experience.splice(removeIndex, 1);
+            await profile.save();
+            AppResponse.success(res, profile);
+        }
+    }
+
 }
 
 const profilesController = new ProfileController()
