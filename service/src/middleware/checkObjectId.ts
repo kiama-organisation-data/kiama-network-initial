@@ -17,13 +17,14 @@ class checkObjectId {
     }
 
     // for checking if the id is a valid ObjectId into middleware
-    isValidMiddleware(req: Request, res: Response, next: NextFunction) {
-        const idToCheck = req.params.id;
-        if (!mongoose.Types.ObjectId.isValid(idToCheck)) {
-            return AppResponse.fail(res, "Invalid id");
-        }
-        next();
-    }
+    isValidMiddleware = (idCheck: any) => {
+        return (req: Request, res: Response, next: NextFunction) => {
+            if (!mongoose.Types.ObjectId.isValid(req.params[idCheck])) {
+                return AppResponse.fail(res, "Invalid id");
+            }
+            next();
+        };
+    };
 
 
 
