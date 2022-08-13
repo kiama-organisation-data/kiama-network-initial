@@ -353,6 +353,22 @@ class ProfileController {
             }
         }
     }
+    /**
+     * @desc    : get education from the profile
+     * @route   : GET /api/v1/profile/education/:edu_id
+     * @access  : Private
+     * @param   : edu_id
+     * @return  : education
+     */
+    getEducation = async (req: any, res: Response, next: any): Promise<void> => {
+        const profile = await Profiles.findOne({ user: req.user });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            const removeIndex = profile.education.map((item: any) => item.id).indexOf(req.params.edu_id);
+            AppResponse.success(res, profile.education[removeIndex]);
+        }
+    }
 
 }
 

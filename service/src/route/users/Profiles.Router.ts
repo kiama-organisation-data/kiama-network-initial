@@ -36,6 +36,7 @@ class ProfilesRouter {
             .route("/education/:edu_id")
             .patch(profilesController.updateEducation)
             .delete(profilesController.deleteEducation)
+            .get(profilesController.getEducation);
     }
 }
 
