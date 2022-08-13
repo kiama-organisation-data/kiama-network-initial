@@ -324,7 +324,7 @@ class ProfileController {
     }
     /**
      * @desc    : update education from the profile
-     * @route   : PUT /api/v1/profile/education/:edu_id
+     * @route   : PATCH /api/v1/profile/education/:edu_id
      * @access  : Private
      * @param   : edu_id
      */
@@ -421,6 +421,38 @@ class ProfileController {
             profile.experience.splice(removeIndex, 1);
             await profile.save();
             AppResponse.success(res, profile);
+        }
+    }
+
+    /**
+     * @desc    : update experience from the profile
+     * @route   : PATCH /api/v1/profile/experience/:exp_id
+     * @access  : Private
+     * @param   : exp_id
+     * @return  : experience
+     */
+    updateExperience = async (req: any, res: Response, next: any): Promise<void> => {
+        const { errors } = JoiValidate.experienceValidation(req.body);
+        if (errors) {
+            AppResponse.fail(res, errors);
+        } else {
+            const profile = await Profiles.findOne({ user: req.user });
+            if (!profile) {
+                AppResponse.fail(res, "User not found");
+            } else {
+                const removeIndex = profile.experience.map((item: any) => item.id).indexOf(req.params.exp_id);
+                profile.experience[removeIndex] = {
+                    title: req.body.title,
+                    company: req.body.company,
+                    location: req.body.location,
+                    from: req.body.from,
+                    to: req.body.to,
+                    current: req.body.current,
+                    description: req.body.description
+                }
+                await profile.save();
+                AppResponse.success(res, profile);
+            }
         }
     }
 
