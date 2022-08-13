@@ -8,18 +8,22 @@ import { resolve } from "path";
  */
 
 const shopApproved = readFileSync(
-  resolve(__dirname, "./shopApproved.mjml")
+	resolve(__dirname, "./shopApproved.mjml")
 ).toString();
 
 const shopRejected = readFileSync(
-  resolve(__dirname, "./shopRejected.mjml")
+	resolve(__dirname, "./shopRejected.mjml")
 ).toString();
 
+const passwordReset = readFileSync(
+	resolve(__dirname, "./passwordReset.mjml")
+).toString();
 /**
  * Compile to templates
  */
 
 const shopApprovedTemplate = compile(mjml(shopApproved).html);
 const shopRejectedTemplate = compile(mjml(shopRejected).html);
+const passwordResetTemplate = compile(mjml(passwordReset).html);
 
-export { shopApprovedTemplate, shopRejectedTemplate };
+export { shopApprovedTemplate, shopRejectedTemplate, passwordResetTemplate };

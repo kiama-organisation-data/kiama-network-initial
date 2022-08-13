@@ -11,90 +11,90 @@ import messageHelpers from "../middleware/messageHelpers";
  */
 
 class MessagesRouter {
-  router: Router;
+	router: Router;
 
-  constructor() {
-    this.router = Router();
-    this.routes();
-  }
+	constructor() {
+		this.router = Router();
+		this.routes();
+	}
 
-  routes() {
-    // privateMessaging routes
-    this.router
-      .route("/")
-      .post(messageUploads, PrivateMsgController.sendMsg)
-      .get(PrivateMsgController.getMessages);
+	routes() {
+		// privateMessaging routes
+		this.router
+			.route("/")
+			.post(messageUploads, PrivateMsgController.sendMsg)
+			.get(PrivateMsgController.getMessages);
 
-    this.router
-      .route("/:id")
-      .delete(messageHelpers.isId, PrivateMsgController.deleteMessage);
+		this.router
+			.route("/:id")
+			.delete(messageHelpers.isId, PrivateMsgController.deleteMessage);
 
-    this.router.route("/reply/:id").post(PrivateMsgController.addReply);
+		this.router.route("/reply/:id").post(PrivateMsgController.addReply);
 
-    this.router
-      .route("/mark-seen/:id")
-      .put(messageHelpers.isId, PrivateMsgController.markSeen);
+		this.router
+			.route("/mark-seen/:id")
+			.put(messageHelpers.isId, PrivateMsgController.markSeen);
 
-    this.router
-      .route("/add-reaction/:id")
-      .put(PrivateMsgController.addReactions);
+		this.router
+			.route("/add-reaction/:id")
+			.put(PrivateMsgController.addReactions);
 
-    this.router
-      .route("/set-forwarded/:id")
-      .put(messageHelpers.isId, PrivateMsgController.setMsgAsFowarded);
+		this.router
+			.route("/set-forwarded/:id")
+			.put(messageHelpers.isId, PrivateMsgController.setMsgAsFowarded);
 
-    // groupMessaging routes
-    this.router
-      .route("/group")
-      .post(messageUploads, GroupMsgController.createGroup)
-      .patch(GroupMsgController.editGroup)
-      .put(messageUploads, GroupMsgController.editGroupPhoto)
-      .delete(messageHelpers.isId, GroupMsgController.deleteGroupPhoto);
+		// groupMessaging routes
+		this.router
+			.route("/group")
+			.post(messageUploads, GroupMsgController.createGroup)
+			.patch(GroupMsgController.editGroup)
+			.put(messageUploads, GroupMsgController.editGroupPhoto)
+			.delete(messageHelpers.isId, GroupMsgController.deleteGroupPhoto);
 
-    this.router.route("/group/add").post(GroupMsgController.addMember);
+		this.router.route("/group/add").post(GroupMsgController.addMember);
 
-    this.router.route("/group/remove").delete(GroupMsgController.removeMember);
+		this.router.route("/group/remove").delete(GroupMsgController.removeMember);
 
-    this.router
-      .route("/group/delete/:id")
-      .delete(messageHelpers.isId, GroupMsgController.deleteGroup);
+		this.router
+			.route("/group/delete/:id")
+			.delete(messageHelpers.isId, GroupMsgController.deleteGroup);
 
-    this.router
-      .route("/group/edit/:id")
-      .delete(messageHelpers.isId, GroupMsgController.editGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
+		this.router
+			.route("/group/edit/:id")
+			.delete(messageHelpers.isId, GroupMsgController.editGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
 
-    this.router
-      .route("/group/msg")
-      .post(messageUploads, GroupMsgController.sendMessage);
+		this.router
+			.route("/group/msg")
+			.post(messageUploads, GroupMsgController.sendMessage);
 
-    this.router
-      .route("/group/msg/:groupId")
-      .get(GroupMsgController.getMessages);
+		this.router
+			.route("/group/msg/:groupId")
+			.get(GroupMsgController.getMessages);
 
-    this.router
-      .route("/group/msg/:id")
-      .delete(messageHelpers.isId, GroupMsgController.deleteMessage);
+		this.router
+			.route("/group/msg/:id")
+			.delete(messageHelpers.isId, GroupMsgController.deleteMessage);
 
-    this.router
-      .route("/group/msg/mark-seen/:id")
-      .patch(messageHelpers.isId, GroupMsgController.markSeen);
+		this.router
+			.route("/group/msg/mark-seen/:id")
+			.patch(messageHelpers.isId, GroupMsgController.markSeen);
 
-    this.router
-      .route("/group/msg/add-reaction/:id")
-      .patch(messageHelpers.isId, GroupMsgController.addReaction);
+		this.router
+			.route("/group/msg/add-reaction/:id")
+			.patch(messageHelpers.isId, GroupMsgController.addReaction);
 
-    this.router
-      .route("/group/msg/forwarded/:id")
-      .patch(messageHelpers.isId, GroupMsgController.setAsForwarded);
+		this.router
+			.route("/group/msg/forwarded/:id")
+			.patch(messageHelpers.isId, GroupMsgController.setAsForwarded);
 
-    this.router
-      .route("/group/msg/reply/:id")
-      .put(
-        messageUploads,
-        messageHelpers.isId,
-        GroupMsgController.replyMessage
-      );
-  }
+		this.router
+			.route("/group/msg/reply/:id")
+			.put(
+				messageUploads,
+				messageHelpers.isId,
+				GroupMsgController.replyMessage
+			);
+	}
 }
 
 export default new MessagesRouter().router;

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import PagesController from "../controller/Pages.Controller";
 import { messageUploads } from "../libs/multerConfig";
-import PageServices from "../services/Page.Services";
+import PageServices from "../services/pages/Page.Services";
 
 class PagesRouter {
   router: Router;
