@@ -260,9 +260,9 @@ class ProfileController {
     // @access  : Private
     // @param   : id
     getProfileByUserId = async (req: any, res: Response, next: any): Promise<void> => {
-        if (!checkObjectId.isValid(res, req.params.id)) {
-            return next();
-        }
+        // if (!checkObjectId.isValid(res, req.params.id)) {
+        //     return next();
+        // }
 
         const profile = await Profiles.findOne({ user: req.params.id });
         if (!profile) {

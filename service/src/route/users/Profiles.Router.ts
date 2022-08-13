@@ -1,6 +1,7 @@
 import { Router } from "express";
 import profilesController from "../../controller/users/Profiles.Controller";
 import validationToken from "../../libs/verifyToken";
+import checkObjectId from '../../middleware/checkObjectId';
 
 class ProfilesRouter {
     router: Router;
@@ -28,7 +29,7 @@ class ProfilesRouter {
         this.router.route("/:id/follow").post(profilesController.followUser);
         this.router.route("/:id/followers").get(profilesController.getFollowers);
         this.router.route("/:id/following").get(profilesController.getFollowing);
-        this.router.route("/user/:id").get(profilesController.getProfileByUserId);
+        this.router.route("/user/:id").get(checkObjectId.isValidMiddleware, profilesController.getProfileByUserId);
 
     }
 }
