@@ -215,6 +215,19 @@ class profileValidation extends JoiValidate {
 		});
 		return postSchema.validate(data);
 	}
+
+	experienceValidation = (data: IProfile) => {
+		const postSchema = Joi.object({
+			company: Joi.string().required(),
+			title: Joi.string().required(),
+			location: Joi.string().required(),
+			from: Joi.date().required(),
+			to: Joi.date().required(),
+			current: Joi.boolean().required(),
+			description: Joi.string(),
+		});
+		return postSchema.validate(data);
+	}
 }
 
 const joiValidation = new profileValidation();
