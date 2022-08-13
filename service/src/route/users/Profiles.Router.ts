@@ -43,6 +43,7 @@ class ProfilesRouter {
             .route("/experience/:exp_id")
             .delete(profilesController.deleteExperience)
             .patch(profilesController.updateExperience)
+            .get(profilesController.getExperience);
     }
 }
 

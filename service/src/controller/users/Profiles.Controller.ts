@@ -456,6 +456,23 @@ class ProfileController {
         }
     }
 
+    /**
+     * @desc    : get experience from the profile
+     * @route   : GET /api/v1/profile/experience/:exp_id
+     * @access  : Private
+     * @param   : exp_id
+     * @return  : experience
+     */
+    getExperience = async (req: any, res: Response, next: any): Promise<void> => {
+        const profile = await Profiles.findOne({ user: req.user });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            const removeIndex = profile.experience.map((item: any) => item.id).indexOf(req.params.exp_id);
+            AppResponse.success(res, profile.experience[removeIndex]);
+        }
+    }
+
 }
 
 const profilesController = new ProfileController()
