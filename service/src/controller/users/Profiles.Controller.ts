@@ -370,6 +370,41 @@ class ProfileController {
         }
     }
 
+    // =========================================================================
+    // Funtion for experience into the profile
+    // =========================================================================
+    /**
+     * @desc    : Funtion for experience into the profile
+     * @route   : POST /api/v1/profile/experience
+     * @access  : Private
+     * @param   : id
+     * @return  : experience
+     */
+    addExperience = async (req: any, res: Response, next: any): Promise<void> => {
+        const { errors } = JoiValidate.experienceValidation(req.body);
+        if (errors) {
+            AppResponse.fail(res, errors);
+        } else {
+            const profile = await Profiles.findOne({ user: req.user });
+            if (!profile) {
+                AppResponse.fail(res, "User not found");
+            } else {
+                const newExperience = {
+                    title: req.body.title,
+                    company: req.body.company,
+                    location: req.body.location,
+                    from: req.body.from,
+                    to: req.body.to,
+                    current: req.body.current,
+                    description: req.body.description
+                }
+                profile.experience.unshift(newExperience);
+                await profile.save();
+                AppResponse.success(res, profile);
+            }
+        }
+    }
+
 }
 
 const profilesController = new ProfileController()

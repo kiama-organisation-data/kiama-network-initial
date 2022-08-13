@@ -37,6 +37,8 @@ class ProfilesRouter {
             .patch(profilesController.updateEducation)
             .delete(profilesController.deleteEducation)
             .get(profilesController.getEducation);
+        // route for experience
+        this.router.route("/experience").post(profilesController.addExperience);
     }
 }
 
