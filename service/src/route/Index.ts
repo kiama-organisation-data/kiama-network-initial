@@ -31,6 +31,7 @@ import TasksRouter from "./Tasks.Router";
 import VotesRouter from "./Votes.Router";
 import JobRouter from "./Job.Router";
 import SearchRouter from "./Search.Router";
+import DraftRouter from "./users/Draft.Router";
 
 // category
 import NewsCatRouter from "./category/News.Router";
@@ -53,73 +54,75 @@ import WalletRouter from "./Wallet.Router";
 const router: Router = Router();
 
 function rootRouter() {
-  router.use("/user", UsersAuthRouter);
-  router.use("/role", validationToken.TokenValidation, RoleRouter);
-  router.use("/page", validationToken.TokenValidation, PagesRouter);
-  router.use("/msg", validationToken.TokenValidation, MessagesRouter);
-  router.use("/chat-room", validationToken.TokenValidation, ChatRoomRouter);
-  router.use("/pages/post", validationToken.TokenValidation, PostsPagesRouter);
-  router.use("/post", validationToken.TokenValidation, PostsRouter);
-  router.use("/channel", validationToken.TokenValidation, ChannelsRouter);
-  router.use("/bug", validationToken.TokenValidation, BugsRouter);
-  router.use("/challenge", validationToken.TokenValidation, ChallengesRouter);
-  router.use("/event", validationToken.TokenValidation, EventsRouter);
-  router.use(
-    "/collaborator",
-    validationToken.TokenValidation,
-    CollaboratorsRouter
-  );
-  router.use("/comment", validationToken.TokenValidation, CommentsRouter);
-  router.use("/country", validationToken.TokenValidation, CountriesRouter);
-  router.use("/favorite", validationToken.TokenValidation, FavoritesRouter);
-  router.use("/friendreq", validationToken.TokenValidation, FriendReqsRouter);
-  router.use("/history", validationToken.TokenValidation, HistorysRouter);
-  router.use(
-    "/notification",
-    validationToken.TokenValidation,
-    NotificationsRouter
-  );
-  router.use("/language", validationToken.TokenValidation, LanguagesRouter);
-  router.use("/medal", validationToken.TokenValidation, MedalsRouter);
-  router.use("/news", validationToken.TokenValidation, NewsRouter);
-  router.use(
-    "/orientation",
-    validationToken.TokenValidation,
-    OrientationsRouter
-  );
-  router.use("/profile", validationToken.TokenValidation, ProfilesRouter);
-  router.use("/project", validationToken.TokenValidation, ProjectsRouter);
-  router.use("/report", validationToken.TokenValidation, ReportsRouter);
-  router.use("/session", validationToken.TokenValidation, SessionsRouter);
-  router.use("/setting", validationToken.TokenValidation, SettingsRouter);
-  router.use("/statistic", validationToken.TokenValidation, StatisticsRouter);
-  router.use("/task", validationToken.TokenValidation, TasksRouter);
-  router.use("/vote", validationToken.TokenValidation, VotesRouter);
-  router.use("/job", validationToken.TokenValidation, JobRouter);
-  router.use("/wallet", validationToken.TokenValidation, WalletRouter);
+	router.use("/user", UsersAuthRouter);
+	router.use("/role", validationToken.TokenValidation, RoleRouter);
+	router.use("/draft", validationToken.TokenValidation, DraftRouter);
+	router.use("/page", validationToken.TokenValidation, PagesRouter);
+	router.use("/msg", validationToken.TokenValidation, MessagesRouter);
+	router.use("/chat-room", validationToken.TokenValidation, ChatRoomRouter);
+	router.use("/pages/post", validationToken.TokenValidation, PostsPagesRouter);
+	router.use("/post", validationToken.TokenValidation, PostsRouter);
+	router.use("/channel", validationToken.TokenValidation, ChannelsRouter);
+	router.use("/bug", validationToken.TokenValidation, BugsRouter);
+	router.use("/challenge", validationToken.TokenValidation, ChallengesRouter);
+	router.use("/event", validationToken.TokenValidation, EventsRouter);
+	router.use("/comment", validationToken.TokenValidation, CommentsRouter);
+	router.use("/country", validationToken.TokenValidation, CountriesRouter);
+	router.use("/favorite", validationToken.TokenValidation, FavoritesRouter);
+	router.use("/friendreq", validationToken.TokenValidation, FriendReqsRouter);
+	router.use("/history", validationToken.TokenValidation, HistorysRouter);
+	router.use("/language", validationToken.TokenValidation, LanguagesRouter);
+	router.use("/medal", validationToken.TokenValidation, MedalsRouter);
+	router.use("/news", validationToken.TokenValidation, NewsRouter);
+	router.use("/profile", validationToken.TokenValidation, ProfilesRouter);
+	router.use("/project", validationToken.TokenValidation, ProjectsRouter);
+	router.use("/report", validationToken.TokenValidation, ReportsRouter);
+	router.use("/session", validationToken.TokenValidation, SessionsRouter);
+	router.use("/setting", validationToken.TokenValidation, SettingsRouter);
+	router.use("/statistic", validationToken.TokenValidation, StatisticsRouter);
+	router.use("/task", validationToken.TokenValidation, TasksRouter);
+	router.use("/vote", validationToken.TokenValidation, VotesRouter);
+	router.use("/job", validationToken.TokenValidation, JobRouter);
+	router.use("/wallet", validationToken.TokenValidation, WalletRouter);
 
-  // collections
-  router.use("/collections/shop", validationToken.TokenValidation, shopRouter);
-  router.use("/centre", CentreRouter);
+	router.use(
+		"/notification",
+		validationToken.TokenValidation,
+		NotificationsRouter
+	);
+	router.use(
+		"/collaborator",
+		validationToken.TokenValidation,
+		CollaboratorsRouter
+	);
+	router.use(
+		"/orientation",
+		validationToken.TokenValidation,
+		OrientationsRouter
+	);
 
-  // category
-  router.use("/news/cat", validationToken.TokenValidation, NewsCatRouter);
-  router.use(
-    "/challenge/cat",
-    validationToken.TokenValidation,
-    ChallengesCatRouter
-  );
-  router.use("/event/cat", validationToken.TokenValidation, EventsCatRouter);
+	// collections
+	router.use("/collections/shop", validationToken.TokenValidation, shopRouter);
+	router.use("/centre", CentreRouter);
 
-  // stats
-  router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);
+	// category
+	router.use("/news/cat", validationToken.TokenValidation, NewsCatRouter);
+	router.use(
+		"/challenge/cat",
+		validationToken.TokenValidation,
+		ChallengesCatRouter
+	);
+	router.use("/event/cat", validationToken.TokenValidation, EventsCatRouter);
 
-  // Passports
-  router.use("/passport", PassportsRouter);
+	// stats
+	router.use("/user/stats", validationToken.TokenValidation, UsersStatsRouter);
 
-  // Search
-  router.use("/search", SearchRouter);
-  return router;
+	// Passports
+	router.use("/passport", PassportsRouter);
+
+	// Search
+	router.use("/search", SearchRouter);
+	return router;
 }
 
 export default rootRouter;
