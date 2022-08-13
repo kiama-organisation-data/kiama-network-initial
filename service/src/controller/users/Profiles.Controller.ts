@@ -305,6 +305,22 @@ class ProfileController {
             }
         }
     }
+    // @desc    : delete education from the profile
+    // @route   : DELETE /api/v1/profile/education/:edu_id
+    // @access  : Private
+    // @param   : edu_id
+    deleteEducation = async (req: any, res: Response, next: any): Promise<void> => {
+        const profile = await Profiles.findOne({ user: req.user });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            const removeIndex = profile.education.map((item: any) => item._id).indexOf(req.params.edu_id);
+            profile.education.splice(removeIndex, 1);
+            await profile.save();
+            AppResponse.success(res, profile);
+        }
+    }
+
 }
 
 const profilesController = new ProfileController()

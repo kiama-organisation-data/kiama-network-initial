@@ -32,6 +32,11 @@ class ProfilesRouter {
         this.router.route("/user/:id").get(checkObjectId.isValidMiddleware('id'), profilesController.getProfileByUserId);
         // route for eductaion 
         this.router.route("/education").post(profilesController.addEducation);
+        this.router
+            .route("/education/:edu_id")
+            .delete(profilesController.deleteEducation)
+
+
 
     }
 }
