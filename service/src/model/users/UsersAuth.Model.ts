@@ -166,6 +166,7 @@ const usersShema = new shema(
     shops: [{ type: Schema.Types.ObjectId, ref: "Shop" }],
     blockedUsers: [{ type: Schema.Types.ObjectId, ref: "User" }],
   },
+  { id: false },
   {
     toJSON: { virtuals: true },
     toObject: { virtuals: true },
