@@ -1,7 +1,9 @@
 import { Request, Response } from 'express'
 import Profiles, { IProfile } from '../../model/users/Profiles.Model'
+import Users, { IUser } from '../../model/users/UsersAuth.Model';
 import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
+import checkObjectId from '../../middleware/checkObjectId';
 
 class ProfileController {
 
@@ -162,6 +164,111 @@ class ProfileController {
 
                 AppResponse.success(res, "Followed");
             }
+        }
+
+    }
+
+    // =========================================================================
+    // Get all followers
+    // =========================================================================
+    // @desc    : Get all followers for user by everyone
+    // @route   : GET /api/v1/profile/:id/followers
+    // @access  : Private
+    // @param   : id
+    getFollowers = async (req: any, res: Response, next: any): Promise<void> => {
+        const user: any = await Profiles.findOne({ user: req.params.id }).select("followers followersType");
+        if (!user) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            if (user._id === req.user) {
+                const followers = await Profiles.find({ _id: { $in: user.followers } })
+                    .select("user")
+                    .populate(
+                        {
+                            path: "user",
+                            select: "name avatar",
+                        }
+                    );
+
+                AppResponse.success(res, followers);
+            } else {
+                if (user.followersType === "public") {
+                    const followers = await Profiles.find({ _id: { $in: user.followers } })
+                        .select("user")
+                        .populate(
+                            {
+                                path: "user",
+                                select: "name avatar",
+                            }
+                        );
+
+                    AppResponse.success(res, followers);
+                } else {
+                    AppResponse.fail(res, "You can't see followers");
+                }
+            }
+        }
+    }
+
+    // =========================================================================
+    // Get all following
+    // =========================================================================
+    // @desc    : Get all following for user by everyone
+    // @route   : GET /api/v1/profile/:id/following
+    // @access  : Private
+    // @param   : id
+    getFollowing = async (req: any, res: Response, next: any): Promise<void> => {
+        const user: any = await Profiles.findOne({ user: req.params.id }).select("following followingType");
+
+        if (!user) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            if (req.user === req.params.id) {
+                const following = await Profiles.find({ _id: { $in: user.following } })
+                    .select("user")
+                    .populate(
+                        {
+                            path: "user",
+                            select: "name avatar",
+                        }
+                    );
+                AppResponse.success(res, following);
+            } else {
+                if (user.followingType === "public") {
+                    const following = await Profiles.find({ _id: { $in: user.following } })
+                        .select("user")
+                        .populate(
+                            {
+                                path: "user",
+                                select: "name avatar",
+                            }
+                        );
+
+                    AppResponse.success(res, following);
+                } else {
+                    AppResponse.fail(res, "You can't see following");
+                }
+            }
+        }
+    }
+
+    // =========================================================================
+    // Get profile by userId
+    // =========================================================================
+    // @desc    : Get profile by userId
+    // @route   : GET /api/v1/profile/user/:id
+    // @access  : Private
+    // @param   : id
+    getProfileByUserId = async (req: any, res: Response, next: any): Promise<void> => {
+        // if (!checkObjectId.isValid(res, req.params.id)) {
+        //     return next();
+        // }
+
+        const profile = await Profiles.findOne({ user: req.params.id });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            AppResponse.success(res, profile);
         }
 
     }

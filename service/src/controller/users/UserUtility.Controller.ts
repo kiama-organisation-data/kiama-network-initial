@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Users from "../../model/users/UsersAuth.Model";
+import Profiles, { IProfile } from '../../model/users/Profiles.Model'
 import AppResponse from "../../services/index";
 
 class UserUtilCntrl {

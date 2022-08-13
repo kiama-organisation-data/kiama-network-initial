@@ -36,7 +36,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": {\r\n        \"last\": \"robot\",\r\n        \"first\": \"kiama\"\r\n    },\r\n    \"username\": \"robot\",\r\n    \"email\": \"robot@kiama.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"62c674f9fb7424add90e69e5\",\r\n    \"personalAbility\": []\r\n}",
+							"raw": "{\r\n    \"name\": {\r\n        \"last\": \"kiama\",\r\n        \"first\": \"rasolofomanana\"\r\n    },\r\n    \"username\": \"kiama\",\r\n    \"email\": \"kiama@kiama.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"62c674f9fb7424add90e69e5\",\r\n    \"personalAbility\": []\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -139,7 +139,7 @@
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "login",
 					"event": [
 						{
 							"listen": "test",
@@ -175,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\":\"robot@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"raw": "{\r\n    \"email\":\"andry@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -352,6 +352,1461 @@
 							],
 							"path": [
 								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmVhYzkwOGI3Mzc0ODhiODNiNzYzOWQiLCJpYXQiOjE2NTk1OTE5NjYsImV4cCI6MTY1OTU5NTU2Nn0._5BDHUSO9upyU0ZvTNHZKibwfJWPdDqmXmevKfW7iIk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8181/kiama-network/api/v1/friendreq",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"kiama-network",
+								"api",
+								"v1",
+								"friendreq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll friend",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/friend",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/62c3f8f0c8eba4ce0c35566e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62c3f8f0c8eba4ce0c35566e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andry@kiama.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/62de22578693cf497561e24a",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62de22578693cf497561e24a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/62df7a133e9e8228916e4b6e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62df7a133e9e8228916e4b6e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Blocked",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/blocked/62f4f2236d939d3b2336c220",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"blocked",
+								"62f4f2236d939d3b2336c220"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unBlocked",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/unblocked/62f4f2236d939d3b2336c220",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"unblocked",
+								"62f4f2236d939d3b2336c220"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "followers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/followers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "following",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/following",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"following"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blocked",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/blocked/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"blocked",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "session",
+			"item": [
+				{
+					"name": "Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": {\r\n        \"last\": \"robot\",\r\n        \"first\": \"geek\"\r\n    },\r\n    \"username\": \"geek\",\r\n    \"email\": \"geek@kiama.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"62c674f9fb7424add90e69e5\",\r\n    \"personalAbility\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add with avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nom",
+									"value": "geek",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/D:/Sary Milay/31cb14232d0bea76fb992d5256efabd3.jpg"
+								},
+								{
+									"key": "telephone",
+									"value": "0349967323",
+									"type": "default"
+								},
+								{
+									"key": "role",
+									"value": "superadmin",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "0349967323",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "robot@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "date_naissance",
+									"value": "05-05-1999",
+									"type": "default"
+								},
+								{
+									"key": "genre",
+									"value": "homme",
+									"type": "default"
+								},
+								{
+									"key": "prenom",
+									"value": "robot",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"robot@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh-token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjIwNDhkNTViZDgyYjIxNzQ3ODc3OTEiLCJpYXQiOjE2NDYzMjE0NDQsImV4cCI6MTY0NjQwNzg0NH0.c50ZExXB5uoAMN1Z7IHTMAClrabJfWZUzxKjoe5sLI8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/refresh-token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"andranaa\",\r\n    \"newPassword\":\"0347305265\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/update-password/62355e8f0a3b76ccf8599938",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"update-password",
+								"62355e8f0a3b76ccf8599938"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/session",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmVhYzkwOGI3Mzc0ODhiODNiNzYzOWQiLCJpYXQiOjE2NTk1OTE5NjYsImV4cCI6MTY1OTU5NTU2Nn0._5BDHUSO9upyU0ZvTNHZKibwfJWPdDqmXmevKfW7iIk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8181/kiama-network/api/v1/friendreq",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"kiama-network",
+								"api",
+								"v1",
+								"friendreq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll friend",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/friend",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"friend"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOne",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/62c3f8f0c8eba4ce0c35566e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62c3f8f0c8eba4ce0c35566e"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"andry@kiama.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/62de22578693cf497561e24a",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62de22578693cf497561e24a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/62df7a133e9e8228916e4b6e",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"62df7a133e9e8228916e4b6e"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "profile",
+			"item": [
+				{
+					"name": "Add",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": {\r\n        \"last\": \"robot\",\r\n        \"first\": \"geek\"\r\n    },\r\n    \"username\": \"geek\",\r\n    \"email\": \"geek@kiama.com\",\r\n    \"password\": \"12345678\",\r\n    \"role\": \"62c674f9fb7424add90e69e5\",\r\n    \"personalAbility\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add with avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nom",
+									"value": "geek",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/D:/Sary Milay/31cb14232d0bea76fb992d5256efabd3.jpg"
+								},
+								{
+									"key": "telephone",
+									"value": "0349967323",
+									"type": "default"
+								},
+								{
+									"key": "role",
+									"value": "superadmin",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "0349967323",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "robot@gmail.com",
+									"type": "default"
+								},
+								{
+									"key": "date_naissance",
+									"value": "05-05-1999",
+									"type": "default"
+								},
+								{
+									"key": "genre",
+									"value": "homme",
+									"type": "default"
+								},
+								{
+									"key": "prenom",
+									"value": "robot",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/auth/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", pm.response.json().token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"TOKEN\", pm.response.json().token)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"robot@kiama.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/logout",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Refresh-token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MjIwNDhkNTViZDgyYjIxNzQ3ODc3OTEiLCJpYXQiOjE2NDYzMjE0NDQsImV4cCI6MTY0NjQwNzg0NH0.c50ZExXB5uoAMN1Z7IHTMAClrabJfWZUzxKjoe5sLI8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/refresh-token",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"refresh-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdatePassword",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"andranaa\",\r\n    \"newPassword\":\"0347305265\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/update-password/62355e8f0a3b76ccf8599938",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"update-password",
+								"62355e8f0a3b76ccf8599938"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/session",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"session"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "follow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/62f4f2236d939d3b2336c220/follow",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"62f4f2236d939d3b2336c220",
+								"follow"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "followers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/62f4f2236d939d3b2336c220/followers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"62f4f2236d939d3b2336c220",
+								"followers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "following",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/62f4f2726d939d3b2336c227/following",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"62f4f2726d939d3b2336c227",
+								"following"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmVhYzkwOGI3Mzc0ODhiODNiNzYzOWQiLCJpYXQiOjE2NTk1OTE5NjYsImV4cCI6MTY1OTU5NTU2Nn0._5BDHUSO9upyU0ZvTNHZKibwfJWPdDqmXmevKfW7iIk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8181/kiama-network/api/v1/friendreq",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8181",
+							"path": [
+								"kiama-network",
+								"api",
+								"v1",
+								"friendreq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAll friend",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/friend",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"friend"
 							]
 						}
 					},
@@ -548,6 +2003,18 @@
 							],
 							"path": [
 								"bug"
+							],
+							"query": [
+								{
+									"key": "select",
+									"value": "-title",
+									"disabled": true
+								},
+								{
+									"key": "deselect",
+									"value": "title",
+									"disabled": true
+								}
 							]
 						}
 					},
@@ -690,14 +2157,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/friendreq/send/62e37939774f987c5196e299",
+							"raw": "{{url}}/friendreq/send/62e57459224da2493d1a06ed",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"friendreq",
 								"send",
-								"62e37939774f987c5196e299"
+								"62e57459224da2493d1a06ed"
 							]
 						}
 					},
@@ -728,14 +2195,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/friendreq/accept/62de22578693cf497561e24a",
+							"raw": "{{url}}/friendreq/accept/62e37939774f987c5196e299",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"friendreq",
 								"accept",
-								"62de22578693cf497561e24a"
+								"62e37939774f987c5196e299"
 							]
 						}
 					},
@@ -916,6 +2383,44 @@
 					"response": []
 				},
 				{
+					"name": "unfriend",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/friendreq/unfriend/62e37939774f987c5196e299",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"friendreq",
+								"unfriend",
+								"62e37939774f987c5196e299"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "GetAll",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -949,6 +2454,47 @@
 							],
 							"path": [
 								"friendreq"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get new",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/friendreq/new-friend/get",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"friendreq",
+								"new-friend",
+								"get"
 							]
 						}
 					},
@@ -2165,7 +3711,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"user\": \"62c3f7841c2d08ae1f82d058\",\r\n    \"mobile\": \"034555555\",\r\n    \"website\": \"wwwwwwww\"\r\n}",
+							"raw": "{\r\n    \"user\": \"62de22578693cf497561e24a\",\r\n    \"mobile\": \"034555555\",\r\n    \"website\": \"wwwwwwww\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2179,6 +3725,44 @@
 							],
 							"path": [
 								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "follow",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user\": \"62c3f7841c2d08ae1f82d058\",\r\n    \"mobile\": \"034555555\",\r\n    \"website\": \"wwwwwwww\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/profile/62e8b5420a9be9c8912b9b27/follow",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"profile",
+								"62e8b5420a9be9c8912b9b27",
+								"follow"
 							]
 						}
 					},
@@ -2251,13 +3835,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/roles/62c3d5c4971f43f1471b3116",
+							"raw": "{{url}}/profile/62de22578693cf497561e24a",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
-								"roles",
-								"62c3d5c4971f43f1471b3116"
+								"profile",
+								"62de22578693cf497561e24a"
 							]
 						}
 					},
@@ -2366,6 +3950,4194 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "stats",
+			"item": [
+				{
+					"name": "users",
+					"item": [
+						{
+							"name": "perday",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{TOKEN}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"andry.rasolofomanaa@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/user/stats/new-per-day",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"user",
+										"stats",
+										"new-per-day"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "channel",
+			"item": [
+				{
+					"name": "Get One Channel",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get One Channel",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "405"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"195-7ejryj26mAxMOBmCqzvuS6nusoA\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:33:03 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"AkwaIbom Techies\",\n        \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit Channel",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"This channel is now open to all techies in the world\",\n    \"name\": \"World Tech Association\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Edit Channel",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\": \"This channel is now open to all techies in the world\",\n    \"name\": \"World Tech Association\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "406"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"196-wPdSBWBdX1v/4822DTka98XUDD0\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:41:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:41:09.450Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all posts Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/post/single/62e4a1a27302d9c411f145d9",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"post",
+								"single",
+								"62e4a1a27302d9c411f145d9"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all posts Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/post/single/62e4a1a27302d9c411f145d9",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"post",
+										"single",
+										"62e4a1a27302d9c411f145d9"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "577"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"241-Z3iUSxE9z+fG6V210vAJz+HsYZ8\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 03:31:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e4a1a27302d9c411f145d9\",\n        \"channelId\": \"62e3a676abce8e3588c0ae6b\",\n        \"uniqueKey\": \"l67birq8xgnuna81gfn\",\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"video\": {\n            \"tags\": []\n        },\n        \"image\": {\n            \"description\": \"This image am sharing with you all is some proof thats in life hardowrk pays well\",\n            \"publicId\": \"ahqaejgckeiawoctgl2a\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659150624/ahqaejgckeiawoctgl2a.jpg\",\n            \"tags\": []\n        },\n        \"category\": \"tech\",\n        \"views\": 0,\n        \"creator\": \"62e3a00608aea09d83c87c74\",\n        \"comments\": [],\n        \"commentCount\": 0,\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Upload Cover Image",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/Wallpapers/hack4.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/channel/change-photo/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"change-photo",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Upload Cover Image",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/hack4.jpeg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/channel/change-photo/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"change-photo",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "580"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"244-ZNtM//1hcUm+YV7LYsqBVC9Bo8I\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:48:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:48:16.545Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Request to be a follower",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/requests/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"requests",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Request to be a follower",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/followers/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"followers",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "55"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37-LeMg7fCIgOfboOmykmCM28B/I7I\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 10:19:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": \"your request was successful\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Accept User's Follow",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/followers/62e3a676abce8e3588c0ae6b?followerId=62e3a8bae5be6cf775e6998f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "followerId",
+									"value": "62e3a8bae5be6cf775e6998f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Accept User's Follow",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b?followerId=62e3a8bae5be6cf775e6998f",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"62e3a676abce8e3588c0ae6b"
+									],
+									"query": [
+										{
+											"key": "followerId",
+											"value": "62e3a8bae5be6cf775e6998f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"45e-PIHW2kfvckLku14mh3EadXA7mLY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 10:23:10 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\",\n            \"62e3a8bae5be6cf775e6998f\",\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"followers\": [],\n        \"requests\": [\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T10:23:10.573Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Unfollow",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/followers/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Unfollow",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYThiYWU1YmU2Y2Y3NzVlNjk5OGYiLCJpYXQiOjE2NTkwODk5MTAsImV4cCI6MTY1OTE3NjMxMH0.Y7qmW7QSxX2_pnwb-wYmUmZN8hHABASen0DqRgS1Vw8",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/followers/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"followers",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "56"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"38-GN7gx0XuTvuePrFDZjSEGX0Z+yU\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 11:10:25 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": \"user successfully unfollowed\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Lock Channel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/utils/lock/62e3a676abce8e3588c0ae6b?period=three-weeks",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"lock",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "period",
+									"value": "three-weeks"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Unlock Channel",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/utils/unlock/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"unlock",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Admins of a channel",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/utils/admins/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"admins",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Admins of a channel",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/utils/admins/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"utils",
+										"admins",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "362"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16a-OkZ71zjQlXQ3pqEB3XjV/WUDcSw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 11:51:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"admins\": [\n            {\n                \"_id\": \"62e3a00608aea09d83c87c74\",\n                \"name\": {\n                    \"first\": \"utibeabasi\",\n                    \"last\": \"ekong\"\n                },\n                \"username\": \"xlaez\"\n            },\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\"\n            },\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Requests",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/utils/requests/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"requests",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Followers",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/utils/followers/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"utils",
+								"followers",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Followers",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/utils/followers/62e3a676abce8e3588c0ae6b",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"utils",
+										"followers",
+										"62e3a676abce8e3588c0ae6b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "192"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c0-wgVj6Q0KXmSYdgIeYg+C/owYPBg\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 11:54:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"followers\": [\n            {\n                \"_id\": \"62e3a8bae5be6cf775e6998f\",\n                \"name\": {\n                    \"first\": \"ayomide\",\n                    \"last\": \"edema\"\n                },\n                \"username\": \"techg\",\n                \"avatar\": \"avatar.jpg\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/post/62e3a676abce8e3588c0ae6b",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"post",
+								"62e3a676abce8e3588c0ae6b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/post/62e3a676abce8e3588c0ae6b?sortBy=latest&page=1&device=mobile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"post",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "latest"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "device",
+									"value": "mobile"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all channels",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all channels",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "407"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"197-GB40xCR50WFRA8zlhqa2YVDnK7g\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:29:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": [\n        {\n            \"_id\": \"62e3a676abce8e3588c0ae6b\",\n            \"name\": \"AkwaIbom Techies\",\n            \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n            \"followers\": [],\n            \"requests\": [],\n            \"category\": \"tech\",\n            \"stars\": 1,\n            \"size\": 1,\n            \"email\": \"techies@ak.tech\",\n            \"locked\": \"de-activated\",\n            \"periodOfDeactivation\": \"none\",\n            \"reports\": [],\n            \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n            \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Add admin",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b?newAdminId=62e3a8bae5be6cf775e6998f",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel",
+								"62e3a676abce8e3588c0ae6b"
+							],
+							"query": [
+								{
+									"key": "newAdminId",
+									"value": "62e3a8bae5be6cf775e6998f"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Add admin",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/channel/62e3a676abce8e3588c0ae6b?newAdminId=62e3a8bae5be6cf775e6998f",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel",
+										"62e3a676abce8e3588c0ae6b"
+									],
+									"query": [
+										{
+											"key": "newAdminId",
+											"value": "62e3a8bae5be6cf775e6998f"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"444-r9IyUAwDWRsokWZoF6FK4H8hit8\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:58:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"coverImage\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659087963/zxb140bssatrhvxtpoij.jpg\",\n            \"publicId\": \"zxb140bssatrhvxtpoij\"\n        },\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"name\": \"World Tech Association\",\n        \"description\": \"This channel is now open to all techies in the world\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\",\n            \"62e3a8bae5be6cf775e6998f\",\n            \"62e3a8bae5be6cf775e6998f\"\n        ],\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:58:48.416Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Channel",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"AkwaIbom Techies\",\n    \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n    \"email\": \"techies@ak.tech\",\n    \"category\": \"tech\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/channel",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"channel"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Channel",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"AkwaIbom Techies\",\n    \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n    \"email\": \"techies@ak.tech\",\n    \"category\": \"tech\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/channel",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"channel"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "895"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"37f-cMWsuclGSSUMlV2HKTyN/VIxNPE\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 29 Jul 2022 09:20:55 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"AkwaIbom Techies\",\n        \"description\": \"This channel is for AkwaIbom techies and aspiring techies\",\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"followers\": [],\n        \"requests\": [],\n        \"category\": \"tech\",\n        \"stars\": 1,\n        \"size\": 1,\n        \"email\": \"techies@ak.tech\",\n        \"locked\": \"de-activated\",\n        \"periodOfDeactivation\": \"none\",\n        \"reports\": [],\n        \"publicKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWW\",\n        \"privateKey\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"secretKey\": \"$2b$12$rtR8hvrt.T7qIQAAExdfg.f4KsdZ8YHo8zjpKx1FcVYVn6.VAuCWWeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InhsYWV6IiwiaWF0IjoxNjU5MDg2NDU0fQ.w_2STDe2EukPEsNkNwlszfnlzRVw_9K_zSeGxLuJCjc\",\n        \"_id\": \"62e3a676abce8e3588c0ae6b\",\n        \"createdAt\": \"2022-07-29T09:20:54.785Z\",\n        \"updatedAt\": \"2022-07-29T09:20:54.785Z\",\n        \"__v\": 0,\n        \"id\": \"62e3a676abce8e3588c0ae6b\"\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "collections",
+			"item": [
+				{
+					"name": "shops",
+					"item": [
+						{
+							"name": "Create Shop",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Jumia Online",
+											"type": "default"
+										},
+										{
+											"key": "email",
+											"value": "jumia@online.org",
+											"type": "default"
+										},
+										{
+											"key": "country",
+											"value": "Nigeria",
+											"type": "default"
+										},
+										{
+											"key": "city",
+											"value": "Abuja",
+											"type": "default"
+										},
+										{
+											"key": "mobile",
+											"value": "+2347019107553",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create Shop",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TEMP_AUTHS}}",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Jumia Online",
+													"type": "default"
+												},
+												{
+													"key": "email",
+													"value": "jumia@online.org",
+													"type": "default"
+												},
+												{
+													"key": "country",
+													"value": "Nigeria",
+													"type": "default"
+												},
+												{
+													"key": "city",
+													"value": "Abuja",
+													"type": "default"
+												},
+												{
+													"key": "mobile",
+													"value": "+2347019107553",
+													"type": "default"
+												},
+												{
+													"key": "upload",
+													"type": "file",
+													"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+												}
+											],
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/collections/shop",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "489"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Shop",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/one?shopId=62e5216c0398e1d0205b4172",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"one"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e5216c0398e1d0205b4172"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create Shop",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TEMP_AUTHS}}",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Jumia Online",
+													"type": "default"
+												},
+												{
+													"key": "email",
+													"value": "jumia@online.org",
+													"type": "default"
+												},
+												{
+													"key": "country",
+													"value": "Nigeria",
+													"type": "default"
+												},
+												{
+													"key": "city",
+													"value": "Abuja",
+													"type": "default"
+												},
+												{
+													"key": "mobile",
+													"value": "+2347019107553",
+													"type": "default"
+												},
+												{
+													"key": "upload",
+													"type": "file",
+													"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+												}
+											],
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/collections/shop",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "489"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Edit Shop Details",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop/one",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"one"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Create Shop",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TEMP_AUTHS}}",
+												"type": "default"
+											}
+										],
+										"body": {
+											"mode": "formdata",
+											"formdata": [
+												{
+													"key": "name",
+													"value": "Jumia Online",
+													"type": "default"
+												},
+												{
+													"key": "email",
+													"value": "jumia@online.org",
+													"type": "default"
+												},
+												{
+													"key": "country",
+													"value": "Nigeria",
+													"type": "default"
+												},
+												{
+													"key": "city",
+													"value": "Abuja",
+													"type": "default"
+												},
+												{
+													"key": "mobile",
+													"value": "+2347019107553",
+													"type": "default"
+												},
+												{
+													"key": "upload",
+													"type": "file",
+													"src": "/home/uty/Pictures/Wallpapers/chip-scheme-logo-metal-wallpaper-preview.jpg"
+												}
+											],
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/collections/shop",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop"
+											]
+										}
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "489"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"1e9-HYW7hxtchE9qR1VVYQJFJHgx2Ko\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Jul 2022 12:17:48 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Jumia Online\",\n        \"email\": \"jumia@online.org\",\n        \"owner\": \"62e3a00608aea09d83c87c74\",\n        \"mobile\": \"+2347019107553\",\n        \"country\": \"Nigeria\",\n        \"city\": \"Abuja\",\n        \"brand\": {\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n            \"publicId\": \"wowyggjtmp5lon9jymnt\"\n        },\n        \"customers\": [],\n        \"products\": [],\n        \"_id\": \"62e5216c0398e1d0205b4172\",\n        \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n        \"updatedAt\": \"2022-07-30T12:17:48.666Z\",\n        \"__v\": 0,\n        \"id\": \"62e5216c0398e1d0205b4172\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all customers",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/customers?shopId=62e5216c0398e1d0205b4172",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"customers"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e5216c0398e1d0205b4172"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all products",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/products?shopId=62e58b992cd8e659d59850fb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"products"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Customer",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTHS}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop/add-customer?shopId=62e5216c0398e1d0205b4172",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"add-customer"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e5216c0398e1d0205b4172"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get shop token",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzMTIzMTcsImV4cCI6MTY1OTM5ODcxN30.xBNWNuqH0yt-ELJ3JMK-jcjkpU4AIIa1IbaLW2Xp2g0",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/generate-token?shopId=62e71a55c766d93fc304186b&secretKey=l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"generate-token"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e71a55c766d93fc304186b"
+										},
+										{
+											"key": "secretKey",
+											"value": "l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get shop token",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{TEMP_AUTHS}}",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop",
+												"generate-token"
+											],
+											"query": [
+												{
+													"key": "shopId",
+													"value": "62e58b992cd8e659d59850fb"
+												},
+												{
+													"key": "secretKey",
+													"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "267"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"10b-a0wtKBcSau3ado4xj2DHI6KKNA8\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Sat, 30 Jul 2022 19:53:28 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wSWQiOiI2MmU1OGI5OTJjZDhlNjU5ZDU5ODUwZmIiLCJpYXQiOjE2NTkyMTA4MDgsImV4cCI6MTY1OTI5NzIwOH0.Z_fZgYJ6p6CDGe0GDcAGQVD-hbD26shm_3yvd0T9ncQ\",\n        \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Login to shop",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\": \"jumia@stores.shop\",\n    \"shopId\": \"62e5216c0398e1d0205b4172\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"generate-token"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb"
+										},
+										{
+											"key": "secretKey",
+											"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Login to shop",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/collections/shop/generate-token?shopId=62e58b992cd8e659d59850fb&secretKey=l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop",
+												"generate-token"
+											],
+											"query": [
+												{
+													"key": "shopId",
+													"value": "62e58b992cd8e659d59850fb"
+												},
+												{
+													"key": "secretKey",
+													"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "301"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"12d-k/WVnarb8lm8dVvu08OILr2JNxQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 01 Aug 2022 17:57:15 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"json\": {\n        \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaG9wSWQiOiI2MmU1OGI5OTJjZDhlNjU5ZDU5ODUwZmIiLCJpYXQiOjE2NTkzNzY2MzUsImV4cCI6MTY1OTQ2MzAzNX0.TKqvKqyZx8jqbNY32svgPvt1upZipC2PfeC-ciEcetk\",\n        \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\",\n        \"msg\": \"token expires in 24 hours\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get all users shops",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/get-all/users-shops",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"get-all",
+										"users-shops"
+									],
+									"query": [
+										{
+											"key": "shopId",
+											"value": "62e58b992cd8e659d59850fb",
+											"disabled": true
+										},
+										{
+											"key": "secretKey",
+											"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "Get all users shops",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+												"type": "default"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/collections/shop/get-all/users-shops",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"collections",
+												"shop",
+												"get-all",
+												"users-shops"
+											],
+											"query": [
+												{
+													"key": "shopId",
+													"value": "62e58b992cd8e659d59850fb",
+													"disabled": true
+												},
+												{
+													"key": "secretKey",
+													"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "Cross-Origin-Embedder-Policy",
+											"value": "require-corp"
+										},
+										{
+											"key": "Cross-Origin-Opener-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "Cross-Origin-Resource-Policy",
+											"value": "same-origin"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "Origin-Agent-Cluster",
+											"value": "?1"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"5d1-lkNm/Vk5FuV0N4Scj8Nl2yhjlkM\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Content-Encoding",
+											"value": "gzip"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 01 Aug 2022 18:00:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": \"true\",\n    \"json\": [\n        {\n            \"_id\": \"62e71a55c766d93fc304186b\",\n            \"name\": \"Kiama Org\",\n            \"email\": \"kiama@msg.info\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Kenya\",\n            \"city\": \"Nairobi\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659312597/ly3rkuniiho7bsufathp.jpg\",\n                \"publicId\": \"ly3rkuniiho7bsufathp\"\n            },\n            \"credentials\": {\n                \"secretKey\": \"l69zydfrxz0p6qvv4hkl69zydfr6if4xwyb48y\"\n            },\n            \"customers\": [],\n            \"products\": [],\n            \"createdAt\": \"2022-08-01T00:12:05.940Z\",\n            \"updatedAt\": \"2022-08-01T00:12:05.940Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62e58b992cd8e659d59850fb\",\n            \"name\": \"Kamou Nation\",\n            \"email\": \"kamou@nation.org\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Nigeria\",\n            \"city\": \"Abuja\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659210520/a6ipt6ey0z1h7ylrr9uo.jpg\",\n                \"publicId\": \"a6ipt6ey0z1h7ylrr9uo\"\n            },\n            \"credentials\": {\n                \"secretKey\": \"l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s\"\n            },\n            \"customers\": [],\n            \"products\": [],\n            \"createdAt\": \"2022-07-30T19:50:49.457Z\",\n            \"updatedAt\": \"2022-07-30T19:50:49.457Z\",\n            \"__v\": 0\n        },\n        {\n            \"_id\": \"62e5216c0398e1d0205b4172\",\n            \"name\": \"Jumia Online Shops\",\n            \"email\": \"jumia@stores.shop\",\n            \"owner\": \"62e3a00608aea09d83c87c74\",\n            \"mobile\": \"+2347019107553\",\n            \"country\": \"Nigeria\",\n            \"city\": \"Abuja\",\n            \"brand\": {\n                \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659183338/wowyggjtmp5lon9jymnt.jpg\",\n                \"publicId\": \"wowyggjtmp5lon9jymnt\"\n            },\n            \"customers\": [\n                \"62e3a00608aea09d83c87c74\"\n            ],\n            \"products\": [],\n            \"createdAt\": \"2022-07-30T12:17:48.666Z\",\n            \"updatedAt\": \"2022-07-30T18:43:22.398Z\",\n            \"__v\": 0\n        }\n    ]\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "products",
+					"item": [
+						{
+							"name": "Add product to shop",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTkzNzY0MDEsImV4cCI6MTY1OTQ2MjgwMX0.1YpRrVriuuniHrEkWdnYCo75dKWtkDFVTHVm_R7V_gU",
+										"type": "default"
+									},
+									{
+										"key": "x-secret-key",
+										"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Dell Precision 3x",
+											"type": "default"
+										},
+										{
+											"key": "description",
+											"value": "This is a new branded product from the dell company at California",
+											"type": "default"
+										},
+										{
+											"key": "initPrice",
+											"value": "300",
+											"type": "default"
+										},
+										{
+											"key": "discount",
+											"value": "4",
+											"type": "default"
+										},
+										{
+											"key": "color",
+											"value": "white",
+											"type": "text"
+										},
+										{
+											"key": "extraInfo",
+											"value": "22 hours lasting battery, 18gb RAM and 2terabyte SSD card",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/Wallpapers/Firefox_wallpaper.png"
+										},
+										{
+											"key": "currency",
+											"value": "Naira",
+											"type": "default"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop/product/62e58b992cd8e659d59850fb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"62e58b992cd8e659d59850fb"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get one product",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "default"
+									},
+									{
+										"key": "x-secret-key",
+										"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/product?productId=62e83c40da10dbb7862d07a9",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product"
+									],
+									"query": [
+										{
+											"key": "productId",
+											"value": "62e83c40da10dbb7862d07a9"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Edit product",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "default"
+									},
+									{
+										"key": "x-secret-key",
+										"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Dell Precision XII\",\n    \"color\": \"Greyish white\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/collections/shop/product/62e58b992cd8e659d59850fb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"62e58b992cd8e659d59850fb"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete product",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{auth}}",
+										"type": "default"
+									},
+									{
+										"key": "x-secret-key",
+										"value": "l68b6ioawak1w2d2rpbl68b6ioa1jxd3803y6s",
+										"type": "default"
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/product/62e58b992cd8e659d59850fb",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"62e58b992cd8e659d59850fb"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "cart",
+					"item": [
+						{
+							"name": "Add to cart",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									},
+									{
+										"key": "",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/product/add-to-cart/62e83c40da10dbb7862d07a9",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"add-to-cart",
+										"62e83c40da10dbb7862d07a9"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get user cart",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									},
+									{
+										"key": "",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/product/get-cart",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"get-cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove from cart",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{token}}",
+										"type": "default"
+									},
+									{
+										"key": "",
+										"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MmUzYTAwNjA4YWVhMDlkODNjODdjNzQiLCJpYXQiOjE2NTk0NjA3MTgsImV4cCI6MTY1OTU0NzExOH0.5a64HA1BUpLgVNShguOJX-remZ87C8bYD3nEzZsUQQw",
+										"type": "default",
+										"disabled": true
+									}
+								],
+								"url": {
+									"raw": "{{url}}/collections/shop/product/remove-from-cart/62e83c40da10dbb7862d07a9",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"collections",
+										"shop",
+										"product",
+										"remove-from-cart",
+										"62e83c40da10dbb7862d07a9"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "groups",
+			"item": [
+				{
+					"name": "Create a group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Ex heritage students",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/code.png"
+								},
+								{
+									"key": "description",
+									"value": "created for the purpose of keeping im check all heritage ex students",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/msg/group",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create a group",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Ex heritage students",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/code.png"
+										},
+										{
+											"key": "description",
+											"value": "created for the purpose of keeping im check all heritage ex students",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/msg/group",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"msg",
+										"group"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "499"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f3-UYMLB5MAztniDLgb2VQzIVnPxYY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 05:17:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Ex heritage students\",\n        \"description\": \"created for the purpose of keeping im check all heritage ex students\",\n        \"image\": {\n            \"publicId\": \"ztnuu3i2gxd8fxnpgkxr\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659158145/ztnuu3i2gxd8fxnpgkxr.png\"\n        },\n        \"members\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"isImage\": true,\n        \"size\": 1,\n        \"_id\": \"62e4bf04a89927246d1e0a1e\",\n        \"createdAt\": \"2022-07-30T05:17:56.634Z\",\n        \"updatedAt\": \"2022-07-30T05:17:56.634Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit group info",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"name\": \"outgoing heritage students\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/msg/group",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create a group",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "{{TEMP_AUTH}}",
+										"type": "default"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Ex heritage students",
+											"type": "default"
+										},
+										{
+											"key": "upload",
+											"type": "file",
+											"src": "/home/uty/Pictures/code.png"
+										},
+										{
+											"key": "description",
+											"value": "created for the purpose of keeping im check all heritage ex students",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{url}}/msg/group",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"msg",
+										"group"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;form-action 'self';frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "Cross-Origin-Embedder-Policy",
+									"value": "require-corp"
+								},
+								{
+									"key": "Cross-Origin-Opener-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "Cross-Origin-Resource-Policy",
+									"value": "same-origin"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "Origin-Agent-Cluster",
+									"value": "?1"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "499"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1f3-UYMLB5MAztniDLgb2VQzIVnPxYY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 30 Jul 2022 05:17:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": \"true\",\n    \"data\": {\n        \"name\": \"Ex heritage students\",\n        \"description\": \"created for the purpose of keeping im check all heritage ex students\",\n        \"image\": {\n            \"publicId\": \"ztnuu3i2gxd8fxnpgkxr\",\n            \"url\": \"https://res.cloudinary.com/owablog/image/upload/v1659158145/ztnuu3i2gxd8fxnpgkxr.png\"\n        },\n        \"members\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"admins\": [\n            \"62e3a00608aea09d83c87c74\"\n        ],\n        \"isImage\": true,\n        \"size\": 1,\n        \"_id\": \"62e4bf04a89927246d1e0a1e\",\n        \"createdAt\": \"2022-07-30T05:17:56.634Z\",\n        \"updatedAt\": \"2022-07-30T05:17:56.634Z\",\n        \"__v\": 0\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit group info Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "groupId",
+									"value": "62e4bf04a89927246d1e0a1e",
+									"type": "default"
+								},
+								{
+									"key": "upload",
+									"type": "file",
+									"src": "/home/uty/Pictures/04.07.2022_20.57.04_REC.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "/group",
+							"path": [
+								"group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new group member",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"userId\": \"62e3a8bae5be6cf775e6998f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/msg/group/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"add"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": "62e4bf04a89927246d1e0a1e",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove member",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"userId\": \"62e3a8bae5be6cf775e6998f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/msg/group/remove",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "groupId",
+									"value": "62e4bf04a89927246d1e0a1e",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send Group Message",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"text\": \"Hello guys\",\n    \"from\": \"62e3a8bae5be6cf775e6998f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/msg/group/msg",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"msg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group Messages",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"groupId\": \"62e4bf04a89927246d1e0a1e\",\n    \"text\": \"Hello guys\",\n    \"from\": \"62e3a8bae5be6cf775e6998f\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/msg/group/msg/62e4bf04a89927246d1e0a1e?device=mobile&tab=1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"msg",
+								"62e4bf04a89927246d1e0a1e"
+							],
+							"query": [
+								{
+									"key": "device",
+									"value": "mobile"
+								},
+								{
+									"key": "tab",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Make reaction to message",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/msg/group/msg/add-reaction/62e4de7f5037a38119edef7f?reaction=clap",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"msg",
+								"add-reaction",
+								"62e4de7f5037a38119edef7f"
+							],
+							"query": [
+								{
+									"key": "reaction",
+									"value": "clap"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mark message as seen Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{TEMP_AUTH}}",
+								"type": "default"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/msg/group/msg/mark-seen/62e4d54db1ebc7909f3123a2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"msg",
+								"group",
+								"msg",
+								"mark-seen",
+								"62e4d54db1ebc7909f3123a2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
