@@ -305,10 +305,12 @@ class ProfileController {
             }
         }
     }
-    // @desc    : delete education from the profile
-    // @route   : DELETE /api/v1/profile/education/:edu_id
-    // @access  : Private
-    // @param   : edu_id
+    /** 
+     * @desc    : delete education from the profile
+     * @route   : DELETE /api/v1/profile/education/:edu_id
+     * @access  : Private
+     * @param: edu_id
+     */
     deleteEducation = async (req: any, res: Response, next: any): Promise<void> => {
         const profile = await Profiles.findOne({ user: req.user });
         if (!profile) {
@@ -318,6 +320,37 @@ class ProfileController {
             profile.education.splice(removeIndex, 1);
             await profile.save();
             AppResponse.success(res, profile);
+        }
+    }
+    /**
+     * @desc    : update education from the profile
+     * @route   : PUT /api/v1/profile/education/:edu_id
+     * @access  : Private
+     * @param   : edu_id
+     */
+    updateEducation = async (req: any, res: Response, next: any): Promise<void> => {
+        const { errors } = JoiValidate.educationValidation(req.body);
+        if (errors) {
+            AppResponse.fail(res, errors);
+        } else {
+            const profile = await Profiles.findOne({ user: req.user });
+            if (!profile) {
+                AppResponse.fail(res, "User not found");
+            } else {
+                const removeIndex = profile.education.map((item: any) => item.id).indexOf(req.params.edu_id);
+                profile.education[removeIndex] = {
+                    school: req.body.school,
+                    degree: req.body.degree,
+                    fieldofstudy: req.body.fieldofstudy,
+                    from: req.body.from,
+                    to: req.body.to,
+                    current: req.body.current,
+                    description: req.body.description
+                }
+                await profile.save();
+                console.log(profile);
+                AppResponse.success(res, profile);
+            }
         }
     }
 

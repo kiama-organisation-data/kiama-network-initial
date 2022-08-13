@@ -34,10 +34,8 @@ class ProfilesRouter {
         this.router.route("/education").post(profilesController.addEducation);
         this.router
             .route("/education/:edu_id")
+            .patch(profilesController.updateEducation)
             .delete(profilesController.deleteEducation)
-
-
-
     }
 }
 
