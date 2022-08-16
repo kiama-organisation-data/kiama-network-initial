@@ -5,7 +5,7 @@ import AppResponse from "../../services/index";
 import sortData from "../../middleware/utils";
 import checkObjectId from '../../middleware/checkObjectId';
 import JoiValidate from '../../libs/joiValidation';
-
+import normalizeUrl from 'normalize-url';
 class ProfileController {
 
     constructor() { }
@@ -275,9 +275,9 @@ class ProfileController {
 
 
     // =========================================================================
-    // Funtion for education into the profile
+    // Function for education into the profile
     // =========================================================================
-    // @desc    : Funtion for education into the profile
+    // @desc    : Function for education into the profile
     // @route   : POST /api/v1/profile/education
     // @access  : Private
     // @param   : id
@@ -371,10 +371,10 @@ class ProfileController {
     }
 
     // =========================================================================
-    // Funtion for experience into the profile
+    // Function for experience into the profile
     // =========================================================================
     /**
-     * @desc    : Funtion for experience into the profile
+     * @desc    : Function for experience into the profile
      * @route   : POST /api/v1/profile/experience
      * @access  : Private
      * @param   : id
@@ -470,6 +470,89 @@ class ProfileController {
         } else {
             const removeIndex = profile.experience.map((item: any) => item.id).indexOf(req.params.exp_id);
             AppResponse.success(res, profile.experience[removeIndex]);
+        }
+    }
+
+    // =========================================================================
+    // Function to add profile
+    // =========================================================================
+    /**
+     * @desc    : Function to add the profile
+     * @route   : POST /api/v1/profile
+     * @access  : Private
+     * @param   : id
+     * @return  : social
+     */
+    addProfile = async (req: any, res: Response, next: any): Promise<void> => {
+        const {
+            websites,
+            skills,
+            youtube,
+            twitter,
+            instagram,
+            linkedin,
+            facebook,
+            languages,
+            interests,
+            music,
+            movies,
+            books,
+            sports,
+            toC,
+            fromC,
+            ...rest
+        } = req.body;
+        const profile = await Profiles.findOne({ user: req.user });
+        if (!profile) {
+            AppResponse.fail(res, "User not found");
+        } else {
+            // build a profile
+            const profileFields = {
+                user: req.user,
+                websites:
+                    websites && websites !== ''
+                        ? normalizeUrl(websites, { forceHttps: true })
+                        : '',
+                skills: skills && skills !== '' ? skills.split(',') : [],
+                languages: languages && languages !== '' ? languages.split(',') : [],
+                interests: interests && interests !== '' ? interests.split(',') : [],
+                music: music && music !== '' ? music.split(',') : [],
+                movies: movies && movies !== '' ? movies.split(',') : [],
+                books: books && books !== '' ? books.split(',') : [],
+                sports: sports && sports !== '' ? sports.split(',') : [],
+                ...rest
+            };
+
+            // Build socialFields object
+            const socialFields = { youtube, twitter, instagram, linkedin, facebook };
+            const contryFields = { toC, fromC };
+
+            // normalize social fields to ensure valid url
+            for (const [key, value] of Object.entries(socialFields)) {
+                if (value && value.length > 0)
+                    // @ts-ignore
+                    socialFields[key] = normalizeUrl(value, { forceHttps: true });
+            }
+            for (const [key, value] of Object.entries(contryFields)) {
+                if (value && value.length > 0)
+                    // @ts-ignore
+                    contryFields[key] = value;
+            }
+            // Build social object and add to profileFields
+            profileFields.social = socialFields;
+            profileFields.country = contryFields;
+
+            try {
+                // Using upsert option (creates new doc if no match is found):
+                let profile = await Profiles.findOneAndUpdate(
+                    { user: req.user },
+                    { $set: profileFields },
+                    { new: true, upsert: true }
+                );
+                AppResponse.success(res, profile);
+            } catch (error) {
+                AppResponse.fail(res, error);
+            }
         }
     }
 
