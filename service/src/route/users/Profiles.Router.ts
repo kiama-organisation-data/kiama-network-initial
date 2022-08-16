@@ -17,7 +17,7 @@ class ProfilesRouter {
     routes() {
         this.router
             .route("/")
-            .post(profilesController.create)
+            .post(profilesController.addProfile)
             .get(profilesController.getAll);
 
         this.router
