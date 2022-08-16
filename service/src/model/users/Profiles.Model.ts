@@ -1,3 +1,4 @@
+import { NextFunction } from 'express';
 import mongoose from "mongoose"
 
 const shema: any = mongoose.Schema
@@ -42,6 +43,7 @@ export interface IProfile extends mongoose.Document {
         to: string,
         from: string
     };
+    sports: string[];
     school: string;
     university: string;
     company: string;
@@ -163,15 +165,14 @@ const profilesShema = new shema(
         city: {
             type: String,
             required: false,
-
         },
         country: {
-            to: {
+            toC: {
                 type: String,
                 required: false,
 
             },
-            from: {
+            fromC: {
                 type: String,
                 required: false,
 
@@ -205,7 +206,6 @@ const profilesShema = new shema(
             {
                 type: String,
                 required: false,
-
             },
         ],
         music: [
@@ -229,18 +229,21 @@ const profilesShema = new shema(
 
             },
         ],
+        sports: [
+            {
+                type: String,
+                required: false,
+            }
+        ],
         websites: [
             {
                 type: String,
                 required: false,
-
             },
         ],
         skills: [
             {
                 type: String,
-                required: false,
-
             },
         ],
         experience: [
@@ -343,7 +346,6 @@ const profilesShema = new shema(
             instagram: {
                 type: String,
                 required: false,
-
             },
         },
     },
@@ -352,14 +354,14 @@ const profilesShema = new shema(
         toJSON: { virtuals: true }
     }, { _id: true, timestamps: true }
 )
+// add function to isVerified true profile if followers count is greater than 100
+profilesShema.pre("save", function (this: IProfile, next: NextFunction) {
+    if (this.followers.length > 100) {
+        this.isVerified = true;
+    }
+    next();
+})
 
-// profilesShema.virtual("followersCount").get(function (this: { followers: IProfile[] }) {
-//     return this.followers.length;
-// });
-
-// profilesShema.virtual("followingCount").get(function (this: { following: IProfile[] }) {
-//     return this.following.length;
-// });
 
 
 const Profiles = mongoose.model<IProfile>('Profile', profilesShema)
