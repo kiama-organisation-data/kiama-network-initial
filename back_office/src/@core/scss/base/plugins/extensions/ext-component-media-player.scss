@@ -1,0 +1,23 @@
+// ================================================================================================
+//  File Name: ext-component-media-player.scss
+//  Description: Media Player SCSS.
+//  ----------------------------------------------------------------------------------------------
+//  Item Name: Kiama - Back office management
+//  Author: KIAMA
+//  Author URL: http://www.kiama.com/
+// ================================================================================================
+
+// to remove outline on focus
+.audio-player {
+  &:focus {
+    outline: 0;
+  }
+}
+
+.plyr__controls {
+  justify-content: flex-start;
+}
+
+.plyr__progress {
+  flex-grow: 1;
+}
