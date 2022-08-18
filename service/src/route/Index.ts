@@ -33,6 +33,9 @@ import JobRouter from "./Job.Router";
 import SearchRouter from "./Search.Router";
 import DraftRouter from "./users/Draft.Router";
 
+// business
+import AdsRouter from "./business/Ads.Router";
+
 // category
 import NewsCatRouter from "./category/News.Router";
 import ChallengesCatRouter from "./category/Challenges.Router";
@@ -84,6 +87,7 @@ function rootRouter() {
 	router.use("/vote", validationToken.TokenValidation, VotesRouter);
 	router.use("/job", validationToken.TokenValidation, JobRouter);
 	router.use("/wallet", validationToken.TokenValidation, WalletRouter);
+	router.use("/ads", validationToken.TokenValidation, AdsRouter);
 
 	router.use(
 		"/notification",

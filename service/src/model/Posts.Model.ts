@@ -15,7 +15,16 @@ export interface IPost extends mongoose.Document {
 }
 
 export interface IPagepost extends mongoose.Document {
-	content: object;
+	content: {
+		image: {
+			publicId: string;
+			url: string;
+		};
+		video: {
+			publicId: string;
+			url: string;
+		};
+	};
 	pageId: Schema.Types.ObjectId;
 	tags: Array<Schema.Types.ObjectId>;
 }

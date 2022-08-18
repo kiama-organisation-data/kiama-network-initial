@@ -65,8 +65,11 @@ class GroupController {
 				image = { publicId: upload.public_id, url: upload.secure_url };
 			}
 
-			// @ts-ignore
-			const { details } = req;
+			const { user } = req;
+
+			const details = await Users.findById(user);
+			if (!details) return AppResponse.fail(res, "user not found");
+
 			const group: IGroup = await groupModel.create({
 				...req.body,
 				members: [details._id],
