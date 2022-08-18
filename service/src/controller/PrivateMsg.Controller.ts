@@ -104,7 +104,20 @@ class PrivateMsgController {
 
 	// remeber to add pagination
 	getMessages = async (req: Request, res: Response) => {
-		const { from, to } = req.query;
+		const { from, to, tab, device } = req.query;
+
+		let currentTab = +tab || 1;
+		let tabSize = 10;
+		switch (device) {
+			case "laptop":
+				tabSize = 15;
+				break;
+			case "tablet":
+				tabSize = 12;
+			default:
+				tabSize = 10;
+				break;
+		}
 
 		try {
 			const messages = await privateMsgModel

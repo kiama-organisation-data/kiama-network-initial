@@ -19,18 +19,15 @@ class DraftController {
 	async saveAsDraft(req: Request, res: Response) {
 		const { user: userId } = req;
 		const { text, type } = req.body;
+		//@ts-ignore
+		const key = `${userId.toString()}-draft`;
 
 		let data: any;
 
 		try {
 			switch (type) {
 				case "temporary":
-					data = await redisConfig.addToRedis(
-						//@ts-ignore
-						userId.toString(),
-						text,
-						60 * 60 * 24
-					);
+					data = await redisConfig.addToRedis(key, text, 60 * 60 * 24);
 					break;
 				case "permanent":
 					//@ts-ignore
@@ -57,7 +54,7 @@ class DraftController {
 			const count = await DraftsModel.find({ userId }).count();
 			const getFromRedis = await redisConfig.getValueFromRedis(
 				//@ts-ignore
-				userId.toString()
+				userId.toString() + "-draft"
 			);
 
 			if (getFromRedis) totalDraft = 1;
@@ -85,8 +82,10 @@ class DraftController {
 		try {
 			switch (type) {
 				case "temporary":
-					//@ts-ignore
-					draft = await redisConfig.getValueFromRedis(userId.toString());
+					draft = await redisConfig.getValueFromRedis(
+						//@ts-ignore
+						userId.toString() + "-draft"
+					);
 					break;
 				case "permanent":
 					draft = await DraftsModel.findOne({ userId, _id: draftId });
@@ -109,7 +108,7 @@ class DraftController {
 			switch (type) {
 				case "temporary":
 					//@ts-ignore
-					await redisConfig.removeFromRedis(userId.toString());
+					await redisConfig.removeFromRedis(userId.toString() + "-draft");
 				case "permanent":
 					await DraftsModel.findOneAndDelete({ userId, draftId });
 				default:

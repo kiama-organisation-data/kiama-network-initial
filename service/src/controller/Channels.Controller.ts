@@ -41,13 +41,21 @@ class ChannelCntrl {
 
 	create = async (req: Request, res: Response) => {
 		//@ts-ignore
-		const { body, user, details } = req;
+		const { body, user } = req;
 		const { error } = joiValidation.channelsValidation(body);
 
 		if (error) {
 			return AppResponse.fail(res, error?.message);
 		}
+		const details = await Users.findById(user);
+
 		const keys = await createApiKeys(details);
+		const isNameAndEmail = await channelModel.findOne({
+			$or: [{ name: body.name }, { email: body.email }],
+		});
+
+		if (isNameAndEmail)
+			return AppResponse.fail(res, "either name or email is taken");
 		const channel: IChannel = await channelModel.create({
 			...body,
 			...keys,
@@ -69,19 +77,56 @@ class ChannelCntrl {
 	};
 
 	getAll = async (req: Request, res: Response) => {
-		// remember to set-up for query
+		const { page, device, sort, category, search } = req.query;
+		let totalItems: number = 0;
+		let serchBy = {};
+		let sortBy = {};
+		let tabSize: number = 5;
+
+		const pageNo = +page || 1;
+
+		const count = await channelModel.find().count();
+		totalItems = count;
+
+		if (category) {
+			serchBy = { category };
+		} else if (search) {
+			const searchRgx = new RegExp(search, "ig");
+			serchBy = { name: searchRgx };
+		}
+		switch (device) {
+			case "tablet":
+				tabSize = 7;
+				break;
+			case "laptop":
+				tabSize = 10;
+			case "desktop":
+				tabSize = 12;
+			default:
+				tabSize = 5;
+				break;
+		}
+
+		if (sort === "latest") {
+			sortBy = { createdAt: -1 };
+		} else if (sort === "newest") {
+			sortBy = { createdAt: 1 };
+		}
+
 		try {
 			const channels = await channelModel
-				.find()
+				.find(serchBy)
+				.skip((pageNo - 1) * tabSize)
 				.select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
-				.sort({ createdAt: -1 })
+				.limit(tabSize)
+				.sort(sortBy)
 				.lean();
 
 			if (!channels) {
 				return AppResponse.fail(res, "no channels yet");
 			}
 
-			AppResponse.success(res, channels);
+			AppResponse.success(res, { channels, totalItems });
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
@@ -192,16 +237,12 @@ class ChannelCntrl {
 	};
 
 	delete = async (req: Request, res: Response) => {
-		const { adminId } = req.query;
-
-		const isAdmin = await ChannelServices.isAdmin(adminId);
-		if (!isAdmin) {
-			return AppResponse.notPermitted(res, "");
-		}
-		//make sure to delete from cloudinary
-		await channelModel.findByIdAndDelete(req.params.channelId);
-
 		try {
+			const channel = await channelModel.findById(req.params.channelId);
+			//@ts-ignore
+			await deleteFromCloud(channel?.coverImage.url);
+			await channelModel.findByIdAndDelete(req.params.channelId);
+
 			AppResponse.success(res, "deleted");
 		} catch (e) {
 			AppResponse.fail(res, e);
