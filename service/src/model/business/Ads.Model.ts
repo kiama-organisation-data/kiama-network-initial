@@ -10,6 +10,9 @@ export interface IAds extends Document {
 	importance: string;
 	duration: string;
 	target: string;
+	valid: boolean;
+	paymentCost: number;
+	paymentStatus: string;
 }
 
 const adSchema = new Schema({
@@ -32,13 +35,7 @@ const adSchema = new Schema({
 	duration: {
 		type: String,
 		required: true,
-		enum: [
-			"one-week",
-			"two-weeks",
-			"three-weeks",
-			"four-weeks",
-			"three-months",
-		],
+		enum: ["one-week", "two-weeks", "four-weeks"],
 		default: "one-week",
 	},
 	importance: {
@@ -50,6 +47,19 @@ const adSchema = new Schema({
 		type: String,
 		required: true,
 		enum: ["all", "africa"],
+	},
+	valid: {
+		type: Boolean,
+		defualt: false,
+	},
+	paymentCost: {
+		type: Number,
+		default: 0.0,
+	},
+	paymentStatus: {
+		type: String,
+		default: "NOT-PAID",
+		enum: ["NOT-PAID", "PAID"],
 	},
 });
 
