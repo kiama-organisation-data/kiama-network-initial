@@ -15,6 +15,8 @@ class AdsRoute {
 			.post(messageUploads, AdsController.uploadAnAdd)
 			.get(AdsController.getAllAds);
 
+		this.router.route("/activate").post(AdsController.payForAd);
+
 		this.router
 			.route("/:adId")
 			.get(AdsController.getAnAd)
