@@ -7,6 +7,19 @@ import validationToken from "../../libs/verifyToken";
 import multerMiddleware from "../../middleware/fileUpload";
 import UserUtilityController from "../../controller/users/UserUtility.Controller";
 
+const ability = [
+  {
+    action: "edit",
+    subject: "andranaa",
+  },
+  {
+    action: "delete",
+    subject: "andrana",
+  }
+]
+
+const adminGuard = validationToken.authAdmin('editor', ability);
+
 class usersRouter {
   router: Router;
 
@@ -58,6 +71,8 @@ class usersRouter {
     this.router.get(
       "/",
       validationToken.TokenValidation,
+      validationToken.accessAdmin,
+      adminGuard,
       userController.GetAllUsers
     );
     this.router.put("/:id", userController.UpdateUser);
