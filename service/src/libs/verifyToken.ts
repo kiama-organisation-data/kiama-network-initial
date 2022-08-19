@@ -88,7 +88,7 @@ class ValidationToken {
   }
 
   // auth guard for admin
-  authAdmin = (role: any, action?: string[], subject?: string[]) => {
+  authAdmin = (roleReq: any, abilityReq?: Array<object>) => {
     return async function (req: Request, res: Response, next: NextFunction) {
       let user = req.user;
       if (!user) {
@@ -102,32 +102,33 @@ class ValidationToken {
       ]).populate('role');
 
       const userRoleName = userRole.role.name;
-      const actionData = action
-      const roleAction = userRole.role.ability.some((x: any) => {
-        return actionData?.includes(x.action);
-      })
-      const roleSubject = userRole.role.ability.some((x: any) => {
-        return subject?.includes(x.subject);
-      });
-      const rolePersonalAct = userRole.personalAbility.some((x: any) => {
-        return actionData?.includes(x.action);
-      });
-      const rolePersonalSubj = userRole.personalAbility.some((x: any) => {
-        return subject?.includes(x.subject);
-      });
+      const roleAbility = userRole.role.ability
+      const userAbility = userRole.personalAbility;
 
-      if (role && action && subject) {
+      const verifGe = roleAbility.some((item: any) => {
+        // @ts-ignore
+        return abilityReq.some((item2: any) => {
+          return item.action === item2.action && item.subject === item2.subject
+        })
+      })
+
+      const verifPersonal = userAbility.some((item: any) => {
+        // @ts-ignore
+        return abilityReq.some((item2: any) => {
+          return item.action === item2.action && item.subject === item2.subject
+        })
+      })
+
+      if (roleReq && abilityReq) {
         if (userRole.personalAbility.length > 0) {
-          if (
-            userRoleName === role && (roleAction && roleSubject || rolePersonalAct && rolePersonalSubj)
-          ) {
+          if (userRoleName === roleReq && (verifGe || verifPersonal)) {
             next();
           } else {
             return res.status(403).send('Access not allowed');
           }
         } else {
           if (
-            userRoleName === role && roleAction && roleSubject
+            userRoleName === roleReq && verifGe
           ) {
             next();
           } else {
@@ -136,7 +137,7 @@ class ValidationToken {
         }
       } else {
         if (
-          userRoleName === role
+          userRoleName === roleReq
         ) {
           next();
         } else {

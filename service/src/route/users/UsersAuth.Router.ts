@@ -7,9 +7,18 @@ import validationToken from "../../libs/verifyToken";
 import multerMiddleware from "../../middleware/fileUpload";
 import UserUtilityController from "../../controller/users/UserUtility.Controller";
 
-const roleAction = ['edit', 'andrana']
-const roleSubject = ['aaaa', 'andrana']
-const adminGuard = validationToken.authAdmin('editor', roleAction, roleSubject);
+const ability = [
+  {
+    action: "edit",
+    subject: "andranaa",
+  },
+  {
+    action: "delete",
+    subject: "andrana",
+  }
+]
+
+const adminGuard = validationToken.authAdmin('editor', ability);
 
 class usersRouter {
   router: Router;
