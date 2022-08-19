@@ -88,7 +88,7 @@ class ValidationToken {
   }
 
   // auth guard for admin
-  authAdmin = (role: any, action?: any, subject?: any) => {
+  authAdmin = (role: any, action?: string[], subject?: string[]) => {
     return async function (req: Request, res: Response, next: NextFunction) {
       let user = req.user;
       if (!user) {
@@ -102,10 +102,19 @@ class ValidationToken {
       ]).populate('role');
 
       const userRoleName = userRole.role.name;
-      const roleAction = userRole.role.ability.some((x: any) => x.action === action)
-      const roleSubject = userRole.role.ability.some((x: any) => x.subject === subject)
-      const rolePersonalAct = userRole.personalAbility.some((x: any) => x.action === action)
-      const rolePersonalSubj = userRole.personalAbility.some((x: any) => x.subject === subject)
+      const actionData = action
+      const roleAction = userRole.role.ability.some((x: any) => {
+        return actionData?.includes(x.action);
+      })
+      const roleSubject = userRole.role.ability.some((x: any) => {
+        return subject?.includes(x.subject);
+      });
+      const rolePersonalAct = userRole.personalAbility.some((x: any) => {
+        return actionData?.includes(x.action);
+      });
+      const rolePersonalSubj = userRole.personalAbility.some((x: any) => {
+        return subject?.includes(x.subject);
+      });
 
       if (role && action && subject) {
         if (userRole.personalAbility.length > 0) {

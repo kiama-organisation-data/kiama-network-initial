@@ -7,6 +7,10 @@ import validationToken from "../../libs/verifyToken";
 import multerMiddleware from "../../middleware/fileUpload";
 import UserUtilityController from "../../controller/users/UserUtility.Controller";
 
+const roleAction = ['edit', 'andrana']
+const roleSubject = ['aaaa', 'andrana']
+const adminGuard = validationToken.authAdmin('editor', roleAction, roleSubject);
+
 class usersRouter {
   router: Router;
 
@@ -59,7 +63,7 @@ class usersRouter {
       "/",
       validationToken.TokenValidation,
       validationToken.accessAdmin,
-      validationToken.authAdmin('editor', 'edit', 'andrana'),
+      adminGuard,
       userController.GetAllUsers
     );
     this.router.put("/:id", userController.UpdateUser);
