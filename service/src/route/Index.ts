@@ -35,7 +35,7 @@ import DraftRouter from "./users/Draft.Router";
 
 // business
 import AdsRouter from "./business/Ads.Router";
-
+import OrganizationRouter from "./organizations/Organization.Router";
 // category
 import NewsCatRouter from "./category/News.Router";
 import ChallengesCatRouter from "./category/Challenges.Router";
@@ -126,6 +126,11 @@ function rootRouter() {
 
 	// Search
 	router.use("/search", SearchRouter);
+	router.use(
+		"/organization",
+		validationToken.TokenValidation,
+		OrganizationRouter
+	);
 	return router;
 }
 

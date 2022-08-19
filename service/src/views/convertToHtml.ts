@@ -18,6 +18,10 @@ const shopRejected = readFileSync(
 const passwordReset = readFileSync(
 	resolve(__dirname, "./passwordReset.mjml")
 ).toString();
+
+const organizationCreated = readFileSync(
+	resolve(__dirname, "./organizationCreated.mjml")
+).toString();
 /**
  * Compile to templates
  */
@@ -25,5 +29,11 @@ const passwordReset = readFileSync(
 const shopApprovedTemplate = compile(mjml(shopApproved).html);
 const shopRejectedTemplate = compile(mjml(shopRejected).html);
 const passwordResetTemplate = compile(mjml(passwordReset).html);
+const organizationCreatedTemplate = compile(mjml(organizationCreated).html);
 
-export { shopApprovedTemplate, shopRejectedTemplate, passwordResetTemplate };
+export {
+	shopApprovedTemplate,
+	shopRejectedTemplate,
+	passwordResetTemplate,
+	organizationCreatedTemplate,
+};
