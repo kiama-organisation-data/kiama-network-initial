@@ -16,6 +16,7 @@ import { apiCrypto } from "../utils/CrytoUtils";
  * @function updateKiamaPointOrCoin    /wallet/update-amount     -- patch request
  * @function deductKiamaPointOrCoin    /wallet/deduct-amount     -- patch request
  * @function suspendOrUnsuspendWallet  /wallet/toggle-suspension -- patch request
+ * @function makeTransaction           /wallet/transact          -- patch request
  * totalRoutes: 7
  */
 
@@ -178,6 +179,30 @@ class WalletController {
 			await wallet?.save();
 
 			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
+
+	makeTransaction = async (req: Request, res: Response) => {
+		const { from, to, unit, details, coinOrPoints } = req.body;
+
+		try {
+			const wallet: IWallet | null = await WalletModel.findOne({ from });
+			const value: any | undefined = await wallet?.deductKmcOrKmp(
+				coinOrPoints,
+				unit,
+				details
+			);
+			const toWallet: IWallet | null = await WalletModel.findOne({ to });
+
+			const receiversValue: any | undefined = await toWallet?.addTokmpOrKmc(
+				coinOrPoints,
+				unit,
+				details
+			);
+
+			AppResponse.success(res, { value, receiversValue });
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}

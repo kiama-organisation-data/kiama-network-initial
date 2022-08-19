@@ -4,46 +4,39 @@ import jwt from "jsonwebtoken";
 import Users, { IUser } from "../model/users/UsersAuth.Model";
 
 export interface IPayload {
-  _id: string;
-  iat: number;
-  exp: number;
+	_id: string;
+	iat: number;
+	exp: number;
 }
 
 class ValidationToken {
-  constructor() { }
-  TokenValidation = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const token = req.cookies['Authorization'] || (req.header('Authorization') as string);
-      const bearer: any = token?.split(" ");
-      let bearerToken: any = [];
-      if (bearer.length != 2) {
-        bearerToken = bearer[0];
-      } else {
-        bearerToken = bearer[1];
-      }
-      if (!bearerToken) return res.status(401).json("Access Denied");
-      const payload = jwt.verify(
-        bearerToken,
-        process.env.JWT_SECRET || "defaultToken",
-        {
-          algorithms: ["HS512", "HS256"],
-        }
-      ) as IPayload;
+	constructor() {}
+	TokenValidation = async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const token =
+				req.cookies["Authorization"] || (req.header("Authorization") as string);
+			const bearer: any = token?.split(" ");
+			let bearerToken: any = [];
+			if (bearer.length != 2) {
+				bearerToken = bearer[0];
+			} else {
+				bearerToken = bearer[1];
+			}
+			if (!bearerToken) return res.status(401).json("Access Denied");
+			const payload = jwt.verify(
+				bearerToken,
+				process.env.JWT_SECRET || "defaultToken",
+				{
+					algorithms: ["HS512", "HS256"],
+				}
+			) as IPayload;
 
-      const user = await Users.findById(payload._id).select([
-        "-password",
-        "-personalRate",
-      ]);
-
-      req.user = payload._id;
-      // @ts-ignore
-      req.details = user;
-
-      next();
-    } catch (e) {
-      res.status(400).send("Invalid Token");
-    }
-  };
+			req.user = payload._id;
+			next();
+		} catch (e) {
+			res.status(400).send("Invalid Token");
+		}
+	};
 
   // Grant access to specific roles and allow them to access the route if they have the role or have the ability
   GrantAccess = (req: Request, res: Response, next: NextFunction) => {

@@ -267,8 +267,8 @@ class ProductCntrl {
 	 * @param res will send an email but now return an object
 	 */
 	async chargeCard(req: Request, res: Response) {
-		//@ts-ignore
-		const { details } = req;
+		const { user } = req;
+		const details = await Users.findById(user);
 
 		try {
 			const token = await ProductServices.createUserToken(req.body);
@@ -291,6 +291,7 @@ class ProductCntrl {
 				products,
 			};
 
+			//@ts-ignore
 			await details.clearCart();
 			// in the future an email will be sent here rather than return object to user
 			AppResponse.success(res, orderObj);
