@@ -1,0 +1,141 @@
+{
+	"info": {
+		"_postman_id": "db516d2c-7a62-442e-addc-875b28a62c33",
+		"name": "ads",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "upload",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "importance",
+							"value": "very",
+							"type": "default"
+						},
+						{
+							"key": "duration",
+							"value": "four-weeks",
+							"type": "default"
+						},
+						{
+							"key": "target",
+							"value": "africa",
+							"type": "default"
+						},
+						{
+							"key": "upload",
+							"type": "file",
+							"src": "/home/uty/Pictures/IMG_20220101_212513.png"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/ads",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"ads"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get an ad",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/ads/62ff5878a397838eb3b4cc41",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"ads",
+						"62ff5878a397838eb3b4cc41"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get ads",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/ads?no=1&target=africa",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"ads"
+					],
+					"query": [
+						{
+							"key": "no",
+							"value": "1"
+						},
+						{
+							"key": "target",
+							"value": "africa"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete ad manually",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{KIAMA_URL}}/ads/62fe33410eba96e784323ff2",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"ads",
+						"62fe33410eba96e784323ff2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "pay for ad",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"cardNumber\": \"4000056655665556\",\n    \"expiryYr\": \"2025\",\n    \"expiryMnt\": \"07\",\n    \"cvc\": \"123\",\n    \"adId\": \"62ff5878a397838eb3b4cc41\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{KIAMA_URL}}/ads/activate",
+					"host": [
+						"{{KIAMA_URL}}"
+					],
+					"path": [
+						"ads",
+						"activate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

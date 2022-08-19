@@ -97,11 +97,17 @@ const adChargeCard = async (body: any) => {
 	const { adId, token } = body;
 
 	let ad = await AdsModel.findById(adId);
-	const price = ad?.paymentCost;
+	//@ts-ignore
+	const price = ad?.paymentCost * 100;
 
 	const adObj = { description: "Payment of ads", price };
 
-	const { id } = await stripePayment.chargeCard({ adObj, token });
+	const { id } = await stripePayment.chargeCard({
+		description: adObj.description,
+		price,
+		tokenId: token,
+		currency: "usd",
+	});
 	const { amount } = await stripePayment.validateCharge(id);
 
 	//@ts-ignore
@@ -109,7 +115,7 @@ const adChargeCard = async (body: any) => {
 	//@ts-ignore
 	ad?.paymentStatus = "PAID";
 	//@ts-ignore
-	ad?.paymentCost = amount;
+	ad?.paymentCost = amount / 100;
 	//@ts-ignore
 	ad = await ad?.save();
 	return ad;

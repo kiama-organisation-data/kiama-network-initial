@@ -13,6 +13,10 @@ import ProductServices from "../../services/collections/Product.Services";
  * @function payForAd         /ads/activate     -- post request
  * note: payment functionality for ads has not been implemented yet
  * cron job has not been implemented yet
+ *
+ * When user creates an ad, it gets saved to the database but it's validity is set to false
+ * and when getting ads it doesn't show cause it hasn't been payed for but when payment is successful, it * gets activated and validity set to true and user's ad get shown.
+ * Only user's with a business or organization account can create ads(validation for account type on front end)
  */
 
 class AdsController {
@@ -114,7 +118,10 @@ class AdsController {
 
 			if (!charge) return AppResponse.throwError(res);
 
-			AppResponse.success(res, charge);
+			AppResponse.success(res, {
+				success: charge.paymentStatus,
+				validity: charge.valid,
+			});
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
