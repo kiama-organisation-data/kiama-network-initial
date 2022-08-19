@@ -1,3 +1,4 @@
+import { IRole } from './../model/Role.Model';
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import Users, { IUser } from "../model/users/UsersAuth.Model";
@@ -84,6 +85,40 @@ class ValidationToken {
         }
       }
     });
+  }
+
+  // auth guard for admin
+  authAdmin = (role: any, action?: any, subject?: any) => {
+    return async function (req: Request, res: Response, next: NextFunction) {
+      let user = req.user;
+      if (!user) {
+        return res.status(500).send('Access not allowed aaaa!');
+      }
+
+      let userRole: any = await Users.findById(user).select([
+        "role",
+        "isAdmin",
+        "personalAbility",
+      ]).populate('role');
+
+      if (role && action && subject) {
+        if (
+          userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject)
+        ) {
+          next();
+        } else {
+          res.status(403).send("Access Denied");
+        }
+      } else {
+        if (
+          userRole.role.name === role
+        ) {
+          next();
+        } else {
+          return res.status(500).send('Access not allowed eeee!');
+        }
+      }
+    }
   }
 }
 

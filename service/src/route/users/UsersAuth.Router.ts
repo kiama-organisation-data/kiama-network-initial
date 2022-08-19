@@ -58,6 +58,8 @@ class usersRouter {
     this.router.get(
       "/",
       validationToken.TokenValidation,
+      validationToken.accessAdmin,
+      validationToken.authAdmin('editor', 'edit', 'andrana'),
       userController.GetAllUsers
     );
     this.router.put("/:id", userController.UpdateUser);
