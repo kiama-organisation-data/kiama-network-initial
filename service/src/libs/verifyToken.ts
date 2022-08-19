@@ -102,12 +102,22 @@ class ValidationToken {
       ]).populate('role');
 
       if (role && action && subject) {
-        if (
-          userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject)
-        ) {
-          next();
+        if (userRole.personalAbility.length > 0) {
+          if (
+            userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject) && userRole.personalAbility.some((x: any) => x.action === action) && userRole.personalAbility.some((x: any) => x.subject === subject)
+          ) {
+            next();
+          } else {
+            return res.status(403).send('Access not allowed');
+          }
         } else {
-          res.status(403).send("Access Denied");
+          if (
+            userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject)
+          ) {
+            next();
+          } else {
+            res.status(403).send("Access Denied");
+          }
         }
       } else {
         if (
