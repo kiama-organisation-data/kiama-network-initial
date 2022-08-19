@@ -101,10 +101,16 @@ class ValidationToken {
         "personalAbility",
       ]).populate('role');
 
+      const userRoleName = userRole.role.name;
+      const roleAction = userRole.role.ability.some((x: any) => x.action === action)
+      const roleSubject = userRole.role.ability.some((x: any) => x.subject === subject)
+      const rolePersonalAct = userRole.personalAbility.some((x: any) => x.action === action)
+      const rolePersonalSubj = userRole.personalAbility.some((x: any) => x.subject === subject)
+
       if (role && action && subject) {
         if (userRole.personalAbility.length > 0) {
           if (
-            userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject) && userRole.personalAbility.some((x: any) => x.action === action) && userRole.personalAbility.some((x: any) => x.subject === subject)
+            userRoleName === role && (roleAction && roleSubject || rolePersonalAct && rolePersonalSubj)
           ) {
             next();
           } else {
@@ -112,7 +118,7 @@ class ValidationToken {
           }
         } else {
           if (
-            userRole.role.name === role && userRole.role.ability.some((x: any) => x.action === action) && userRole.role.ability.some((x: any) => x.subject === subject)
+            userRoleName === role && roleAction && roleSubject
           ) {
             next();
           } else {
@@ -121,7 +127,7 @@ class ValidationToken {
         }
       } else {
         if (
-          userRole.role.name === role
+          userRoleName === role
         ) {
           next();
         } else {
