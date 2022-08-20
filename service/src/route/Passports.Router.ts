@@ -1,5 +1,5 @@
 import { Router } from "express";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 

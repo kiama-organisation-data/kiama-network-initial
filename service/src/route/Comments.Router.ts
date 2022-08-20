@@ -1,6 +1,6 @@
 import { Router } from "express";
 import commentsController from "../controller/Comments.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class CommentsRouter {
 	router: Router;

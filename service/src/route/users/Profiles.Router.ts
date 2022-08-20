@@ -1,6 +1,6 @@
 import { Router } from "express";
 import profilesController from "../../controller/users/Profiles.Controller";
-import validationToken from "../../libs/verifyToken";
+import validationToken from "../../middleware/verifyToken";
 import checkObjectId from '../../middleware/checkObjectId';
 
 class ProfilesRouter {

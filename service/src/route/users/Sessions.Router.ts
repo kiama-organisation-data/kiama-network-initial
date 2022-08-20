@@ -1,6 +1,6 @@
 import { Router } from "express";
 import sessionsController from "../../controller/users/Sessions.Controller";
-import validationToken from "../../libs/verifyToken";
+import validationToken from "../../middleware/verifyToken";
 
 class SessionsRouter {
     router: Router;
