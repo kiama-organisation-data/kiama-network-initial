@@ -16,8 +16,26 @@ class OrganizationRoute {
 			.route("/create-organization")
 			.post(OrganizationController.createOrganization);
 
+		this.router
+			.route("/get-organization")
+			.get(OrganizationController.getOrganization);
+
+		this.router
+			.route("/edit-organization")
+			.patch(OrganizationController.editOrganization);
+
+		this.router
+			.route("/organization")
+			.delete(OrganizationController.deleteOrganization)
+			.patch(OrganizationController.removeMembers)
+			.put(OrganizationController.addMembers)
+			.get(OrganizationController.getAllOrganizations);
+
+		this.router.route("/update").patch(OrganizationController.updateExecutive);
 		// Info
 		this.router.route("/info").post(InfoController.createInfo);
+
+		this.router.route("/info/one").get(InfoController.getInfo);
 	}
 }
 

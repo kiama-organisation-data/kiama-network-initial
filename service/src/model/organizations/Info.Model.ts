@@ -8,6 +8,8 @@ export interface IInfo extends Document {
 	fileType: string;
 	isFile: boolean;
 	views: Array<any>;
+	creator: string;
+	organization: Array<any>;
 }
 
 const infoSchema = new Schema({
@@ -36,6 +38,13 @@ const infoSchema = new Schema({
 				ref: "User",
 			},
 		},
+	],
+	creator: {
+		type: String,
+		required: true,
+	},
+	organization: [
+		{ type: Schema.Types.ObjectId, ref: "Organization", required: true },
 	],
 });
 
