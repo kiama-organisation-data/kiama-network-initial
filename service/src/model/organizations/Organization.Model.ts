@@ -1,9 +1,11 @@
-import { string } from "@hapi/joi";
 import { Schema, model, Document } from "mongoose";
 
 export interface IOrganization extends Document {
 	name: string;
-	brand: object;
+	brand: {
+		url: string;
+		publicId: string;
+	};
 	description: string;
 	uniqueId: string;
 	messages: Array<any>;
@@ -11,6 +13,7 @@ export interface IOrganization extends Document {
 	members: Array<any>;
 	executives: Array<any>;
 	rules: string;
+	public: boolean;
 }
 
 const organizationSchema = new Schema({
@@ -23,7 +26,6 @@ const organizationSchema = new Schema({
 	brand: {
 		publicId: String,
 		url: String,
-		required: true,
 	},
 	description: {
 		type: String,
@@ -39,6 +41,10 @@ const organizationSchema = new Schema({
 	rules: {
 		type: String,
 		required: [true, "set rules that govern your organization"],
+	},
+	public: {
+		type: Boolean,
+		default: false,
 	},
 	messages: [
 		{
