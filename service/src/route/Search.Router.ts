@@ -1,6 +1,6 @@
 import { Router } from "express";
 import searchsController from "../controller/Search.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class SettingsRouter {
     router: Router;

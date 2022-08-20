@@ -1,6 +1,6 @@
 import { Router } from "express";
 import languagesController from "../controller/Languages.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class LanguagesRouter {
     router: Router;

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 import ChannelsRouter from "./Channels.Router";
 import MessagesRouter from "./Messages.Router";
 import PagesRouter from "./Pages.Router";

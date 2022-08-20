@@ -1,6 +1,6 @@
 import { Router } from "express";
 import eventsController from "../controller/Events.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class EventsRouter {
     router: Router;

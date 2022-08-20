@@ -1,4 +1,4 @@
-import { IRole } from './../model/Role.Model';
+import { IRole } from '../model/Role.Model';
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import Users, { IUser } from "../model/users/UsersAuth.Model";

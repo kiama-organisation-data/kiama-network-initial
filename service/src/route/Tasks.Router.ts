@@ -1,6 +1,6 @@
 import { Router } from "express";
 import tasksController from "../controller/Tasks.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class TasksRouter {
     router: Router;

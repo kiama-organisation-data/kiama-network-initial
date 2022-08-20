@@ -1,6 +1,6 @@
 import { Router } from "express";
 import friendreqsController from "../../controller/users/FriendReqs.Controller";
-import validationToken from "../../libs/verifyToken";
+import validationToken from "../../middleware/verifyToken";
 
 class FriendReqsRouter {
     router: Router;

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import bugsController from "../controller/BugsReport.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class BugsRouter {
   router: Router;

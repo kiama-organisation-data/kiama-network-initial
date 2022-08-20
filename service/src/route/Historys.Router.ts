@@ -1,6 +1,6 @@
 import { Router } from "express";
 import historysController from "../controller/Historys.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class HistorysRouter {
     router: Router;
