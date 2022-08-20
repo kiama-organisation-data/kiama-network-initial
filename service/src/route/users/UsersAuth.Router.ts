@@ -8,7 +8,7 @@ import multerMiddleware from "../../middleware/fileUpload";
 import UserUtilityController from "../../controller/users/UserUtility.Controller";
 import { abilityEditor, abilityAdmin } from "../../middleware/abitiltyGlobal";
 
-const adminGuard = validationToken.authAdmin('editor', abilityEditor);
+const adminGuard = validationToken.authAdmin(['editor', 'admin'], abilityEditor);
 
 class usersRouter {
   router: Router;

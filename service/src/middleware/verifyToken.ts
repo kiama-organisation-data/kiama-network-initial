@@ -88,7 +88,7 @@ class ValidationToken {
   }
 
   // auth guard for admin
-  authAdmin = (roleReq: string, abilityReq?: Array<object>) => {
+  authAdmin = (roleReq: String[], abilityReq?: Array<object>) => {
     return async function (req: Request, res: Response, next: NextFunction) {
       let user = req.user;
       if (!user) {
@@ -119,31 +119,38 @@ class ValidationToken {
         })
       })
 
-      if (roleReq && abilityReq) {
-        if (userRole.personalAbility.length > 0) {
-          if (userRoleName === roleReq && (verifGe || verifPersonal)) {
-            next();
+      for (let i = 0; i < roleReq.length; i++) {
+        let roleUniq = roleReq[i]
+        if (roleUniq && abilityReq) {
+          if (userRole.personalAbility.length > 0) {
+            if (userRoleName === roleUniq && (verifGe || verifPersonal)) {
+              next();
+              return
+            } else {
+              return res.status(403).send('Access not allowed');
+            }
           } else {
-            return res.status(403).send('Access not allowed');
+            if (
+              userRoleName === roleUniq && verifGe
+            ) {
+              next();
+              return
+            } else {
+              res.status(403).send("Access Denied");
+            }
           }
         } else {
           if (
-            userRoleName === roleReq && verifGe
+            userRoleName === roleUniq
           ) {
             next();
+            return;
           } else {
-            res.status(403).send("Access Denied");
+            return res.status(500).send('Access not allowed eeee!');
           }
         }
-      } else {
-        if (
-          userRoleName === roleReq
-        ) {
-          next();
-        } else {
-          return res.status(500).send('Access not allowed eeee!');
-        }
       }
+
     }
   }
 }
