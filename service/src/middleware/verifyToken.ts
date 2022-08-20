@@ -88,7 +88,7 @@ class ValidationToken {
   }
 
   // auth guard for admin
-  authAdmin = (roleReq: any, abilityReq?: Array<object>) => {
+  authAdmin = (roleReq: string, abilityReq?: Array<object>) => {
     return async function (req: Request, res: Response, next: NextFunction) {
       let user = req.user;
       if (!user) {
