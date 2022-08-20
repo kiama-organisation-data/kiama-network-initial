@@ -1,6 +1,6 @@
 import { Router } from "express";
 import countriesController from "../controller/Countries.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class CountriesRouter {
     router: Router;

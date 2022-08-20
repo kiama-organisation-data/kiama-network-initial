@@ -1,6 +1,6 @@
 import { Router } from "express";
 import collaboratorsController from "../controller/Collaborators.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class CollaboratorsRouter {
     router: Router;

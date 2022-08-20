@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import ChallengePosts, { IChallengePost } from '../model/Challenges.Post.Model'
-import AppResponse from "../services/index";
-import sortData from "../middleware/utils";
+import ChallengePosts, { IChallengePost } from '../../model/Challenges.Post.Model'
+import AppResponse from "../../services/index";
+import sortData from "../../middleware/utils";
 
 class ChallengePostController {
 

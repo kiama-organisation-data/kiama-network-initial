@@ -1,6 +1,6 @@
 import { Router } from "express";
 import votesController from "../controller/Votes.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class VotesRouter {
     router: Router;

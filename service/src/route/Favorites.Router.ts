@@ -1,6 +1,6 @@
 import { Router } from "express";
 import favoritesController from "../controller/Favorites.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class FavoritesRouter {
     router: Router;

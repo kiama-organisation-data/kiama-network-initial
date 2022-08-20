@@ -1,6 +1,6 @@
 import { Router } from "express";
 import projectsController from "../controller/Projects.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class ProjectsRouter {
     router: Router;

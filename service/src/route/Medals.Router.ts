@@ -1,6 +1,6 @@
 import { Router } from "express";
 import medalsController from "../controller/Medals.Controller";
-import validationToken from "../libs/verifyToken";
+import validationToken from "../middleware/verifyToken";
 
 class MedalsRouter {
     router: Router;
