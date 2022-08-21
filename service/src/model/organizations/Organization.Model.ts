@@ -49,7 +49,7 @@ const organizationSchema = new Schema({
 	messages: [
 		{
 			type: Schema.Types.ObjectId,
-			ref: "OrganizationMsg",
+			ref: "OrgMsg",
 		},
 	],
 	members: [

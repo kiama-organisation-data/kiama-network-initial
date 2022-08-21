@@ -1,4 +1,5 @@
 import unique from "../../libs/randomGen";
+import { InfoCommentModel } from "../../model/comments/Organization.Model";
 import OrganizationModel from "../../model/organizations/Organization.Model";
 
 interface IParams {
@@ -49,6 +50,73 @@ class OrganizationService {
 			.limit(6)
 			.lean();
 		return organizations;
+	};
+
+	// -----------------------------------------------------------//
+	// comments service for infoModel begins here
+	// -----------------------------------------------------------//
+
+	findCommentById = async (commentId: string) => {
+		const comment = await InfoCommentModel.findById(commentId)
+			.populate("author", "name avatar")
+			.populate("replies", "author comment parentId")
+			.lean();
+
+		return comment;
+	};
+
+	findCommentByIdAndUpdate = async (data: any) => {
+		const { comment, commentId } = data;
+		const newComment = await InfoCommentModel.findByIdAndUpdate(commentId, {
+			comment,
+		}).lean();
+
+		return newComment;
+	};
+
+	updateComment = async (data: any) => {
+		const { parentId, comment } = data;
+		await InfoCommentModel.findByIdAndUpdate(parentId, {
+			$pull: { replies: comment._id },
+			$inc: { totalReplies: -1 },
+		});
+		return true;
+	};
+
+	updateInfo = async (data: any) => {
+		const { comment, commentId } = data;
+		const updatedInfo = await InfoCommentModel.findByIdAndUpdate(
+			{ _id: comment.infoId },
+			{
+				$pull: { comments: commentId },
+				$inc: { commentCount: -1 },
+			},
+			{ new: true }
+		);
+		return updatedInfo;
+	};
+
+	getAllComments = async (tab: number, sortBy: string, infoId: string) => {
+		const currentTab = tab || 1;
+		const perTab = 20;
+		let totalComments = 0;
+		const count = await InfoCommentModel.find({ infoId }).countDocuments();
+		totalComments = count;
+		let sort;
+
+		if (sortBy === "latest" || "") {
+			sort = { createdAt: -1 };
+		} else if (sortBy === "oldest") {
+			sort = { createdAt: 1 };
+		}
+
+		// remember to make comments to query only for a specific blog
+		const comments = await InfoCommentModel.find({ infoId })
+			.skip((+currentTab - 1) * perTab)
+			.limit(perTab)
+			.sort(sort)
+			.lean();
+		return { totalComments, comments };
 	};
 }
 
