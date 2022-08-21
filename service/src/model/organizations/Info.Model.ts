@@ -10,6 +10,8 @@ export interface IInfo extends Document {
 	views: Array<any>;
 	creator: string;
 	organization: Array<any>;
+	comments: Array<any>;
+	commentCount: number;
 }
 
 const infoSchema = new Schema({
@@ -44,8 +46,19 @@ const infoSchema = new Schema({
 		required: true,
 	},
 	organization: [
-		{ type: Schema.Types.ObjectId, ref: "Organization", required: true },
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Organization",
+			required: true,
+		},
 	],
+	comments: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "CommentInfo",
+		},
+	],
+	commentCount: Number,
 });
 
 export default model<IInfo>("Info", infoSchema);
