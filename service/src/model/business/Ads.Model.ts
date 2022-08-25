@@ -13,6 +13,7 @@ export interface IAds extends Document {
 	valid: boolean;
 	paymentCost: number;
 	paymentStatus: string;
+	expiresAt: Date;
 }
 
 const adSchema = new Schema({
@@ -35,7 +36,7 @@ const adSchema = new Schema({
 	duration: {
 		type: String,
 		required: true,
-		enum: ["one-week", "two-weeks", "four-weeks"],
+		enum: ["one-week", "two-weeks", "three-weeks", "four-weeks"],
 		default: "one-week",
 	},
 	importance: {
@@ -60,6 +61,10 @@ const adSchema = new Schema({
 		type: String,
 		default: "NOT-PAID",
 		enum: ["NOT-PAID", "PAID"],
+	},
+	expiresAt: {
+		type: Date,
+		default: new Date(),
 	},
 });
 

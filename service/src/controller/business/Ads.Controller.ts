@@ -11,8 +11,6 @@ import ProductServices from "../../services/collections/Product.Services";
  * @function getAnAd          /ads/adId         -- get request
  * @function deleteAnAd       /ads/adId         -- delete request
  * @function payForAd         /ads/activate     -- post request
- * note: payment functionality for ads has not been implemented yet
- * cron job has not been implemented yet
  *
  * When user creates an ad, it gets saved to the database but it's validity is set to false
  * and when getting ads it doesn't show cause it hasn't been payed for but when payment is successful, it * gets activated and validity set to true and user's ad get shown.

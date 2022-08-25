@@ -4,8 +4,19 @@ import { deleteFromCloud } from "../../libs/cloudinary";
 import stripePayment from "../collections/Payment.Services";
 
 const saveAd = async (data: any) => {
+	let weeks: number = 1;
+	const date = new Date();
+	if (data.duration == "two-weeks") {
+		weeks = 2;
+	} else if (data.duration == "three-weeks") {
+		weeks = 3;
+	} else if (data.duration == "four-weeks") {
+		weeks = 4;
+	}
+	date.setDate(date.getDate() + weeks * 7);
 	const ad: IAds = await AdsModel.create({
 		...data,
+		expiresAt: date,
 	});
 	return ad;
 };
