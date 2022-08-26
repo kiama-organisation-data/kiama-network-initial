@@ -49,19 +49,21 @@ class MessagesRouter {
 			.post(messageUploads, GroupMsgController.createGroup)
 			.patch(GroupMsgController.editGroup)
 			.put(messageUploads, GroupMsgController.editGroupPhoto)
+			.get(GroupMsgController.getAllGroups)
 			.delete(messageHelpers.isId, GroupMsgController.deleteGroupPhoto);
 
 		this.router.route("/group/add").post(GroupMsgController.addMember);
+		this.router.route("/group/add-many").post(GroupMsgController.addMembers);
 
-		this.router.route("/group/remove").delete(GroupMsgController.removeMember);
+		this.router.route("/group/remove").delete(GroupMsgController.removeMembers);
 
 		this.router
 			.route("/group/delete/:id")
 			.delete(messageHelpers.isId, GroupMsgController.deleteGroup);
 
 		this.router
-			.route("/group/edit/:id")
-			.delete(messageHelpers.isId, GroupMsgController.editGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
+			.route("/group/exit/:id")
+			.delete(messageHelpers.isId, GroupMsgController.exitGroup); //this route in the future would be made to be same as remove member, when admin verification becomes a middleware
 
 		this.router
 			.route("/group/msg")
@@ -94,6 +96,8 @@ class MessagesRouter {
 				messageHelpers.isId,
 				GroupMsgController.replyMessage
 			);
+
+		this.router.route("/group/:groupId").get(GroupMsgController.getGroup);
 	}
 }
 

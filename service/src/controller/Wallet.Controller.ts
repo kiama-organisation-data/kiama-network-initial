@@ -5,6 +5,7 @@ import Users, { IUser } from "../model/users/UsersAuth.Model";
 import WalletModel, { IWallet } from "../model/Wallet.Model";
 import AppResponse from "../services";
 import { apiCrypto } from "../utils/CrytoUtils";
+import MidFuncs from "../functions";
 
 /**
  *
@@ -31,26 +32,18 @@ class WalletController {
 
 		try {
 			const details: IUser | null = await Users.findById(user);
+
 			if (!details) return AppResponse.notFound(res);
+
 			const secretKey = await apiCrypto.hashParamJwt(
 				details._id.toString(),
 				//@ts-ignore
 				details.fullName
 			);
 			const count = await WalletModel.find().count();
-			let serialKey: string = "";
 
-			if (count === 0) {
-				serialKey = "kw-00x-000001";
-			} else if (count < 10) {
-				serialKey = "kw-000x-00000" + (count + 1);
-			} else if (count > 10 && count < 100) {
-				serialKey = "kw-00x-0000" + (count + 1);
-			} else if (count > 1000 && count < 10000) {
-				serialKey = "kw-00x-000" + (count + 1);
-			} else if (count > 10000) {
-				serialKey = "kw-00x-00" + (count + 1);
-			}
+			const serialKey = MidFuncs.WalletFunctions(count);
+
 			const wallet: IWallet = await WalletModel.create({
 				// @ts-ignore
 				name: details.fullName,
@@ -62,9 +55,11 @@ class WalletController {
 			});
 
 			details.walletId = wallet._id;
+
 			details.save();
 			//@ts-ignore
 			delete wallet.password;
+
 			AppResponse.success(res, wallet);
 		} catch (err) {
 			AppResponse.fail(res, err);
@@ -76,9 +71,11 @@ class WalletController {
 
 		try {
 			const wallet = await WalletModel.findOne({ userId }).lean();
+
 			if (!wallet) return AppResponse.notFound(res);
 			//@ts-ignore
 			delete wallet.password;
+
 			AppResponse.success(res, wallet);
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -89,16 +86,21 @@ class WalletController {
 		const { user: userId, body } = req;
 
 		const { error } = joiValidation.walletUpdatePassValidation(body);
+
 		if (error) AppResponse.fail(res, error.message);
+
 		try {
 			const wallet: IWallet | null = await WalletModel.findOne({ userId });
 			const validatePassword = await wallet?.validatePassword(body.oldPassword);
 
 			if (!validatePassword)
 				return AppResponse.fail(res, "you don't have access to this account");
+
 			//@ts-ignore
 			wallet?.password = await hash(body.newPassword, 12);
+
 			wallet?.save();
+
 			AppResponse.updated(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -134,6 +136,7 @@ class WalletController {
 		if (error) return AppResponse.fail(res, error.message);
 		try {
 			const wallet: IWallet | null = await WalletModel.findOne({ userId });
+
 			const value: any | undefined = await wallet?.addTokmpOrKmc(
 				coinOrPoints,
 				unit,

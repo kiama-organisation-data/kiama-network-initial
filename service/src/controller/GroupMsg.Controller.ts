@@ -28,6 +28,8 @@ import AppResponse from "../services/index";
 /**
  * @function createGroup /msg/group                                      -- post request
  * @function editGroup /msg/group                                        -- patch request
+ * @function getGroup /msg/group/:groupId                                -- get request
+ * @function getAllGroups /msg/group                                     -- get request
  * @function addMember /msg/group/add                                    -- post request
  * @function removeMember /msg/group/remove                              -- delete request
  * @function sendMessage /msg/group/msg                                  -- post request
@@ -37,11 +39,12 @@ import AppResponse from "../services/index";
  * @function deleteGroupPhoto /msg/group                                 -- delete request
  * @function editGroupPhoto /msg/group                                   -- put request
  * @function removeMember /msg/group/remove                              -- delete request
- * @function  deleteMessage /msg/group/msg/:id                           -- delete request
+ * @function addMembers  /msg/group/add-many                             --post request
+ * @function deleteMessage /msg/group/msg/:id                           -- delete request
  * @function markSeen /msg/group/msg/mark-seen/:id                       --patch request
  * @function setAsForwarded /msg/group/msg/forwarded/:id                 --patch request
  *
- * totalRoutes : 14
+ * totalRoutes : 16
  */
 
 class GroupController {
@@ -81,6 +84,48 @@ class GroupController {
 			details.groups.push(group._id);
 			await details.save();
 			AppResponse.created(res, group);
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
+
+	getGroup = async (req: Request, res: Response) => {
+		const groupId = req.params.groupId;
+
+		try {
+			const group = await groupModel.findById(groupId).lean();
+
+			if (!group) return AppResponse.notFound(res);
+
+			AppResponse.success(res, group);
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
+
+	getAllGroups = async (req: Request, res: Response) => {
+		const user = req.user;
+		const pagesOrTabs = 10;
+		const page = req.query.page;
+		const search = req.query.search;
+		const currentPage: number = +page || 1;
+		let searchObj: object = {};
+
+		if (search) {
+			const searchAlgo = new RegExp(search, "ig");
+			searchObj = { name: searchAlgo };
+		}
+		try {
+			const totalGroups = await groupModel
+				.find({ members: user })
+				.countDocuments();
+
+			const groups = await groupModel
+				.find({ $and: [{ members: user }, searchObj] })
+				.skip((currentPage - 1) * pagesOrTabs)
+				.limit(pagesOrTabs)
+				.lean();
+			AppResponse.success(res, { totalGroups, groups });
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
@@ -157,11 +202,7 @@ class GroupController {
 		const { userId, groupId } = req.body;
 
 		try {
-			let group = await groupModel.findById(groupId);
-
-			if (!group) return AppResponse.notFound(res, "group not found");
-
-			await Users.findByIdAndUpdate(userId, { $push: { groups: group._id } });
+			await Users.findByIdAndUpdate(userId, { $push: { groups: groupId } });
 
 			await groupModel.findByIdAndUpdate(groupId, {
 				$push: { members: userId },
@@ -174,19 +215,38 @@ class GroupController {
 		}
 	};
 
-	removeMember = async (req: Request, res: Response) => {
-		const { groupId, userId } = req.body;
-		let group = await groupModel.findById(groupId);
-
-		if (!group) return AppResponse.notFound(res, "group not found");
+	addMembers = async (req: Request, res: Response) => {
+		const { userIds, groupId } = req.body;
 
 		try {
-			await Users.findByIdAndUpdate(userId, { $pull: { groups: groupId } });
-
 			await groupModel.findByIdAndUpdate(groupId, {
-				$inc: { size: -1 },
-				$pull: { members: userId },
+				$push: { members: userIds },
+				$inc: { size: userIds.length },
 			});
+
+			while (userIds.length > 0) {
+				const id = userIds.pop();
+				await Users.findByIdAndUpdate(id, { $push: { groups: groupId } });
+			}
+
+			AppResponse.success(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
+
+	removeMembers = async (req: Request, res: Response) => {
+		const { groupId, userIds } = req.body;
+		try {
+			await groupModel.findByIdAndUpdate(groupId, {
+				$pull: { members: userIds },
+				$inc: { size: -userIds.length },
+			});
+
+			while (userIds.length > 0) {
+				const id = userIds.pop();
+				await Users.findByIdAndUpdate(id, { $pull: { groups: groupId } });
+			}
 
 			AppResponse.success(res, "updated");
 		} catch (e) {
@@ -199,15 +259,15 @@ class GroupController {
 		const members = await groupModel
 			.findById(req.params.id)
 			.select(["members", "_id"]);
-		//@ts-ignore
-		for (var i; i <= members.length; i++) {
-			//@ts-ignore
-			await Users.findByIdAndUpdate(members[i], {
-				$pull: { groups: members?._id },
-			});
-		}
-		await groupModel.findByIdAndDelete(req.params.id);
 		try {
+			//@ts-ignore
+			for (var i; i <= members.length; i++) {
+				//@ts-ignore
+				await Users.findByIdAndUpdate(members[i], {
+					$pull: { groups: members?._id },
+				});
+			}
+			await groupModel.findByIdAndDelete(req.params.id);
 			AppResponse.success(res, "success");
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -215,7 +275,7 @@ class GroupController {
 	};
 
 	exitGroup = async (req: Request, res: Response) => {
-		const response = await this.removeMember(req, res);
+		const response = await this.removeMembers(req, res);
 		return response;
 	};
 
@@ -284,22 +344,25 @@ class GroupController {
 		const { groupId } = req.params;
 
 		if (!groupId) return AppResponse.notFound(res, "id not found");
+		try {
+			const count = await groupMsgModel.find({ groupId }).countDocuments();
 
-		const count = await groupMsgModel.find({ groupId }).countDocuments();
+			const messages = await groupMsgModel
+				.find({ groupId })
+				.skip((+tab - 1) * perTab)
+				.limit(perTab)
+				.sort({ createdAt: -1 })
+				.lean();
 
-		const messages = await groupMsgModel
-			.find({ groupId })
-			.skip((+tab - 1) * perTab)
-			.limit(perTab)
-			.sort({ createdAt: -1 })
-			.lean();
+			totalMsgs = count;
 
-		totalMsgs = count;
-
-		if (!messages) {
-			AppResponse.notFound(res, "not found");
-		} else {
-			AppResponse.success(res, { messages, totalMsgs });
+			if (!messages) {
+				AppResponse.notFound(res, "not found");
+			} else {
+				AppResponse.success(res, { messages, totalMsgs });
+			}
+		} catch (e) {
+			AppResponse.fail(res, e);
 		}
 	};
 
