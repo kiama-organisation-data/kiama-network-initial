@@ -97,6 +97,9 @@ class Server {
     // DESCRIPTION: route part one
     this.app.use("/kiama-network/api/v1", rootRouter());
 
+    // separate routes basic user to the admin routes???
+    this.app.use("/kiama-network/api/v1/admin", rootRouter())
+
     // Routes for upload file
 
     this.app.use(
