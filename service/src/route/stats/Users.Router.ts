@@ -15,7 +15,7 @@ class UsersStatRouter {
      */
     routes() {
         this.router.get("/new-per-day", validationToken.TokenValidation, UsersStatController.countNewUserPerDay);
-        this.router.get("/charts", validationToken.TokenValidation, UsersStatController.countNewUserPerDay);
+        this.router.get("/charts", validationToken.TokenValidation, UsersStatController.getStatChartUser);
     }
 }
 
