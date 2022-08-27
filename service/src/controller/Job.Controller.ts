@@ -36,10 +36,21 @@ class JobCntrl {
 				doc = { url: secure_url, publicId: public_id };
 			}
 
+			let weeks: number = 1;
+			const date = new Date();
+			if (body.validityPeriod == "two-weeks") {
+				weeks = 2;
+			} else if (body.validityPeriod == "three-weeks") {
+				weeks = 3;
+			} else if (body.validityPeriod == "one-month") {
+				weeks = 4;
+			}
+			date.setDate(date.getDate() + weeks * 7);
 			const job = await jobModel.create({
 				...body,
 				poster: user,
 				file: { ...doc, fileType: file?.mimetype },
+				expiresAt: date,
 			});
 
 			AppResponse.created(res, job);

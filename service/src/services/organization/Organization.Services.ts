@@ -22,6 +22,7 @@ class OrganizationService {
 
 		return organization;
 	};
+
 	getAllOrganization = async ({ tab, sortBy, name }: IParams) => {
 		const currentTab = +tab || 1;
 		let search = {};
@@ -49,7 +50,7 @@ class OrganizationService {
 			.skip((currentTab - 1) * 6)
 			.limit(6)
 			.lean();
-		return organizations;
+		return { organizations, count };
 	};
 
 	// -----------------------------------------------------------//
@@ -110,7 +111,6 @@ class OrganizationService {
 			sort = { createdAt: 1 };
 		}
 
-		// remember to make comments to query only for a specific blog
 		const comments = await InfoCommentModel.find({ infoId })
 			.skip((+currentTab - 1) * perTab)
 			.limit(perTab)

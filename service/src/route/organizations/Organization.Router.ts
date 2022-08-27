@@ -58,11 +58,15 @@ class OrganizationRoute {
 
 		// messages
 
-		this.router.route("/msgs").post(messageUploads, MessagesController.sendMsg);
+		this.router
+			.route("/msgs")
+			.post(messageUploads, MessagesController.sendMsg)
+			.get(MessagesController.getAllMsgs);
 		this.router
 			.route("/msgs/one")
 			.get(MessagesController.getMsg)
-			.patch(MessagesController.addReply);
+			.patch(MessagesController.addReply)
+			.delete(MessagesController.deleteMsg);
 	}
 }
 

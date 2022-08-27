@@ -12,8 +12,13 @@ export interface IOrder extends Document {
 		userId: Schema.Types.ObjectId;
 	};
 	valid: boolean;
-	payment: object;
 	paymentId: string;
+	payment: {
+		totalCost: number;
+		paymentMethod: string;
+		status: string;
+		date: string;
+	};
 }
 
 const orderSchema = new Schema({

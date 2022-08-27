@@ -1,6 +1,3 @@
-**TO.COMPLETE**
+## TO.DO
 
-**TO.DO**
-
-- remeber to build organisations
-- I haven't tested payment for ads
+update payment method fro shops so that after payment to us, we pay the shop owner

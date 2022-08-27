@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { uploadToCloud } from "../../libs/cloudinary";
+import { deleteFromCloud, uploadToCloud } from "../../libs/cloudinary";
 import MessagesModel from "../../model/organizations/Messages.Model";
 import OrganizationModel from "../../model/organizations/Organization.Model";
 import AppResponse from "../../services";
@@ -67,6 +67,37 @@ class OrgMsgCntrl {
 		}
 	}
 
+	async getAllMsgs(req: Request, res: Response) {
+		const { tab, device, orgId } = req.query;
+
+		let currentTab = +tab || 1;
+		let tabSize = 10;
+		switch (device) {
+			case "laptop":
+				tabSize = 15;
+				break;
+			case "tablet":
+				tabSize = 12;
+			default:
+				tabSize = 10;
+				break;
+		}
+		try {
+			const msgs = await MessagesModel.find({ orgId })
+				.skip((currentTab - 1) * tabSize)
+				.limit(tabSize)
+				.sort({ createdAt: -1 })
+				.populate("seen.by", "name avatar")
+				.lean();
+
+			if (!msgs) return AppResponse.notFound(res);
+
+			AppResponse.success(res, msgs);
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	}
+
 	async addReply(req: Request, res: Response) {
 		const { body, user: from } = req;
 
@@ -84,6 +115,29 @@ class OrgMsgCntrl {
 				{ new: true }
 			);
 
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	}
+
+	async deleteMsg(req: Request, res: Response) {
+		const { user: from } = req;
+		const { msgId, orgId } = req.query;
+
+		try {
+			const msg = await MessagesModel.findOne({ orgId, from, _id: msgId });
+			if (!msg) AppResponse.notFound(res);
+
+			if (msg?.isFile) {
+				await deleteFromCloud(msg.url);
+			}
+
+			await MessagesModel.deleteOne({ _id: msg?._id });
+			await OrganizationModel.findByIdAndUpdate(
+				{ _id: msg?.orgId },
+				{ $pull: { messages: msgId } }
+			);
 			AppResponse.updated(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);

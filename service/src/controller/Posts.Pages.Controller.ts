@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { IPagepost, pagePostModel } from "../model/Posts.Model";
 import PageServices from "../services/pages/Page.Services";
-import AppResponse from "../services/index";
+import AppResponse from "../services";
 import { deleteFromCloud } from "../libs/cloudinary";
 
 /**
@@ -14,6 +14,7 @@ class PostPgtrl {
 
 	create = async (req: Request, res: Response) => {
 		let post: IPagepost | null = null;
+
 		if (req.query.file === "video") {
 			post = await PageServices.saveVideos(req, res);
 		} else if (req.query.file === "text") {
@@ -62,7 +63,9 @@ class PostPgtrl {
 			} else if (post?.content.video.url) {
 				url = post.content.video.url;
 			}
+
 			await pagePostModel.findByIdAndDelete(req.params.id);
+
 			if (url.length > 1) {
 				await deleteFromCloud(url);
 			}
@@ -76,16 +79,20 @@ class PostPgtrl {
 		const currentPage: any = req.query.page || 1;
 		const perpage = 8;
 		let totalItems: number;
+
 		const postsTotal = await pagePostModel
 			.find({ pageId: req.params.pageId })
 			.countDocuments();
+
 		totalItems = postsTotal;
+
 		try {
 			const posts = await pagePostModel
 				.find({ pageId: req.params.pageId })
 				.skip((currentPage - 1) * perpage)
 				.sort({ updatedAt: -1 })
 				.limit(perpage);
+
 			if (posts) {
 				AppResponse.success(res, { posts: posts, totalItems: totalItems });
 			} else {
@@ -98,6 +105,7 @@ class PostPgtrl {
 
 	getOne = async (req: Request, res: Response) => {
 		const post = await pagePostModel.findById(req.params.id);
+
 		try {
 			if (post) {
 				AppResponse.success(res, post);

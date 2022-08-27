@@ -1,20 +1,27 @@
-import mongoose, { Schema } from "mongoose";
+import { Schema, Document, model } from "mongoose";
 
-const schema: any = mongoose.Schema;
+const schema: any = Schema;
 
 /**
  * @param interface will be updated in the future
  * the model in the future will be updated to accept replys
  */
-export interface IPost extends mongoose.Document {
-	title: string;
-	fileUrl: Array<string>;
-	fileType: Array<string>;
-	publicId: string;
-	userId: Schema.Types.ObjectId;
+export interface IPost extends Document {
+	texts: [
+		{
+			text: string;
+		}
+	];
+	userId: string;
+	urls: [
+		{
+			publicId: string;
+			url: string;
+		}
+	];
 }
 
-export interface IPagepost extends mongoose.Document {
+export interface IPagepost extends Document {
 	content: {
 		image: {
 			publicId: string;
@@ -25,26 +32,27 @@ export interface IPagepost extends mongoose.Document {
 			url: string;
 		};
 	};
-	pageId: Schema.Types.ObjectId;
-	tags: Array<Schema.Types.ObjectId>;
+	pageId: string;
+	tags: Array<string>;
 }
 
 const postSchema = new schema(
 	{
-		title: {
-			type: String,
-		},
-		publicId: {
-			type: String || null,
-		},
-		fileType: {
-			type: Array,
-			required: true,
-		},
-		fileUrl: Array,
+		texts: [
+			{
+				type: String,
+			},
+		],
+		urls: [
+			{
+				publicId: String,
+				url: String,
+			},
+		],
 		userId: {
-			type: schema.Types.ObjectId,
+			type: Schema.Types.ObjectId,
 			ref: "User",
+			required: true,
 		},
 	},
 	{ _id: true, timestamps: true, toJSON: { virtuals: true } }
@@ -77,9 +85,5 @@ const pagePostSchema = new Schema(
 	{ timestamps: true }
 );
 
-export const pagePostModel = mongoose.model<IPagepost>(
-	"PagePost",
-	pagePostSchema
-);
-const postModel = mongoose.model<IPost>("Posts", postSchema);
-export default postModel;
+export const pagePostModel = model<IPagepost>("PagePost", pagePostSchema);
+export const postModel = model<IPost>("Posts", postSchema);
