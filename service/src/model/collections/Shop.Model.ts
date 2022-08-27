@@ -3,7 +3,7 @@ import { Schema, model, Document } from "mongoose";
 export interface IShop extends Document {
 	name: string;
 	email: string;
-	owner: Schema.Types.ObjectId;
+	owner: string;
 	mobile: string;
 	country: string;
 	city: string;
@@ -13,6 +13,12 @@ export interface IShop extends Document {
 	products: Array<any>;
 	activity: string;
 	approved: boolean;
+	account: {
+		cardNumber: string;
+		expiryMnth: string;
+		expiryYear: string;
+		cvv: string;
+	};
 }
 
 const shopSchema = new Schema(
@@ -65,6 +71,27 @@ const shopSchema = new Schema(
 				ref: "Product",
 			},
 		],
+		account: {
+			cardNumber: {
+				type: String,
+				minLength: 10,
+			},
+			cvv: {
+				type: String,
+				minLength: 3,
+				maxLength: 3,
+			},
+			expiryMnth: {
+				type: String,
+				minLength: 2,
+				maxLength: 2,
+			},
+			expiryYear: {
+				type: String,
+				minLength: 2,
+				maxLength: 2,
+			},
+		},
 	},
 	{ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

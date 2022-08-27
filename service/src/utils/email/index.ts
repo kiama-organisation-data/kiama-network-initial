@@ -1,6 +1,7 @@
 import { createTransport } from "nodemailer";
 import {
 	passwordResetTemplate,
+	purchaseTemplate,
 	shopApprovedTemplate,
 	shopRejectedTemplate,
 } from "../../views/convertToHtml";
@@ -14,7 +15,7 @@ export default function sendMail(
 	subject: string,
 	payload: object | any
 ) {
-	const { firstname, reason, secretKey, link } = payload;
+	const { firstname, reason, secretKey, link, status, totalCost } = payload;
 	let html;
 
 	switch (subject) {
@@ -25,6 +26,8 @@ export default function sendMail(
 			html = shopRejectedTemplate({ firstname, reason });
 		case "Password Reset":
 			html = passwordResetTemplate({ firstname, link });
+		case "Purchase Of Goods":
+			html = purchaseTemplate({ firstname, status, totalCost });
 		default:
 			html = "";
 			break;

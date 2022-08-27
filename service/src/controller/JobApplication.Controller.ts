@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { uploadToCloud } from "../libs/cloudinary";
+import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 import { jobModel } from "../model/Job.Model";
 import JobApplicationModel from "../model/JobApplication.Model";
 import AppResponse from "../services";
@@ -40,20 +40,28 @@ class ApplicationCntrl {
 		}
 	}
 
-	// add pagination later
 	async getApplications(req: Request, res: Response) {
-		const { jobPostId } = req.query;
+		const { jobPostId, page } = req.query;
+
+		const perPage = 6;
+		const currentPage = +page || 1;
 
 		try {
+			const count = await JobApplicationModel.find({
+				jobPostId,
+			}).countDocuments();
+
 			const application = await JobApplicationModel.find({
 				jobPostId,
 			})
+				.skip((currentPage - 1) * perPage)
+				.limit(perPage)
 				.populate("userId", "name email createdAt")
 				.lean();
 
 			if (!application) return AppResponse.notFound(res);
 
-			AppResponse.success(res, application);
+			AppResponse.success(res, { application, totalApps: count });
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
@@ -83,12 +91,19 @@ class ApplicationCntrl {
 		const { jobPostId } = req.query;
 
 		try {
-			const application = await JobApplicationModel.findOneAndDelete({
+			const application = await JobApplicationModel.findOne({
 				userId,
-				jobPostId,
 			});
 
 			if (!application) return AppResponse.notFound(res);
+
+			await deleteFromCloud(application.url);
+
+			await JobApplicationModel.deleteOne({ jobPostId });
+
+			await jobModel.findByIdAndUpdate(jobPostId, {
+				$pull: { submissions: application._id },
+			});
 
 			AppResponse.success(res, "deleted");
 		} catch (e) {

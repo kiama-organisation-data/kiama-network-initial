@@ -6,6 +6,7 @@ import shopModel from "../../model/collections/Shop.Model";
 import Users, { IUser } from "../../model/users/UsersAuth.Model";
 import ProductServices from "../../services/collections/Product.Services";
 import AppResponse from "../../services/index";
+import sendMail from "../../utils/email";
 
 /**
  *
@@ -279,25 +280,30 @@ class ProductCntrl {
 
 			const order = await ProductServices.chargeCard(req.body);
 			//@ts-ignore
-			const products = order.products.map((prod) => prod.name);
+			// const products = order.products.map((prod) => prod.name);
 			const email = order.user.email;
-			const orderObj = {
-				//@ts-ignore
-				status: order.payment.status,
-				//@ts-ignore
-				totalCost: order.payment.totalCost,
-				//@ts-ignore
-				date: order.payment.date,
-				products,
-			};
+			// const orderObj = {
+			// 	status: order.payment.status,
+			// 	totalCost: order.payment.totalCost,
+			// 	date: order.payment.date,
+			// 	products,
+			// };
 
 			//@ts-ignore
 			await details.clearCart();
-			// in the future an email will be sent here rather than return object to user
-			AppResponse.success(res, orderObj);
+			const mail = await sendMail(email, "Purchase Of Goods", {
+				firstname: details?.name.first,
+				status: order.payment.status === "PAID" ? "successful" : "unsuccessful",
+				totalCost: order.payment.totalCost,
+			});
+
+			AppResponse.success(res, mail);
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
+	}
+	public sendMoneyToShopAcc(amount: number | string, shopId: string) {
+		// send money from company account to shop
 	}
 }
 

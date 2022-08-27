@@ -61,8 +61,11 @@ class PagesController {
 			if (isFile) {
 				//@ts-ignore
 				const { secure_url, public_id } = await uploadToCloud(req.file?.path);
+
 				const image = { publicId: public_id, url: secure_url };
-				await pageModel.findById(req.params.id, { image });
+
+				await pageModel.findByIdAndUpdate(req.params.id, { image });
+
 				AppResponse.updated(res, "updated");
 			}
 		} catch (e) {
@@ -81,7 +84,7 @@ class PagesController {
 				await Users.findByIdAndUpdate(page?._id, {
 					$pull: { page: page?._id },
 				});
-				pageModel.findByIdAndDelete(page?._id);
+				pageModel.deleteOne({ _id: page?._id });
 
 				AppResponse.success(res, "deleted");
 			} catch (e) {

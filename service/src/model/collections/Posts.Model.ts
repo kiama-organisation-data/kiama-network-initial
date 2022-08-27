@@ -39,7 +39,7 @@ const postSchema = new Schema({
 	url: String,
 	split: Number,
 	likes: {
-		count: number,
+		count: Number,
 		users: [{ type: Schema.Types.ObjectId, ref: "User" }],
 	},
 	comments: [{ type: Schema.Types.ObjectId, ref: "BlogComments" }],

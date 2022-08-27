@@ -235,6 +235,7 @@ class GroupController {
 		}
 	};
 
+	// there is a bug here that prevents the user id's to be remove from the group members
 	removeMembers = async (req: Request, res: Response) => {
 		const { groupId, userIds } = req.body;
 		try {
