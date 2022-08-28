@@ -55,14 +55,14 @@ const jobSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
-		min: 5,
-		max: 30,
+		minlength: 5,
+		maxlength: 30,
 	},
 
 	description: {
 		type: String,
 		required: true,
-		min: 10,
+		minlength: 10,
 	},
 
 	content: {

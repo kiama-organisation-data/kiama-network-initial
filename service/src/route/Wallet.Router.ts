@@ -10,8 +10,14 @@ class WalletRoute {
 
 	routes() {
 		this.router.route("/create").post(WalletController.createUserWallet);
-		this.router.route("/").get(WalletController.getUserWallet);
+
+		this.router
+			.route("/")
+			.get(WalletController.getUserWallet)
+			.delete(WalletController.deleteUserWallet);
+
 		this.router.route("/verify").post(WalletController.verifyOwnerOfAccount);
+
 		this.router
 			.route("/toggle-suspension")
 			.patch(WalletController.suspendOrUnsuspendWallet);
@@ -28,9 +34,7 @@ class WalletRoute {
 			.route("/deduct-amount")
 			.patch(WalletController.deductKiamaPointOrCoin);
 
-		this.router
-			.route("/wallet/transact")
-			.patch(WalletController.makeTransaction);
+		this.router.route("/transact").patch(WalletController.makeTransaction);
 	}
 }
 

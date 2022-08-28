@@ -67,6 +67,10 @@ class OrganizationRoute {
 			.get(MessagesController.getMsg)
 			.patch(MessagesController.addReply)
 			.delete(MessagesController.deleteMsg);
+
+		this.router
+			.route("/msgs/one/reply")
+			.patch(MessagesController.addOrRemoveReaction);
 	}
 }
 

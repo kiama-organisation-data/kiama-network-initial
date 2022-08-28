@@ -7,6 +7,7 @@ import AppResponse from "../services/index";
 import channelPostModel, { IPchannel } from "../model/Posts.Channels";
 import unique from "../libs/randomGen";
 import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
+import Notifications from "../model/Notifications.Model";
 
 class ChannelCntrl {
 	constructor() {}
@@ -20,7 +21,7 @@ class ChannelCntrl {
 	 * @function getOne /channel/:channelId                                           -- get request
 	 * @function edit /channel/:channelId                                             -- patch request
 	 * @function delete /channel/:channelId                                           -- delete request
-	 * @function addAdmin /channel/:channelId                                         -- put request
+	 * @ function addAdmin /channel/:channelId                                         -- put request
 	 * @function uploadCoverPhoto /channel/change-photo/:channelId                    -- patch request
 	 * @function addFollowers /channel/followers/:channelId                           -- put request
 	 * @function unFollow /channel/followers/:channelId                               -- delete request
@@ -49,21 +50,23 @@ class ChannelCntrl {
 		}
 		const details = await Users.findById(user);
 
-		const keys = await createApiKeys(details);
-		const isNameAndEmail = await channelModel.findOne({
-			$or: [{ name: body.name }, { email: body.email }],
-		});
-
-		if (isNameAndEmail)
-			return AppResponse.fail(res, "either name or email is taken");
-		const channel: IChannel = await channelModel.create({
-			...body,
-			...keys,
-			admins: [user],
-			stars: 1,
-			size: 1,
-		});
 		try {
+			const keys = await createApiKeys(details);
+			const isNameAndEmail = await channelModel.findOne({
+				$or: [{ name: body.name }, { email: body.email }],
+			});
+
+			if (isNameAndEmail)
+				return AppResponse.fail(res, "either name or email is taken");
+
+			const channel: IChannel = await channelModel.create({
+				...body,
+				...keys,
+				admins: [user],
+				stars: 1,
+				size: 1,
+			});
+
 			await Users.findByIdAndUpdate(
 				user,
 				{ $push: { channels: channel._id } },
@@ -81,7 +84,7 @@ class ChannelCntrl {
 		let totalItems: number = 0;
 		let serchBy = {};
 		let sortBy = {};
-		let tabSize: number = 5;
+		let tabSize: number = 6;
 
 		const pageNo = +page || 1;
 
@@ -96,14 +99,14 @@ class ChannelCntrl {
 		}
 		switch (device) {
 			case "tablet":
-				tabSize = 7;
+				tabSize = 8;
 				break;
 			case "laptop":
 				tabSize = 10;
 			case "desktop":
 				tabSize = 12;
 			default:
-				tabSize = 5;
+				tabSize = 6;
 				break;
 		}
 
@@ -202,6 +205,20 @@ class ChannelCntrl {
 				.select(["-privateKey", "-secretKey", "-publicKey", "-admins"])
 				.lean();
 
+			if (req.user !== channel?.admins[0].toString()) {
+				const notificationObj = {
+					user: channel?.admins[0],
+					notification: "kiama channels",
+					type: "channel",
+					link: "http://localhost:kiama-network/api/v1/channel/" + channel?._id,
+					icon: "channel icon",
+				};
+
+				await Notifications.create({
+					...notificationObj,
+					content: `${channel?.name} has just been updated an admin that's not you`,
+				});
+			}
 			AppResponse.success(res, channel);
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -218,19 +235,28 @@ class ChannelCntrl {
 		try {
 			const coverimage = await uploadToCloud(file.path);
 
-			let channel = await channelModel
-				.findByIdAndUpdate(
-					req.params.channelId,
-					{
-						coverImage: {
-							url: coverimage.secure_url,
-							publicId: coverimage.public_id,
-						},
-					},
-					{ new: true }
-				)
-				.select(["-privateKey", "-secretKey", "-publicKey", "-admins"]);
-			AppResponse.success(res, channel);
+			let channel = await channelModel.findByIdAndUpdate(req.params.channelId, {
+				coverImage: {
+					url: coverimage.secure_url,
+					publicId: coverimage.public_id,
+				},
+			});
+
+			if (req.user !== channel?.admins[0].toString() && channel) {
+				const notificationObj = {
+					user: channel?.admins[0],
+					notification: "kiama channel",
+					type: "channel",
+					link: "http://localhost:kiama-network/api/v1/channel" + channel._id,
+					icon: "channel icon",
+				};
+				await Notifications.create({
+					...notificationObj,
+					content: `${channel.name} has just been updated by an admin that's not you`,
+				});
+			}
+
+			AppResponse.updated(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
@@ -256,17 +282,14 @@ class ChannelCntrl {
 		try {
 			let channel = await channelModel.findByIdAndUpdate(
 				channelId,
-				{ $push: { admins: newAdminId } },
-				{ new: true }
+				{ $push: { admins: newAdminId } } // if multiple then newAdminId should be an array
 			);
-			await Users.findByIdAndUpdate(
-				newAdminId,
-				{ $push: { channels: channelId } },
-				{ new: true }
-			).lean();
+			await Users.findByIdAndUpdate(newAdminId, {
+				$push: { channels: channelId },
+			}).lean();
 
 			if (channel) {
-				AppResponse.success(res, channel);
+				AppResponse.updated(res, "updated");
 			} else {
 				AppResponse.notFound(res, "channel not found");
 			}
@@ -280,22 +303,16 @@ class ChannelCntrl {
 		const { channelId } = req.params;
 
 		try {
-			const channel = await channelModel.findByIdAndUpdate(
-				channelId,
-				{
-					$pull: { requests: followerId },
-					$push: { followers: followerId },
-					$inc: { size: 1 },
-				},
-				{ new: true }
-			);
-			await Users.findByIdAndUpdate(
-				followerId,
-				{ $push: { channels: channelId } },
-				{ new: true }
-			);
+			const channel = await channelModel.findByIdAndUpdate(channelId, {
+				$pull: { requests: followerId },
+				$push: { followers: followerId },
+				$inc: { size: 1 },
+			});
+			await Users.findByIdAndUpdate(followerId, {
+				$push: { channels: channelId },
+			});
 
-			AppResponse.success(res, channel);
+			AppResponse.updated(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
@@ -305,14 +322,23 @@ class ChannelCntrl {
 		const { user } = req;
 		const { channelId } = req.params;
 		try {
-			await channelModel
-				.findByIdAndUpdate(
-					channelId,
-					{ $push: { requests: user } },
-					{ new: true }
-				)
-				.select(["followers", "requests"]);
+			const channel = await channelModel.findByIdAndUpdate(channelId, {
+				$push: { requests: user },
+			});
 
+			if (channel) {
+				const notificationObj = {
+					user: channel?.admins[0],
+					notification: "kiama channel",
+					type: "channel",
+					link: "http://localhost:kiama-network/api/v1/channel" + channel._id,
+					icon: "channel icon",
+				};
+				await Notifications.create({
+					...notificationObj,
+					content: `${channel.name} has a new follower request`,
+				});
+			}
 			AppResponse.success(res, "your request was successful");
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -325,17 +351,12 @@ class ChannelCntrl {
 		const { channelId } = req.params;
 
 		try {
-			await channelModel.findByIdAndUpdate(
-				channelId,
-				{ $pull: { followers: user }, $inc: { size: -1 } },
-				{ new: true }
-			);
+			await channelModel.findByIdAndUpdate(channelId, {
+				$pull: { followers: user },
+				$inc: { size: -1 },
+			});
 
-			await Users.findByIdAndUpdate(
-				user,
-				{ $pull: { channels: channelId } },
-				{ new: true }
-			);
+			await Users.findByIdAndUpdate(user, { $pull: { channels: channelId } });
 
 			AppResponse.success(res, "user successfully unfollowed");
 		} catch (e) {
@@ -410,7 +431,7 @@ class ChannelCntrl {
 		try {
 			const channel = await channelModel
 				.findById(channelId)
-				.populate("admins", "name _id username ")
+				.populate("admins", "name _id username avatar")
 				.select(["admins"])
 				.lean();
 

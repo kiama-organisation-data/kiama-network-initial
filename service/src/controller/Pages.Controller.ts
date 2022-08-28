@@ -16,9 +16,11 @@ class PagesController {
 		try {
 			const isFile = PageServices.checkFile(req, res);
 			let image: object = {};
+
 			//@ts-ignore
 			const { secure_url, public_id } = await uploadToCloud(req.file?.path);
 			image = { url: secure_url, publicId: public_id };
+
 			if (isFile) {
 				const page = await pageModel.create({
 					...req.body,
@@ -30,6 +32,7 @@ class PagesController {
 				await Users.findByIdAndUpdate(req.params.id, {
 					$push: { pages: page._id },
 				});
+
 				AppResponse.created(res, page);
 			}
 		} catch (e) {
@@ -40,8 +43,10 @@ class PagesController {
 	edit = async (req: Request, res: Response) => {
 		try {
 			const isModerator = await PageServices.isModerator(req, res);
+
 			if (!isModerator)
 				return AppResponse.notPermitted(res, "user is not a user");
+
 			const page = await pageModel.findByIdAndUpdate(
 				req.body.pageId,
 				req.body,
@@ -49,6 +54,7 @@ class PagesController {
 					new: true,
 				}
 			);
+
 			AppResponse.success(res, page);
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -57,6 +63,7 @@ class PagesController {
 
 	changePhoto = async (req: Request, res: Response) => {
 		const isFile = PageServices.checkFile(req, res);
+
 		try {
 			if (isFile) {
 				//@ts-ignore
@@ -75,6 +82,7 @@ class PagesController {
 
 	deletePage = async (req: Request, res: Response) => {
 		const isCreator = await PageServices.isCreator(req, res);
+
 		if (isCreator.success) {
 			try {
 				const page = await pageModel.findById(req.body.pageId);
@@ -84,6 +92,7 @@ class PagesController {
 				await Users.findByIdAndUpdate(page?._id, {
 					$pull: { page: page?._id },
 				});
+
 				pageModel.deleteOne({ _id: page?._id });
 
 				AppResponse.success(res, "deleted");
@@ -97,6 +106,7 @@ class PagesController {
 
 	addModerator = async (req: Request, res: Response) => {
 		const isModerator = await PageServices.isModerator(req, res);
+
 		if (isModerator.success) {
 			try {
 				isModerator.page?.moderators.push(req.body.moderator);

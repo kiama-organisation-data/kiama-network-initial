@@ -26,11 +26,14 @@ export interface IPagepost extends Document {
 		image: {
 			publicId: string;
 			url: string;
+			coverText: string;
 		};
 		video: {
 			publicId: string;
 			url: string;
+			coverText: string;
 		};
+		text: string;
 	};
 	pageId: string;
 	tags: Array<string>;

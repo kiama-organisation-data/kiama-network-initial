@@ -4,26 +4,28 @@ import { readFileSync } from "fs";
 import { resolve } from "path";
 
 /**
- * Require all mjml files from same directory path
+ * Require all mjml files from views directory path
  */
 
 const shopApproved = readFileSync(
-	resolve(__dirname, "./shopApproved.mjml")
+	resolve(__dirname, "../../../views/shopApproved.mjml")
 ).toString();
 
 const shopRejected = readFileSync(
-	resolve(__dirname, "./shopRejected.mjml")
+	resolve(__dirname, "../../../views/shopRejected.mjml")
 ).toString();
 
 const passwordReset = readFileSync(
-	resolve(__dirname, "./passwordReset.mjml")
+	resolve(__dirname, "../../../views/passwordReset.mjml")
 ).toString();
 
 const organizationCreated = readFileSync(
-	resolve(__dirname, "./organizationCreated.mjml")
+	resolve(__dirname, "../../../views/organizationCreated.mjml")
 ).toString();
 
-const purchase = readFileSync(resolve(__dirname, "./purchase.mjml")).toString();
+const purchase = readFileSync(
+	resolve(__dirname, "../../../views/purchase.mjml")
+).toString();
 /**
  * Compile to templates
  */

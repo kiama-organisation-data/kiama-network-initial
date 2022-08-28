@@ -42,10 +42,14 @@ class OrgMsgCntrl {
 				orgId: body.orgId,
 				fileType,
 				...body,
+				url,
+				publicId,
 			});
+
 			await OrganizationModel.findByIdAndUpdate(msg.orgId, {
 				$push: { messages: msg._id },
 			});
+
 			AppResponse.created(res, "created");
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -143,6 +147,43 @@ class OrgMsgCntrl {
 			AppResponse.fail(res, e);
 		}
 	}
+
+	/**
+	 * @param addOrRemove if is equals remove,
+	 * remove has a bug for now in which it will remove all reactions of same
+	 */
+	addOrRemoveReaction = async (req: Request, res: Response): Promise<any> => {
+		const { user: userId } = req;
+		const { msgId, reactionType, addOrRemove } = req.query;
+
+		try {
+			if (addOrRemove === "add") {
+				await MessagesModel.findByIdAndUpdate(
+					msgId,
+					{
+						$push: {
+							"reactions.reaction": reactionType,
+							"reactions.reactors": userId,
+						},
+						$inc: { "reactions.count": 1 },
+					},
+					{ upsert: true }
+				);
+			} else if (addOrRemove === "remove") {
+				await MessagesModel.findByIdAndUpdate(msgId, {
+					$pull: {
+						"reactions.reaction": reactionType,
+						"reactions.reactors": userId,
+					},
+					$inc: { "reactions.count": -1 },
+				});
+			}
+
+			AppResponse.updated(res, "updated");
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
 }
 
 export default new OrgMsgCntrl();

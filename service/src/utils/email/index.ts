@@ -4,7 +4,7 @@ import {
 	purchaseTemplate,
 	shopApprovedTemplate,
 	shopRejectedTemplate,
-} from "../../views/convertToHtml";
+} from "./convertToHtml";
 import * as dotenv from "dotenv";
 import * as path from "path";
 
