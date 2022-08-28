@@ -63,24 +63,24 @@ const messageSchema = new Schema({
 			},
 		},
 	],
-	reaction: [
-		{
-			count: {
-				type: Number,
-				default: 0,
-			},
-			reactors: {
+	reactions: {
+		count: {
+			type: Number,
+			default: 0,
+		},
+		reactors: [
+			{
 				type: Schema.Types.ObjectId,
 				ref: "User",
 			},
-			reaction: [
-				{
-					type: String,
-					enum: ["wow", "love", "dislike"],
-				},
-			],
-		},
-	],
+		],
+		reaction: [
+			{
+				type: String,
+				enum: ["wow", "love", "dislike"],
+			},
+		],
+	},
 });
 
 export default model<IOrgMsg>("OrgMsg", messageSchema);

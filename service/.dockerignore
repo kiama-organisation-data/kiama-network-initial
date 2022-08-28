@@ -1,0 +1,9 @@
+# .env*
+npm-debug.log
+Todo.md
+yarn.lock
+yarn-error.lock
+.git
+.gitignore
+README.md
+postmanCollection

@@ -58,7 +58,8 @@ const walletSchema = new Schema(
 		password: {
 			type: String,
 			required: true,
-			min: 6,
+			minlength: 6,
+			trim: true,
 		},
 		secretKey: {
 			type: String,

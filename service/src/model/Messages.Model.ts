@@ -4,7 +4,7 @@ export interface IPrmsg extends mongoose.Document {
 	message: object;
 	reply: Array<any>;
 	users: Array<any>;
-	sender: Schema.Types.ObjectId;
+	sender: string;
 	messageFormat: string;
 	reaction: string;
 	seen: Boolean;
@@ -14,12 +14,12 @@ export interface IPrmsg extends mongoose.Document {
 export interface IGrmsg extends mongoose.Document {
 	message: object;
 	reply: Array<any>;
-	sender: Schema.Types.ObjectId;
+	sender: string;
 	messageFormat: string;
 	reaction: Array<object>;
 	seen: Boolean;
 	forwarded: Boolean;
-	groupId: Schema.Types.ObjectId;
+	groupId: string;
 }
 
 export interface IGroup extends mongoose.Document {
@@ -44,7 +44,7 @@ const privateMsgSchema = new Schema(
 		message: {
 			text: {
 				type: String,
-				min: 1,
+				minlength: 1,
 			},
 			audio: {
 				publicId: {
@@ -108,7 +108,7 @@ const groupMsgSchema = new Schema(
 		message: {
 			text: {
 				type: String,
-				min: 1,
+				minlength: 1,
 			},
 			audio: {
 				publicId: {
@@ -131,7 +131,7 @@ const groupMsgSchema = new Schema(
 			{
 				text: {
 					type: String,
-					min: 1,
+					minlength: 1,
 				},
 				audio: {
 					publicId: {
@@ -188,12 +188,12 @@ const groupSchema = new Schema(
 		name: {
 			type: String,
 			required: true,
-			min: [2, "please provide a name for the group"],
+			minlength: [2, "please provide a name for the group"],
 		},
 		description: {
 			type: String,
 			required: true,
-			min: [5, "description of groups can't be less than 5 words"],
+			minlength: [5, "description of groups can't be less than 5 words"],
 		},
 		image: {
 			publicId: {
@@ -206,7 +206,7 @@ const groupSchema = new Schema(
 		members: [
 			{
 				type: Schema.Types.ObjectId,
-				min: 1,
+				minlength: 1,
 				ref: "User",
 			},
 		],

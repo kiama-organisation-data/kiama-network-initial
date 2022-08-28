@@ -3,8 +3,8 @@ import { Schema, model, Document } from "mongoose";
 export interface IJobApp extends Document {
 	publicId: string;
 	url: string;
-	jobPostId: Schema.Types.ObjectId;
-	userId: Schema.Types.ObjectId;
+	jobPostId: string;
+	userId: string;
 	text: string;
 }
 

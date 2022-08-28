@@ -6,6 +6,7 @@ import WalletModel, { IWallet } from "../model/Wallet.Model";
 import AppResponse from "../services";
 import { apiCrypto } from "../utils/CrytoUtils";
 import MidFuncs from "../functions";
+import Notifications from "../model/Notifications.Model";
 
 /**
  *
@@ -18,7 +19,8 @@ import MidFuncs from "../functions";
  * @function deductKiamaPointOrCoin    /wallet/deduct-amount     -- patch request
  * @function suspendOrUnsuspendWallet  /wallet/toggle-suspension -- patch request
  * @function makeTransaction           /wallet/transact          -- patch request
- * totalRoutes: 7
+ * @function deleteUserWallet          /wallet                   -- delete request
+ * totalRoutes: 8
  */
 
 class WalletController {
@@ -144,6 +146,18 @@ class WalletController {
 			);
 			if (value !== "success") return AppResponse.fail(res, value);
 
+			const notificationObj = {
+				user: userId,
+				notification: "kiama wallet",
+				type: "wallet",
+				link: "http://localhost:kiama-network/api/v1/wallet",
+				icon: "transaction icon",
+			};
+			await Notifications.create({
+				...notificationObj,
+				content: `your kiama account has been credited ${unit}units of kiama-${coinOrPoints}`,
+			});
+
 			AppResponse.updated(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -163,7 +177,19 @@ class WalletController {
 				unit,
 				details
 			);
-			console.log(value);
+
+			const notificationObj = {
+				user: userId,
+				notification: "kiama wallet",
+				type: "wallet",
+				link: "http://localhost:kiama-network/api/v1/wallet",
+				icon: "transaction icon",
+			};
+			await Notifications.create({
+				...notificationObj,
+				content: `your kiama account has been debited ${unit}units of kiama-${coinOrPoints}`,
+			});
+
 			if (value !== "success") return AppResponse.fail(res, value);
 
 			AppResponse.updated(res, "updated");
@@ -191,13 +217,17 @@ class WalletController {
 		const { from, to, unit, details, coinOrPoints } = req.body;
 
 		try {
-			const wallet: IWallet | null = await WalletModel.findOne({ from });
+			const wallet: IWallet | null = await WalletModel.findOne({
+				userId: from,
+			});
 			const value: any | undefined = await wallet?.deductKmcOrKmp(
 				coinOrPoints,
 				unit,
 				details
 			);
-			const toWallet: IWallet | null = await WalletModel.findOne({ to });
+			const toWallet: IWallet | null = await WalletModel.findOne({
+				userId: to,
+			});
 
 			const receiversValue: any | undefined = await toWallet?.addTokmpOrKmc(
 				coinOrPoints,
@@ -205,7 +235,36 @@ class WalletController {
 				details
 			);
 
+			const notificationObj = {
+				user: from,
+				notification: "transaction successful",
+				type: "wallet",
+				link: "http://localhost:kiama-network/api/v1/wallet",
+				icon: "transaction icon",
+			};
+			await Notifications.create({
+				...notificationObj,
+				content: `your transfer of ${unit} units of kiama ${coinOrPoints} to ${toWallet?.name} was successful`,
+			});
+
+			await Notifications.create({
+				...notificationObj,
+				content: `you received ${unit} units of kiama ${coinOrPoints} from ${wallet?.name}`,
+			});
+
 			AppResponse.success(res, { value, receiversValue });
+		} catch (e) {
+			AppResponse.fail(res, e);
+		}
+	};
+
+	deleteUserWallet = async (req: Request, res: Response) => {
+		const { user: userId } = req;
+
+		try {
+			await WalletModel.deleteOne({ userId });
+
+			AppResponse.success(res, "deleted");
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}

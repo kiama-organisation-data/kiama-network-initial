@@ -126,7 +126,7 @@ class channelCommentCntrl {
 
 			if (!channel) return AppResponse.notFound(res);
 
-			AppResponse.success(res, { comments: channel.comments, totalComments });
+			AppResponse.success(res, { comments: channel.comments }, totalComments);
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}
