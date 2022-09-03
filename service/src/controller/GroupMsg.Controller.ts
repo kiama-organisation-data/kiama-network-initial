@@ -81,8 +81,11 @@ class GroupController {
 				isImage: req.file ? true : false,
 				size: 1,
 			});
+
 			details.groups.push(group._id);
+
 			await details.save();
+
 			AppResponse.created(res, group);
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -125,6 +128,7 @@ class GroupController {
 				.skip((currentPage - 1) * pagesOrTabs)
 				.limit(pagesOrTabs)
 				.lean();
+
 			AppResponse.success(res, { totalGroups, groups });
 		} catch (e) {
 			AppResponse.fail(res, e);
@@ -186,12 +190,16 @@ class GroupController {
 			// @ts-ignore
 			const currentUrl = group.image.url;
 			await deleteFromCloud(currentUrl);
+
 			group.image = {
 				publicId: null,
 				url: null,
 			};
+
 			group.isImage = false;
+
 			await group.save();
+
 			AppResponse.success(res, "updated");
 		} catch (e) {
 			AppResponse.fail(res, e);

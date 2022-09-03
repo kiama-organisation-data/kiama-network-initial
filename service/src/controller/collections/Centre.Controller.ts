@@ -75,19 +75,15 @@ class CentreRoomCntrl {
 				.populate("user collectionId")
 				.lean();
 
-			//@ts-ignore
-			delete request?.user.password;
-			//@ts-ignore
-			delete request?.user.friends;
-			//@ts-ignore
-			delete request?.user.friendRequest;
-			//@ts-ignore
-			delete request?.user.cart;
-			//@ts-ignore
-			delete request?.collectionId.credentials;
-			if (!request) AppResponse.notFound(res);
-
-			AppResponse.success(res, request);
+			const responseObj = {
+				//@ts-ignore
+				name: request?.user.name,
+				//@ts-ignore
+				avatar: request?.user.avatar,
+				//@ts-ignore
+				accountType: request?.user.accountType,
+			};
+			AppResponse.success(res, responseObj);
 		} catch (e) {
 			AppResponse.fail(res, e);
 		}

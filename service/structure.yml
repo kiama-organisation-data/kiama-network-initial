@@ -1,0 +1,64 @@
+name: structure of the new kiama network
+description: |
+  from my recent research i have come to the realization that our system is very unscalable as of current
+  and because of that i have decided to pick up the new database design for our system
+  I have provided some links to give you a clearer insight on what I mean
+  From what you gather, please let's discuss and delibrate on the upgrade for the system bringing together ideas
+links:
+  - https://engineering.linkedin.com/architecture/brief-history-scaling-linkedin
+proposition:
+  microservice:
+    - users and related service will run as a separate microservice
+    - messaging would be a separate service
+    - features with high upload of contents like channels and developer hub will stand alone too
+    - ads, proposals, campaigns and others will run together on a separate micro service
+
+languages:
+  frameworksAndlan: django(python), node.js(typescript), gin(go lang), laravel(php)
+  implementations:
+    - primary:
+        description: this has to do with users and core user related features
+        language: node.js(typescript)
+    - secondary:
+        description: this imcludes all services that include extra features aside primary and tertairy
+        language: laravel(php), django(python) and gin(go lang)
+    - tertiary:
+        description: ranges from ads, proposals and minor features
+        language: node.js(typescript)
+  extra: django and gin would be used for heavy task thats why there are in secondary
+
+databases:
+  caching:
+    - redis: caching for services very dependent on user data query from primary db
+    - couchdb: for messaging and related
+  graphdatabase:
+    - cassandra: will be used for the developer hub and organizations
+    - tigergraph: an alternative to cassandra cause of it's speed
+  relationaldb:
+    - postgresql: for wallet system, job related, users and users related example posts
+  non-relational:
+    - mongodb: database for messaging
+
+model:
+  primary: we are going to build a central service/engine that talks to all the external services
+  secondary: |
+    each service deployed as a microservice would have it's central service too which talks to the
+    primary service
+  tertiary: |
+    implementation of unit test is essential as well as an implementation of our own rest api framework
+    which i'll give details on later
+  our-services: |
+    asides from the normal services i mentioned we need services like our own rest designed framework as well as a choice of tools and stick to them
+    this tools some of which we need to build ourselves because we can't replt on plenty xternal libraries
+  mvc: In addition to the mvc we would structure some features to handle arge screen request separately from mobile
+  distribution:
+  I write go lang so i'll take care of it, you write laravel so you'll take care of laravel, the other guy would take care of django and both of us would write node.js where neccessary.
+  You'll for sure handle all related to user and relations
+  Messaging is still on my end
+
+tools-and-technology:
+  - authentication: pasteo should be used over jwt as it's more secure when implmented well
+  - data-transfer: I'll build a rest Api interface based on json for transferring data
+  - data-structure: use of faster data structures where neccessary 
+  -
+  -

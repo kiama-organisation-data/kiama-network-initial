@@ -302,7 +302,7 @@ class ProductCntrl {
 			AppResponse.fail(res, e);
 		}
 	}
-	public sendMoneyToShopAcc(amount: number | string, shopId: string) {
+	sendMoneyToShopAcc(amount: number | string, shopId: string) {
 		// send money from company account to shop
 	}
 }
