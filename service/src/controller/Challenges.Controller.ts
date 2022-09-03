@@ -2,6 +2,8 @@ import { Request, Response } from 'express'
 import Challenges, { IChallenge } from '../model/Challenges.Model'
 import AppResponse from "../services/index";
 import sortData from "../middleware/utils";
+import joiValidation from '../libs/joiValidation';
+import { deleteFromCloud, uploadToCloud } from "../libs/cloudinary";
 
 class ChallengeController {
 
@@ -12,14 +14,66 @@ class ChallengeController {
     // @desc    : Add a new challenge
     // @route   : POST /api/v1/challenge
     // @access  : Private
-    create(req: Request, res: Response): void {
-        Challenges.create(req.body)
-            .then(challenge => {
-                AppResponse.created(res, challenge);
-            })
-            .catch(err => {
-                AppResponse.fail(res, err);
-            });
+    create = async (req: Request, res: Response) => {
+        const { user, body } = req;
+        const { fileType } = req.body;
+
+        const { error } = joiValidation.challengeValidation(body);
+        if (error) {
+            return AppResponse.fail(res, error?.message);
+        }
+
+        // @ts-ignore
+        const upload = await uploadToCloud(req.file?.path);
+
+        const primary = {
+            creator: user,
+            ...body,
+        }
+
+        const contentI = {
+            ...primary,
+            image: {
+                url: upload.secure_url,
+                publicId: upload.public_id,
+            },
+        }
+
+        const contentV = {
+            ...primary,
+            video: {
+                url: upload.secure_url,
+                publicId: upload.public_id,
+            },
+        }
+
+
+        try {
+
+            let finalContent: IChallenge | null | undefined;
+
+            if (fileType === "image") {
+                finalContent = contentI;
+            } else if (fileType === "video") {
+                finalContent = contentV;
+            } else {
+                finalContent = primary;
+            }
+
+            if (finalContent) {
+                Challenges.create(finalContent)
+                    .then(challenge => {
+                        AppResponse.created(res, challenge);
+                    })
+                    .catch(err => {
+                        AppResponse.fail(res, err);
+                    });
+            } else {
+                AppResponse.fail(res, "Something went wrong");
+            }
+        } catch (error) {
+            AppResponse.fail(res, error);
+        }
     }
 
 
