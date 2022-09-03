@@ -212,6 +212,23 @@ class ChallengeController {
                 AppResponse.fail(res, err);
             });
     }
+
+    // =========================================================================
+    // Get all challenges by creator
+    // =========================================================================
+    // @desc    : Get all challenges by creator
+    // @route   : GET /api/v1/challenge/creator/:id
+    // @access  : Private
+    // @param   : id
+    getAllByCreator(req: any, res: Response): void {
+        Challenges.find({ creator: req.params.id })
+            .then(challenge => {
+                AppResponse.success(res, challenge);
+            })
+            .catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
 }
 
 const challengesController = new ChallengeController()
