@@ -1,4 +1,5 @@
 import Joi, { number, string } from "@hapi/joi";
+import { IChallenge } from "../model/Challenges.Model";
 import { IChannel } from "../model/Channels.Model";
 import { IProduct } from "../model/collections/Product.Model";
 import { IShop } from "../model/collections/Shop.Model";
@@ -194,6 +195,29 @@ class JoiValidate {
 		});
 		return postSchema.validate(data);
 	};
+
+	challengeValidation = (data: IChallenge) => {
+		const postSchema = Joi.object({
+			creator: Joi.string(),
+			title: Joi.string().required(),
+			description: Joi.string(),
+			category: Joi.string().required(),
+			startDate: Joi.date(),
+			endDate: Joi.date(),
+			duration: Joi.number(),
+			maxParticipants: Joi.number(),
+			minParticipants: Joi.number(),
+			tags: Joi.array(),
+			image: Joi.string(),
+			video: Joi.string(),
+			isPrivate: Joi.boolean(),
+			isActive: Joi.boolean(),
+			isVerified: Joi.boolean(),
+			isPublished: Joi.boolean(),
+			isDeleted: Joi.boolean(),
+		})
+		return postSchema.validate(data);
+	}
 }
 
 // create new validation class and call it into 
