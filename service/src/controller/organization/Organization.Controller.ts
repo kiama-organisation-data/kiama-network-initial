@@ -63,7 +63,7 @@ class OrganizationCntrl {
 	async editOrganization(req: Request, res: Response) {
 		const body = req.body;
 		try {
-			const organization = await OrganizationModel.findOneAndUpdate(
+			await OrganizationModel.findOneAndUpdate(
 				{ _id: body.id },
 				{ ...body },
 				{ new: true }

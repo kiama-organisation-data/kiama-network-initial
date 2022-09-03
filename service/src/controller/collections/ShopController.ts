@@ -47,7 +47,7 @@ class ShopCntl {
 	 */
 	async createShop(req: Request, res: Response) {
 		const { body, user, file } = req;
-		console.log(user);
+
 		if (!file) return AppResponse.noFile(res);
 
 		const { error } = joiValidation.shopCreationValidation(body);
@@ -102,6 +102,7 @@ class ShopCntl {
 				.lean();
 
 			if (!shop) return AppResponse.notFound(res);
+
 			if (!shop.approved)
 				return AppResponse.notPermitted(
 					res,
@@ -206,7 +207,7 @@ class ShopCntl {
 		const add = await redisConfig.addToRedis(
 			shopId.toString(),
 			token,
-			60 * 60 * 24 // will be changed to expire in 3 hours
+			60 * 60 * 24
 		);
 
 		if (!add) return AppResponse.fail(res, "failed to save to redis");
@@ -284,7 +285,9 @@ class ShopCntl {
 				.find({ owner: user })
 				.lean()
 				.sort({ createdAt: -1 });
+
 			if (!shops) return AppResponse.notFound(res, "no shops for user");
+
 			shops.map((shop) => {
 				if (!shop.approved)
 					return AppResponse.notPermitted(
