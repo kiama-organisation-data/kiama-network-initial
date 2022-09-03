@@ -238,14 +238,94 @@ class ChallengeController {
     // @access  : Private
     // @param   : id
     getAllByCategory(req: any, res: Response): void {
-        Challenges.find({ category: req.params.id })
+        let query;
+        Challenges.find({ category: req.params.id }, query || {})
             .then(challenge => {
-                AppResponse.success(res, challenge);
+                const {
+                    search = "",
+                    perPage = 10,
+                    page = 1,
+                    sortBy = "createdAt",
+                    sortDesc = false,
+                    status = "",
+                    select = "all",
+                } = req.query;
+                const queryLowered = search.toLowerCase();
+
+                const filteredData = challenge.filter((item) => {
+                    return (
+                        // search
+                        (
+                            item.title.toLowerCase().includes(queryLowered)
+                        )
+                        &&
+                        // Filter
+                        item.status.toString() === (status.toString() || item.status.toString())
+                    );
+                });
+
+                const sortedData = filteredData.sort(sortData.sortCompare(sortBy));
+                if (sortDesc === "true") {
+                    sortedData.reverse();
+                }
+
+                // result to show
+                const dataFinal = sortData.selectFields(sortedData, select);
+                AppResponse.success(res, sortData.paginateArray(dataFinal, perPage, page), filteredData.length);
             })
             .catch(err => {
                 AppResponse.fail(res, err);
             });
     }
+
+    // =========================================================================
+    // Get all challenges by category and type
+    // =========================================================================
+    // @desc    : Get all challenges by category and type
+    // @route   : GET /api/v1/challenge/category/:id/type/:type
+    // @access  : Private
+    // @param   : id, type
+    getAllByCategoryAndType(req: any, res: Response): void {
+        let query;
+        Challenges.find({ category: req.params.id, typeChallenge: req.params.type }, query || {})
+            .then(challenge => {
+                const {
+                    search = "",
+                    perPage = 10,
+                    page = 1,
+                    sortBy = "createdAt",
+                    sortDesc = false,
+                    status = "",
+                    select = "all",
+                } = req.query;
+                const queryLowered = search.toLowerCase();
+
+                const filteredData = challenge.filter((item) => {
+                    return (
+                        // search
+                        (
+                            item.title.toLowerCase().includes(queryLowered)
+                        )
+                        &&
+                        // Filter
+                        item.status.toString() === (status.toString() || item.status.toString())
+                    );
+                });
+
+                const sortedData = filteredData.sort(sortData.sortCompare(sortBy));
+                if (sortDesc === "true") {
+                    sortedData.reverse();
+                }
+
+                // result to show
+                const dataFinal = sortData.selectFields(sortedData, select);
+                AppResponse.success(res, sortData.paginateArray(dataFinal, perPage, page), filteredData.length);
+            })
+            .catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
+
 }
 
 const challengesController = new ChallengeController()
