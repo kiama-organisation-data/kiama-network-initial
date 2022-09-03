@@ -5,12 +5,18 @@ const shema: any = mongoose.Schema
 
 export interface IChallenge extends mongoose.Document {
     title: string;
+    image: {
+        publicId: string,
+        url: string,
+    };
+    video: {
+        publicId: string,
+        url: string,
+    };
     description: string;
     sourceUrl: string;
     category: string;
     tags: Array<string>;
-    image: string;
-    video: string;
     creator: string;
     views: number;
     comments: Array<object>;
@@ -29,6 +35,13 @@ export interface IChallenge extends mongoose.Document {
     medals: Array<string>;
     withMedals: Boolean;
     typeChallenge: string;
+    maxParticipants: number;
+    minParticipants: number;
+    isPrivate: Boolean;
+    isActive: Boolean;
+    isDeleted: Boolean;
+    isVerified: Boolean;
+    isPublished: Boolean;
 }
 
 const challengesShema = new shema({
@@ -36,15 +49,16 @@ const challengesShema = new shema({
         type: String,
         required: true
     },
-    description: {
-        type: String,
-        required: true
-    },
-    sourceUrl: {
-        type: String,
-        required: true
-    },
     image: {
+        publicId: String,
+        url: String,
+    },
+    video: {
+        publicId: String,
+        url: String,
+    },
+    description: String,
+    sourceUrl: {
         type: String,
         required: true
     },
@@ -78,10 +92,6 @@ const challengesShema = new shema({
     tags: {
         type: Array,
         default: []
-    },
-    video: {
-        type: String,
-        required: true
     },
     uniqueKey: {
         type: String,
@@ -144,6 +154,34 @@ const challengesShema = new shema({
         type: Array,
         default: []
     },
+    maxParticipants: {
+        type: Number,
+        default: 0
+    },
+    minParticipants: {
+        type: Number,
+        default: 0
+    },
+    isPrivate: {
+        type: Boolean,
+        default: false
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    isDeleted: {
+        type: Boolean,
+        default: false
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    isPublished: {
+        type: Boolean,
+        default: false
+    }
 }, { _id: true, timestamps: true })
 
 const Challenges = mongoose.model<IChallenge>('Challenge', challengesShema)
