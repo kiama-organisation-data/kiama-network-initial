@@ -84,14 +84,48 @@ class ChallengeController {
     // @route   : PUT /api/v1/challenge/:id
     // @access  : Private
     // @param   : id
-    update(req: any, res: Response): void {
-        Challenges.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true })
-            .then(challenge => {
-                AppResponse.success(res, challenge);
-            })
-            .catch(err => {
-                AppResponse.fail(res, err);
-            });
+    update = async (req: any, res: Response) => {
+        const { body } = req;
+        const { fileType } = req.body;
+        let finalContent: IChallenge | null | undefined;
+
+        const upload = await uploadToCloud(req.file?.path);
+
+        try {
+            if (fileType === "image") {
+                finalContent = {
+                    ...body,
+                    image: {
+                        url: upload.secure_url,
+                        publicId: upload.public_id,
+                    },
+                };
+            } else if (fileType === "video") {
+                finalContent = {
+                    ...body,
+                    video: {
+                        url: upload.secure_url,
+                        publicId: upload.public_id,
+                    },
+                };
+            } else {
+                finalContent = body;
+            }
+
+            if (finalContent) {
+                Challenges.findOneAndUpdate({ _id: req.params.id }, finalContent, { new: true })
+                    .then(challenge => {
+                        AppResponse.success(res, challenge);
+                    })
+                    .catch(err => {
+                        AppResponse.fail(res, err);
+                    });
+            } else {
+                AppResponse.fail(res, "Something went wrong");
+            }
+        } catch (error) {
+            AppResponse.fail(res, error);
+        }
     }
 
     // =========================================================================
