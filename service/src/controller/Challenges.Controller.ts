@@ -229,6 +229,23 @@ class ChallengeController {
                 AppResponse.fail(res, err);
             });
     }
+
+    // =========================================================================
+    // Get all challenges by category
+    // =========================================================================
+    // @desc    : Get all challenges by category
+    // @route   : GET /api/v1/challenge/category/:id
+    // @access  : Private
+    // @param   : id
+    getAllByCategory(req: any, res: Response): void {
+        Challenges.find({ category: req.params.id })
+            .then(challenge => {
+                AppResponse.success(res, challenge);
+            })
+            .catch(err => {
+                AppResponse.fail(res, err);
+            });
+    }
 }
 
 const challengesController = new ChallengeController()
